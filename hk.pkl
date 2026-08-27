@@ -5,20 +5,35 @@ local linters = new Mapping<String, Step> {
 }
 
 hooks {
-    ["commit-msg"] {
+    ["pre-push"] {
         steps {
             ["conventional-commit"] {
-                check = "hk util check-conventional-commit {{commit_msg_file}}"
+                check = """
+                    bash -c '
+                    set -euo pipefail
+                    remote_ref="origin/main"
+                    head="HEAD"
+                    if ! git rev-parse --verify "$remote_ref" >/dev/null 2>&1; then
+                        range="$head"
+                    else
+                        if [ "$(git rev-parse "$remote_ref")" = "$(git rev-parse "$head")" ]; then
+                            exit 0
+                        fi
+                        range="$remote_ref..$head"
+                    fi
+                    bad=0
+                    for sha in $(git rev-list "$range"); do
+                        git log --format=%B -n 1 "$sha" > /tmp/hk-commit-msg.txt
+                        if ! hk util check-conventional-commit /tmp/hk-commit-msg.txt >/dev/null 2>&1; then
+                            echo "✗ not conventional: $(git log --format=%s -n 1 "$sha") ($sha)" >&2
+                            bad=1
+                        fi
+                    done
+                    exit $bad
+                    '
+                    """
             }
         }
-    }
-    ["pre-commit"] {
-        fix = true
-        stash = "git"
-        steps = linters
-    }
-    ["pre-push"] {
-        steps = linters
     }
     ["fix"] {
         fix = true
