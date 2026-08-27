@@ -61,4 +61,4 @@ mise run up (host)
          └─ fnox export resolves every value
             ├─ { provider = "protonpass", … } → fetched from Proton Pass
             └─ { default = "…" }              → literal, used as-is
-```
+```y
