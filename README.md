@@ -13,7 +13,7 @@ Containerized [OmniRoute](https://github.com/diegosouzapw/omniroute) with
 ### Setup
 
 1. `mise up`
-2. git: `hk install`. jj: 
+2. `hk install`
 3. Modify `.fnox.toml` to your liking.
 4. (optional) Logged in `pass-cli` if needed (`PROTON_PASS_CREDENTIALS=true`).
 
