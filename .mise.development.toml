@@ -1,0 +1,141 @@
+[tools]
+hk = "latest"
+pitchfork = "latest"
+
+[tasks.up]
+description = "Create stack resources and start daemons via pitchfork. Optional build (with optional no cache)"
+shell = "nu -c"
+usage = '''
+flag "--build" help="Pull Redis and build the Omniroute image before starting"
+flag "--no-cache" help="Build Omniroute without reusing build cache (requires --build)"
+'''
+run = '''
+def volume-exists [name: string] {
+  (podman volume inspect $name | complete | get exit_code) == 0
+}
+
+def network-exists [name: string] {
+  (podman network inspect $name | complete | get exit_code) == 0
+}
+
+let build_requested = (($env.usage_build? | default "false") == "true")
+let no_cache = (($env.usage_no_cache? | default "false") == "true")
+
+if $no_cache and not $build_requested {
+  error make {
+    msg: "--no-cache requires --build"
+  }
+}
+
+if $build_requested {
+  podman pull docker.io/library/redis:alpine
+
+  if $no_cache {
+    podman build --no-cache --format docker -t localhost/omniroute:latest .
+  } else {
+    podman build --format docker -t localhost/omniroute:latest .
+  }
+}
+
+if not (volume-exists omniroute-data) {
+  podman volume create omniroute-data
+}
+
+if not (volume-exists omniroute-redis-data) {
+  podman volume create omniroute-redis-data
+}
+
+if not (network-exists omniroute-net) {
+  podman network create omniroute-net
+}
+
+let status = (
+    pitchfork supervisor status --json
+    | from json
+    | get status
+)
+
+if $status != "up" {
+    pitchfork supervisor start
+}
+pitchfork start --all
+'''
+
+[tasks.down]
+description = "Stop daemons via pitchfork. Optional resource removal"
+shell = "nu -c"
+usage = '''
+flag "--prune" help="Remove network, images, and leftover containers after stopping"
+flag "--volumes" help="Also remove persistent volumes (requires --prune)"
+'''
+run = '''
+def container-exists [name: string] {
+  (podman container exists $name | complete | get exit_code) == 0
+}
+
+def image-exists [name: string] {
+  (podman image exists $name | complete | get exit_code) == 0
+}
+
+def network-exists [name: string] {
+  (podman network inspect $name | complete | get exit_code) == 0
+}
+
+def volume-exists [name: string] {
+  (podman volume inspect $name | complete | get exit_code) == 0
+}
+
+let prune_requested = (($env.usage_prune? | default "false") == "true")
+let volumes_requested = (($env.usage_volumes? | default "false") == "true")
+
+if $volumes_requested and not $prune_requested {
+  error make {
+    msg: "--volumes requires --prune"
+  }
+}
+
+let status = (
+    pitchfork supervisor status --json
+    | from json
+    | get status
+)
+
+if $status != "up" {
+    pitchfork supervisor start
+}
+pitchfork stop redis omniroute
+
+for name in [omniroute omniroute-redis] {
+  if (container-exists $name) {
+    podman rm --force --time 40 $name
+  }
+}
+
+if $prune_requested {
+  if (network-exists omniroute-net) {
+    podman network rm omniroute-net
+  }
+
+  if (image-exists docker.io/diegosouzapw/omniroute:latest) {
+    podman image rm docker.io/diegosouzapw/omniroute:latest
+  }
+
+  if (image-exists localhost/omniroute:latest) {
+    podman image rm localhost/omniroute:latest
+  }
+
+  if (image-exists docker.io/library/redis:alpine) {
+    podman image rm docker.io/library/redis:alpine
+  }
+
+  if $volumes_requested {
+    for name in [omniroute-data omniroute-redis-data] {
+      if (volume-exists $name) {
+        podman volume rm $name
+      }
+    }
+  }
+
+  podman image prune --force
+}
+'''

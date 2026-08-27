@@ -1,0 +1,8 @@
+# CodeGraph
+.codegraph/
+
+# Environment and local overrides
+*.local.*
+.env
+.env.*
+!.env.example

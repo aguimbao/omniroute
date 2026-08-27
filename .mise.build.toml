@@ -1,0 +1,149 @@
+[tasks.provision-bg]
+description = "Waits for server healthcheck, then runs auto-provision once. Non-fatal"
+shell = "nu -c"
+run = '''
+mut healthy = false
+for _ in 1..120 {
+  if ((node /app/healthcheck.mjs | complete).exit_code == 0) {
+    $healthy = true
+    break
+  }
+  sleep 1sec
+}
+
+if not $healthy {
+  print "[auto-provision] server not healthy after 120s — giving up"
+  exit 0
+}
+
+try {
+  ^mise run auto-provision
+} catch {
+  print "[auto-provision] failed (non-fatal)"
+}
+'''
+
+[tasks.auto-provision]
+description = "Automatic provider provisioning against the management API. Idempotent"
+shell = "nu -c"
+run = '''
+const MAPPING = [
+    {env: "DIGITALOCEAN_API_KEY", provider: "digitalocean"}
+    {env: "OPENROUTER_API_KEY",   provider: "openrouter"}
+    {env: "OPENCODE_ZEN_API_KEY", provider: "opencode-zen"}
+    {env: "NVIDIA_NIM_API_KEY",       provider: "nvidia"}
+]
+
+const FREE_PROVIDERS = [
+    {id: "opencode",       alias: "oc"}
+    {id: "duckduckgo-web", alias: "ddgw"}
+    {id: "felo-web",       alias: "felo"}
+    {id: "theoldllm",      alias: "tllm"}
+    {id: "chipotle",       alias: "pepper"}
+    {id: "veoaifree-web",  alias: "veo-free"}
+    {id: "mimocode",       alias: "mcode"}
+    {id: "auggie",         alias: "aug"}
+    {id: "aihorde",        alias: "horde"}
+]
+
+def usable [raw: string] {
+    let v = $raw | str trim
+    if ($v | is-empty) { return false }
+    if ($v =~ '(?i)^(placeholder|replace_with|change_me)') { return false }
+    if ($v | str contains 'pass://') { return false }
+    true
+}
+
+def main [] {
+    let port = $env.PORT? | default 20128
+    let base = $"http://127.0.0.1:($port)"
+    let key = $env.OMNIROUTE_API_KEY? | default "" | str trim
+
+    if not (usable $key) {
+        print "[auto-provision] OMNIROUTE_API_KEY is not usable — skipping"
+        return
+    }
+
+    let headers = {
+        Authorization: $"Bearer ($key)"
+        Content-Type: "application/json"
+    }
+
+    for m in $MAPPING {
+        let value = $env | get -o $m.env | default ""
+        if not (usable $value) {
+            print $"[auto-provision] ($m.provider): no usable ($m.env) — skipped"
+            continue
+        }
+        let body = {
+            provider: $m.provider
+            providerSpecificData: {autoSync: true}
+            entries: [{name: "auto", apiKey: ($value | str trim)}]
+        }
+        try {
+            http post --content-type application/json --headers $headers $"($base)/api/providers/bulk" $body
+            print $"[auto-provision] ($m.provider): connection upserted"
+        } catch {|err|
+            print $"[auto-provision] ($m.provider): provisioning FAILED — ($err.msg)"
+        }
+    }
+
+    let all = try {
+        http get --headers $headers $"($base)/api/providers" | get -o connections | default []
+    } catch {
+        null
+    }
+
+    if $all == null {
+        print "[auto-provision] could not list connections — skipping sync & blocking"
+        return
+    }
+
+    let active = ($all | where {|c| ($c | get -o isActive | default false) == true})
+
+    for conn in $active {
+        let name = $conn | get -o name | default "?"
+        let cid = $conn | get -o id
+        if ($cid | is-empty) { continue }
+        let psd = $conn | get -o providerSpecificData | default {}
+
+        if (($psd | get -o autoSync) != true) {
+            try {
+                http put --content-type application/json --headers $headers $"($base)/api/providers/($cid)" {providerSpecificData: {autoSync: true}}
+                print $"[auto-provision] '($name)': autoSync enabled"
+            } catch {|err|
+                print $"[auto-provision] '($name)': enabling autoSync FAILED — ($err.msg)"
+                continue
+            }
+        }
+        try {
+            http post --content-type application/json --headers $headers $"($base)/api/providers/($cid)/sync-models?mode=import" {}
+            print $"[auto-provision] '($name)': model catalog imported"
+        } catch {|err|
+            print $"[auto-provision] '($name)': sync FAILED — ($err.msg)"
+        }
+    }
+
+    let activeProviders = ($active | each {|c| $c | get -o provider | default ""})
+    let blocked = (
+        $FREE_PROVIDERS
+        | where {|p| ($p.id not-in $activeProviders) and ($p.alias not-in $activeProviders)}
+        | each {|p| [$p.id, $p.alias]}
+        | flatten
+    )
+
+    try {
+        let current = (http get --headers $headers $"($base)/api/settings" | get -o blockedProviders | default [])
+        if ($blocked | sort) == ($current | sort) {
+            print $"[auto-provision] blocking unchanged — ($blocked | length) free provider entries"
+        } else {
+            http patch --content-type application/json --headers $headers $"($base)/api/settings" {blockedProviders: $blocked}
+            print $"[auto-provision] blocked ($blocked | length) free-provider entries without active connections"
+        }
+    } catch {|err|
+        print $"[auto-provision] blocking FAILED (non-fatal) — ($err.msg)"
+    }
+}
+
+main
+'''
