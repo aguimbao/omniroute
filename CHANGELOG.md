@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/aguimbao/omniroute/compare/v1.1.0...v1.1.1) (2026-08-27)
+
+
+### Bug Fixes
+
+* good jj ([77c6c62](https://github.com/aguimbao/omniroute/commit/77c6c6259810fac0fe0326aef922344762a3f549))
+
 ## [1.1.0](https://github.com/aguimbao/omniroute/compare/v1.0.0...v1.1.0) (2026-08-27)
 
 
