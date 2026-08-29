@@ -37,6 +37,8 @@ mise run lint
 mise run fmt
 # test
 mise run test
+# test github workflows locally
+mise run ci
 # bump versions
 mise run renovate
 

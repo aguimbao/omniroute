@@ -3,11 +3,11 @@ hk = { version = 'latest', postinstall = 'hk install' }
 pitchfork = 'latest'
 actionlint = 'latest'
 hadolint = 'latest'
+'aqua:nektos/act' = 'latest'
 'aqua:biomejs/biome' = 'latest'
-rust = { version = 'stable', profile = 'minimal' }
-'cargo:zizmor' = 'latest'
-'cargo:typos-cli' = 'latest'
-node = 'latest'
+'aqua:zizmorcore/zizmor' = 'latest'
+'aqua:crate-ci/typos' = 'latest'
+node = '24'
 bun = 'latest'
 'npm:tombi' = 'latest'
 'npm:@commitlint/cli' = 'latest'
@@ -289,6 +289,10 @@ if $is_remote {
   fnox exec -P dev -- renovate --platform=local
 }
 '''
+
+[tasks.ci]
+description = 'Run GitHub Actions workflows locally via act'
+run = 'systemctl --user start podman.socket 2>/dev/null || true; DOCKER_HOST="${DOCKER_HOST:-unix://${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/podman/podman.sock}" act'
 
 [tasks.lint]
 description = 'Run all code quality checks via hk'
