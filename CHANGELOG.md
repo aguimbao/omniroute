@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/aguimbao/omniroute/compare/v1.1.0...v1.2.0) (2026-08-29)
+
+
+### Features
+
+* add build provenance attestation for container images ([#5](https://github.com/aguimbao/omniroute/issues/5)) ([1e1026d](https://github.com/aguimbao/omniroute/commit/1e1026d7bc5eae34113d9e9e5f7cb5d080215a06))
+
 ## [1.1.0](https://github.com/aguimbao/omniroute/compare/v1.0.0...v1.1.0) (2026-08-29)
 
 
