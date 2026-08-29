@@ -27,7 +27,7 @@ RUN mise install && mise reshim
 FROM docker.io/diegosouzapw/omniroute:3.8.50@sha256:085c57adf499a8aaa9f35ccde95c0df9c11bd9ecd18d6c9edbf3b68b8079ba9d
 
 LABEL org.opencontainers.image.title="omniroute" \
-      org.opencontainers.image.description="Omniroute standalone runtime with fnox secret handling and nushell entrypoint" \
+      org.opencontainers.image.description="Omniroute service" \
       org.opencontainers.image.source=https://github.com/aguimbao/omniroute \
       org.opencontainers.image.licenses=MIT
 
