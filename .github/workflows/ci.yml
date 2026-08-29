@@ -49,6 +49,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    environment: ci
     permissions:
       contents: read
     steps:
@@ -63,7 +64,9 @@ jobs:
           install: false
 
       - name: Setup tools
-        run: mise run setup
+        env:
+          PROTON_PASS_PERSONAL_ACCESS_TOKEN: ${{ secrets.PROTON_PASS_PERSONAL_ACCESS_TOKEN }}
+        run: mise run setup --pass-cli-login
 
       - name: Run container tests
         run: mise run test

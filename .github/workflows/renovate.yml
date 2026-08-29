@@ -16,6 +16,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: renovatebot/github-action@e36e84d412b1d6fcf4a54eb4470bc551d02c7700 # v41.0.14
+      - uses: renovatebot/github-action@02f4fdeb479bbb229caa7ad82cb5e691c07e80b3 # v41.0.14
         with:
           token: ${{ secrets.RENOVATE_TOKEN || secrets.GITHUB_TOKEN }}

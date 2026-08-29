@@ -17,7 +17,7 @@ local linters = new Mapping<String, Step> {
     ["zizmor"] = Builtins.zizmor
     ["nu-check"] {
         glob = new Listing<String> { "*.nu" }
-        check = "nu --commands 'nu-check {{files}}'"
+        check = "nu --commands 'open {{files}} | nu-check'"
     }
     ["mise-lock"] {
         glob = new Listing<String> { ".mise*.toml", "mise*.lock" }
