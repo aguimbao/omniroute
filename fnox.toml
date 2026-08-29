@@ -1,0 +1,22 @@
+[providers.protonpass]
+type = 'proton-pass'
+
+[secrets]
+PROTON_PASS_CREDENTIALS = { default = 'true' }
+OMNIROUTE_PROTON_PASS_PAT = { provider = 'protonpass', value = 'Dev/PROTON/PASS_DEV_VIEWER_PAT' }
+
+[profiles.container.secrets]
+JWT_SECRET = { provider = 'protonpass', value = 'Dev/OMNIROUTE/JWT_SECRET' }
+STORAGE_ENCRYPTION_KEY = { provider = 'protonpass', value = 'Dev/OMNIROUTE/STORAGE_ENCRYPTION_KEY' }
+API_KEY_SECRET = { provider = 'protonpass', value = 'Dev/OMNIROUTE/API_KEY_SECRET' }
+INITIAL_PASSWORD = { provider = 'protonpass', value = 'Dev/OMNIROUTE/INITIAL_PASSWORD' }
+OMNIROUTE_API_KEY = { provider = 'protonpass', value = 'Dev/OMNIROUTE/API_KEY' }
+DIGITALOCEAN_API_KEY = { provider = 'protonpass', value = 'Dev/DIGITALOCEAN/API_KEY' }
+OPENROUTER_API_KEY = { provider = 'protonpass', value = 'Dev/OPENROUTER/API_KEY' }
+OPENCODE_ZEN_API_KEY = { provider = 'protonpass', value = 'Dev/OPENCODE/API_KEY' }
+NVIDIA_NIM_API_KEY = { provider = 'protonpass', value = 'Dev/NVIDIA_NIM/API_KEY' }
+STORAGE_ENCRYPTION_KEY_VERSION = { default = 'v1' }
+REQUIRE_API_KEY = { default = 'true' }
+
+[profiles.dev.secrets]
+RENOVATE_TOKEN = { provider = 'protonpass', value = 'Dev/GITHUB/RENOVATE_TOKEN' }

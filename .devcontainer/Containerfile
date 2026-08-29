@@ -1,0 +1,40 @@
+FROM mcr.microsoft.com/devcontainers/base:debian@sha256:b8c3669fb4cc652621b3386517c40ab3e151e827de958d6fe75528798ffb5727
+
+USER root
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        fuse-overlayfs \
+        passt \
+        podman \
+        slirp4netns \
+        uidmap \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN printf 'vscode:1:999\nvscode:1001:64535\n' > /etc/subuid \
+    && printf 'vscode:1:999\nvscode:1001:64535\n' > /etc/subgid
+
+RUN chmod 0755 /usr/bin/newuidmap /usr/bin/newgidmap \
+    && setcap cap_setuid=ep /usr/bin/newuidmap \
+    && setcap cap_setgid=ep /usr/bin/newgidmap
+
+RUN mkdir -p /etc/containers \
+    && printf '[storage]\ndriver = "overlay"\n\n[storage.options]\n[storage.options.overlay]\nmount_program = "/usr/bin/fuse-overlayfs"\nmountopt = "nodev,fsync=0"\nignore_chown_errors = "true"\n' > /etc/containers/storage.conf \
+    && printf '[engine]\ncgroup_manager = "cgroupfs"\nevents_logger = "file"\nruntime = "crun"\n[network]\ndefault_rootless_network_cmd = "slirp4netns"\n' > /etc/containers/containers.conf \
+    && printf '[install]\nminimumReleaseAge = 0\n' > /etc/bunfig.toml
+
+RUN curl -fsSL https://mise.run | sh -s -- -y \
+    && test -x /root/.local/bin/mise \
+    && install -m 0755 /root/.local/bin/mise /usr/local/bin/mise \
+    && rm -rf /root/.local
+
+ENV _CONTAINERS_USERNS_CONFIGURED=""
+ENV BUN_SYSTEM_CONFIG=/etc/bunfig.toml
+ENV MISE_MINIMUM_RELEASE_AGE=0s
+ENV MISE_TRUSTED_CONFIG_PATHS=/workspaces/omniroute:/workspaces
+ENV PATH=/home/vscode/.local/share/mise/shims:${PATH}
+
+USER vscode
+WORKDIR /workspaces/omniroute

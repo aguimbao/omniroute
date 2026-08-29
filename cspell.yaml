@@ -1,0 +1,21 @@
+useGitignore: true
+allowCompoundWords: true
+words:
+  - aihorde
+  - fnox
+  - hadolint
+  - mimocode
+  - miserc
+  - nuon
+  - nushell
+  - omniroute
+  - opencode
+  - openrouter
+  - passt
+  - pitchfork
+  - pkl
+  - taplo
+  - theoldllm
+  - tombi
+  - veoaifree
+  - zizmor

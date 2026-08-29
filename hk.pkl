@@ -1,0 +1,42 @@
+amends "package://github.com/jdx/hk/releases/download/v1.56.1/hk@1.56.1#/Config.pkl"
+import "package://github.com/jdx/hk/releases/download/v1.56.1/hk@1.56.1#/Builtins.pkl"
+
+local linters = new Mapping<String, Step> {
+    ["actionlint"] = Builtins.actionlint
+    ["biome"] = Builtins.biome
+    ["byte-order-marker"] = Builtins.byte_order_marker
+    ["check-executables-have-shebangs"] = Builtins.check_executables_have_shebangs
+    ["check-merge-conflict"] = Builtins.check_merge_conflict
+    ["hadolint"] = (Builtins.hadolint) {
+        glob = new Listing<String> { "Containerfile*" }
+    }
+    ["newlines"] = Builtins.newlines
+    ["tombi"] = Builtins.tombi
+    ["trailing-whitespace"] = Builtins.trailing_whitespace
+    ["typos"] = Builtins.typos
+    ["zizmor"] = Builtins.zizmor
+    ["nu-check"] {
+        glob = new Listing<String> { "*.nu" }
+        check = "nu --commands 'nu-check {{files}}'"
+    }
+}
+
+hooks {
+    ["pre-commit"] {
+        steps = linters
+    }
+    ["commit-msg"] {
+        steps {
+            ["commitlint"] {
+                check = "commitlint --edit"
+            }
+        }
+    }
+    ["fix"] {
+        fix = true
+        steps = linters
+    }
+    ["check"] {
+        steps = linters
+    }
+}

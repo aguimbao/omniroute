@@ -1,0 +1,195 @@
+[tasks.provision]
+description = 'Waits for server healthcheck, then runs automatic provider provisioning against the management API. Non-fatal, idempotent'
+shell = 'nu -c'
+run = '''
+const MAPPING = [
+    {env: "DIGITALOCEAN_API_KEY", provider: "digitalocean"}
+    {env: "OPENROUTER_API_KEY", provider: "openrouter"}
+    {env: "OPENCODE_ZEN_API_KEY", provider: "opencode-zen"}
+    {env: "NVIDIA_NIM_API_KEY", provider: "nvidia"}
+]
+
+const FREE_PROVIDERS = [
+    {id: "opencode", alias: "oc"}
+    {id: "duckduckgo-web", alias: "ddgw"}
+    {id: "cloudflare-playground", alias: "cfp"}
+    {id: "felo-web", alias: "felo"}
+    {id: "theoldllm", alias: "tllm"}
+    {id: "chipotle", alias: "pepper"}
+    {id: "veoaifree-web", alias: "veo-free"}
+    {id: "mimocode", alias: "mcode"}
+    {id: "auggie", alias: "aug"}
+    {id: "zcode", alias: "zc"}
+    {id: "codex-app-server", alias: "cxa"}
+    {id: "uncloseai", alias: "unc"}
+    {id: "aihorde", alias: "horde"}
+    {id: "devin-cli-agentic", alias: "dca"}
+]
+
+def usable [raw: string] {
+    let v = $raw | str trim
+    if ($v | is-empty) { return false }
+    if ($v =~ '(?i)^(placeholder|replace_with|change_me)') { return false }
+    if ($v | str contains 'pass://') { return false }
+    true
+}
+
+def do-provision [] {
+    let port = $env.PORT? | default 20128
+    let base = $"http://127.0.0.1:($port)"
+    let key = $env.OMNIROUTE_API_KEY? | default "" | str trim
+
+    if not (usable $key) {
+        print "[provision] OMNIROUTE_API_KEY is not usable — skipping"
+        return
+    }
+
+    let headers = {
+        Authorization: $"Bearer ($key)"
+        Content-Type: "application/json"
+    }
+
+    for m in $MAPPING {
+        let value = $env | get -o $m.env | default ""
+        if not (usable $value) {
+            print $"[provision] ($m.provider): no usable ($m.env) — skipped"
+            continue
+        }
+        let body = {
+            provider: $m.provider
+            providerSpecificData: {autoSync: true, autoFetchModels: true}
+            entries: [{name: "auto", apiKey: ($value | str trim)}]
+        }
+        mut success = false
+        for bulk_try in 1..5 {
+            try {
+                http post --content-type application/json --headers $headers $"($base)/api/providers/bulk" $body
+                print $"[provision] ($m.provider): connection upserted"
+                $success = true
+                break
+            } catch {|err|
+                print $"[provision] ($m.provider): attempt ($bulk_try)/5 FAILED — ($err.msg | str substring 0..800)"
+                print $"[provision] ($m.provider): debug ($err.debug | str substring 0..1200)"
+                if $bulk_try < 5 { sleep 2sec }
+            }
+        }
+        if not $success {
+            print $"[provision] ($m.provider): provisioning FAILED after 5 attempts"
+        }
+    }
+
+    mut all = []
+    mut listed = false
+    for list_try in 1..5 {
+        try {
+            $all = (http get --headers $headers $"($base)/api/providers" | get -o connections | default [])
+            $listed = true
+            break
+        } catch {|err|
+            print $"[provision] list connections attempt ($list_try)/5 FAILED — ($err.msg | str substring 0..800)"
+            if $list_try < 5 { sleep 2sec }
+        }
+    }
+
+    if not $listed {
+        print "[provision] could not list connections — skipping sync & blocking"
+        return
+    }
+
+    let active = ($all | default [] | where {|c| ($c | get -o isActive | default false) == true})
+
+    for conn in $active {
+        let name = $conn | get -o name | default "?"
+        let cid = $conn | get -o id
+        if ($cid | is-empty) { continue }
+        let psd = ($conn | get -o providerSpecificData | default {})
+        let needs_auto_sync = (($psd | get -o autoSync | default false) != true)
+        let needs_auto_fetch = (($psd | get -o autoFetchModels | default false) != true)
+
+        if $needs_auto_sync or $needs_auto_fetch {
+            mut updated = false
+            for upd_try in 1..5 {
+                try {
+                    http put --content-type application/json --headers $headers $"($base)/api/providers/($cid)" {
+                        providerSpecificData: ($psd | merge {autoSync: true, autoFetchModels: true})
+                    }
+                    print $"[provision] '($name)': autoSync and autoFetchModels enabled"
+                    $updated = true
+                    break
+                } catch {|err|
+                    print $"[provision] '($name)': enabling autoSync/autoFetchModels attempt ($upd_try)/5 FAILED — ($err.msg | str substring 0..800)"
+                    if $upd_try < 5 { sleep 2sec }
+                }
+            }
+            if not $updated { continue }
+        }
+        mut synced = false
+        for sync_try in 1..5 {
+            try {
+                http post --content-type application/json --headers $headers $"($base)/api/providers/($cid)/sync-models?mode=import" {}
+                print $"[provision] '($name)': model catalog imported"
+                $synced = true
+                break
+            } catch {|err|
+                print $"[provision] '($name)': sync attempt ($sync_try)/5 FAILED — ($err.msg | str substring 0..800)"
+                if $sync_try < 5 { sleep 2sec }
+            }
+        }
+    }
+
+    let activeProviders = ($active | each {|c| $c | get -o provider | default ""})
+    let blocked = (
+        $FREE_PROVIDERS
+        | where {|p| ($p.id not-in $activeProviders) and ($p.alias not-in $activeProviders)}
+        | each {|p| [$p.id, $p.alias]}
+        | flatten
+    )
+
+    mut done = false
+    for blk_try in 1..5 {
+        try {
+            let current = (http get --headers $headers $"($base)/api/settings" | get -o blockedProviders | default [])
+            if ($blocked | sort) == ($current | sort) {
+                print $"[provision] blocking unchanged — ($blocked | length) free provider entries"
+            } else {
+                http patch --content-type application/json --headers $headers $"($base)/api/settings" {blockedProviders: $blocked}
+                print $"[provision] blocked ($blocked | length) free-provider entries without active connections"
+            }
+            $done = true
+            break
+        } catch {|err|
+            print $"[provision] blocking attempt ($blk_try)/5 FAILED — ($err.msg | str substring 0..800)"
+            if $blk_try < 5 { sleep 2sec }
+        }
+    }
+    if not $done {
+        print "[provision] blocking FAILED after 5 attempts (non-fatal)"
+    }
+}
+
+mut healthy = false
+for i in 1..120 {
+    print $"[provision] healthcheck attempt ($i)/120"
+    if ((^node /app/healthcheck.mjs | complete).exit_code == 0) {
+        print "[provision] healthcheck passed"
+        $healthy = true
+        break
+    }
+    sleep 1sec
+}
+
+if not $healthy {
+    print "[provision] server not healthy after 120s — giving up"
+    exit 0
+}
+
+print "[provision] waiting 5sec for API to become ready..."
+sleep 5sec
+
+try {
+    do-provision
+} catch {|err|
+    print $"[provision] failed (non-fatal) — ($err.msg | str substring 0..800)"
+    print $"[provision] debug ($err.debug | str substring 0..1200)"
+}
+'''

@@ -1,0 +1,4 @@
+[tools]
+"aqua:nushell/nushell" = "latest"
+"aqua:protonpass/pass-cli" = "latest"
+fnox = "latest"

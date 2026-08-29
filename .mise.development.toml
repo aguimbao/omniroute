@@ -1,0 +1,299 @@
+[tools]
+hk = 'latest'
+pitchfork = 'latest'
+actionlint = 'latest'
+hadolint = 'latest'
+'aqua:biomejs/biome' = 'latest'
+rust = { version = 'stable', profile = 'minimal' }
+'cargo:zizmor' = 'latest'
+'cargo:typos-cli' = 'latest'
+node = 'latest'
+bun = 'latest'
+'npm:tombi' = 'latest'
+'npm:@commitlint/cli' = 'latest'
+'npm:renovate' = 'latest'
+'npm:@devcontainers/cli' = 'latest'
+
+[settings]
+npm.package_manager = 'bun'
+
+[tasks.up]
+description = 'Create stack resources and start daemons via pitchfork. Supports pull/build and dev isolation'
+shell = 'nu -c'
+usage = '''
+flag "-b --build" help="Build Omniroute image locally instead of pulling"
+flag "-n --no-cache" help="Bypass cache (re-pulls base/redis or rebuilds without cache)"
+flag "-d --dev" help="Use dev isolated stack (omniroute-dev-*)"
+flag "-f --force-restart" help="Restart daemons if already running"
+'''
+run = '''
+def volume-exists [name: string] {
+  (podman volume inspect $name | complete | get exit_code) == 0
+}
+
+def network-exists [name: string] {
+  (podman network inspect $name | complete | get exit_code) == 0
+}
+
+def image-exists [name: string] {
+  (podman image exists $name | complete | get exit_code) == 0
+}
+
+let build_requested = (($env.usage_build? | default "false") == "true")
+let no_cache = (($env.usage_no_cache? | default "false") == "true")
+let is_dev = (($env.usage_dev? | default "false") == "true")
+let is_force = (($env.usage_force_restart? | default "false") == "true")
+let force_args = if $is_force { ["--force"] } else { [] }
+
+if $build_requested {
+  let target_img = if $is_dev { "localhost/omniroute:dev" } else { "localhost/omniroute:latest" }
+
+  if $is_dev {
+    if $no_cache or not (image-exists "docker.io/library/redis:alpine") {
+      podman pull docker.io/library/redis:alpine
+    }
+    podman tag docker.io/library/redis:alpine localhost/redis:dev
+  } else {
+    if $no_cache or not (image-exists "docker.io/library/redis:alpine") {
+      podman pull docker.io/library/redis:alpine
+    }
+  }
+
+  if $no_cache {
+    podman build --no-cache --format docker -t $target_img .
+  } else {
+    podman build --format docker -t $target_img .
+  }
+} else {
+  if $is_dev {
+    if $no_cache or not (image-exists "docker.io/library/redis:alpine") {
+      podman pull docker.io/library/redis:alpine
+    }
+    podman tag docker.io/library/redis:alpine localhost/redis:dev
+
+    if $no_cache or not (image-exists "ghcr.io/aguimbao/omniroute:latest") {
+      podman pull ghcr.io/aguimbao/omniroute:latest
+    }
+    podman tag ghcr.io/aguimbao/omniroute:latest localhost/omniroute:dev
+  } else {
+    if $no_cache or not (image-exists "docker.io/library/redis:alpine") {
+      podman pull docker.io/library/redis:alpine
+    }
+    if $no_cache or not (image-exists "ghcr.io/aguimbao/omniroute:latest") {
+      podman pull ghcr.io/aguimbao/omniroute:latest
+    }
+    podman tag ghcr.io/aguimbao/omniroute:latest localhost/omniroute:latest
+  }
+}
+
+if $is_dev {
+  if not (volume-exists omniroute-dev-data) {
+    podman volume create omniroute-dev-data
+  }
+
+  if not (volume-exists omniroute-dev-redis-data) {
+    podman volume create omniroute-dev-redis-data
+  }
+
+  if not (network-exists omniroute-dev-net) {
+    podman network create omniroute-dev-net
+  }
+} else {
+  if not (volume-exists omniroute-data) {
+    podman volume create omniroute-data
+  }
+
+  if not (volume-exists omniroute-redis-data) {
+    podman volume create omniroute-redis-data
+  }
+
+  if not (network-exists omniroute-net) {
+    podman network create omniroute-net
+  }
+}
+
+let status = (
+    pitchfork supervisor status --json
+    | from json
+    | get status
+)
+
+if $status != "up" {
+    pitchfork supervisor start
+}
+
+if $is_dev {
+  pitchfork start ...$force_args omniroute-dev-redis omniroute-dev-omniroute
+} else {
+  pitchfork start ...$force_args omniroute-redis omniroute-omniroute
+}
+'''
+
+[tasks.down]
+description = 'Stop daemons via pitchfork. Optional resource removal'
+shell = 'nu -c'
+usage = '''
+flag "-p --prune" help="Remove network, images and containers after stopping"
+flag "-v --volumes" help="Also remove volumes (requires --prune)"
+flag "-d --dev" help="Target dev stack (omniroute-dev-*)"
+'''
+run = '''
+def container-exists [name: string] {
+  (podman container exists $name | complete | get exit_code) == 0
+}
+
+def image-exists [name: string] {
+  (podman image exists $name | complete | get exit_code) == 0
+}
+
+def network-exists [name: string] {
+  (podman network inspect $name | complete | get exit_code) == 0
+}
+
+def volume-exists [name: string] {
+  (podman volume inspect $name | complete | get exit_code) == 0
+}
+
+let prune_requested = (($env.usage_prune? | default "false") == "true")
+let volumes_requested = (($env.usage_volumes? | default "false") == "true")
+let is_dev = (($env.usage_dev? | default "false") == "true")
+
+if $volumes_requested and not $prune_requested {
+  error make {
+    msg: "--volumes requires --prune"
+  }
+}
+
+let status = (
+    pitchfork supervisor status --json
+    | from json
+    | get status
+)
+
+if $status != "up" {
+    pitchfork supervisor start
+}
+
+if $is_dev {
+  pitchfork stop omniroute-dev-omniroute omniroute-dev-redis
+
+  if $prune_requested {
+    for name in [omniroute-dev-omniroute omniroute-dev-redis] {
+      if (container-exists $name) {
+        podman rm --force --time 40 $name
+      }
+    }
+
+    if (network-exists omniroute-dev-net) {
+      podman network rm omniroute-dev-net
+    }
+
+    if (image-exists localhost/omniroute:dev) {
+      podman image rm localhost/omniroute:dev
+    }
+
+    if (image-exists localhost/redis:dev) {
+      podman image rm localhost/redis:dev
+    }
+
+    if $volumes_requested {
+      for name in [omniroute-dev-data omniroute-dev-redis-data] {
+        if (volume-exists $name) {
+          podman volume rm $name
+        }
+      }
+    }
+
+    podman image prune --force
+  }
+} else {
+  pitchfork stop omniroute-omniroute omniroute-redis
+
+  if $prune_requested {
+    for name in [omniroute-omniroute omniroute-redis] {
+      if (container-exists $name) {
+        podman rm --force --time 40 $name
+      }
+    }
+
+    if (network-exists omniroute-net) {
+      podman network rm omniroute-net
+    }
+
+    if (image-exists localhost/omniroute:latest) {
+      podman image rm localhost/omniroute:latest
+    }
+
+    if (image-exists ghcr.io/aguimbao/omniroute:latest) {
+      podman image rm ghcr.io/aguimbao/omniroute:latest
+    }
+
+    if (image-exists docker.io/library/redis:alpine) {
+      podman image rm docker.io/library/redis:alpine
+    }
+
+    if $volumes_requested {
+      for name in [omniroute-data omniroute-redis-data] {
+        if (volume-exists $name) {
+          podman volume rm $name
+        }
+      }
+    }
+
+    podman image prune --force
+  }
+}
+'''
+
+[tasks.test]
+description = 'Build dev image, run full stack test and teardown'
+shell = 'nu -c'
+run = '''
+let test_result = try {
+  mise run up --build --no-cache --dev
+  print "[test] stack up — waiting for healthcheck"
+  podman healthcheck run omniroute-dev-omniroute
+  print "[test] stack healthy"
+  0
+} catch {|err|
+  print -e $"[test] failed: ($err.msg)"
+  1
+}
+
+let teardown = (mise run down --prune --volumes --dev | complete)
+if $teardown.exit_code != 0 {
+  print -e "[test] teardown failed"
+  print -e $teardown.stderr
+}
+
+if $test_result != 0 {
+  exit $test_result
+}
+
+if $teardown.exit_code != 0 {
+  exit $teardown.exit_code
+}
+'''
+
+[tasks.renovate]
+description = 'Run Renovate dependency updates locally or remotely'
+shell = 'nu -c'
+usage = '''
+flag "-r --remote" help="Run remote Renovate against GitHub repository to open PRs"
+'''
+run = '''
+let is_remote = (($env.usage_remote? | default "false") == "true")
+if $is_remote {
+  fnox exec -P dev -- renovate aguimbao/omniroute
+} else {
+  fnox exec -P dev -- renovate --platform=local
+}
+'''
+
+[tasks.lint]
+description = 'Run all code quality checks via hk'
+run = 'hk check --all'
+
+[tasks.fmt]
+description = 'Fix formatting and linting errors via hk'
+run = 'hk fix --all'
