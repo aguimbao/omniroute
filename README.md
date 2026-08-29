@@ -8,16 +8,23 @@
 
 ## Prerequisites
 
-- [mise](https://mise.jdx.dev)
+- [mise](https://mise.jdx.dev) (only if you don't use `devcontainer`)
 - [podman](https://github.com/podman-container-tools/podman)
 
 ## Usage
 
 ### Setup
 
-1. `mise up`
-2. `hk install`
-3. Modify `.fnox.toml` to your needs.
+Use your own `.fnox.local.toml` if needed
+
+```bash
+# devcontainer
+devcontainer up
+
+# no devcontainer
+mise trust
+mise run setup
+```
 
 ### Commands
 

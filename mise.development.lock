@@ -324,39 +324,6 @@ checksum = "sha256:4ccf353e484997dd4975361b6433f3b2661f5db614f2b382cddcac7eaa74a
 url = "https://github.com/jdx/hk/releases/download/v1.56.1/hk-x86_64-pc-windows-msvc.zip"
 url_api = "https://api.github.com/repos/jdx/hk/releases/assets/525632118"
 
-[[tools."http:devin"]]
-version = "3000.6.7"
-backend = "http:devin"
-specifiers = ["latest"]
-
-[tools."http:devin"."platforms.linux-arm64"]
-url = "https://static.devin.ai/cli/3000.6.7/devin-3000.6.7-aarch64-unknown-linux.tar.gz"
-
-[tools."http:devin"."platforms.linux-arm64-musl"]
-url = "https://static.devin.ai/cli/3000.6.7/devin-3000.6.7-aarch64-unknown-linux.tar.gz"
-
-[tools."http:devin"."platforms.linux-x64"]
-checksum = "blake3:f32914cfb6903e86672f45a08739f0973d736f014917a5790861895f89d32938"
-url = "https://static.devin.ai/cli/3000.6.7/devin-3000.6.7-x86_64-unknown-linux.tar.gz"
-
-[tools."http:devin"."platforms.linux-x64-baseline"]
-url = "https://static.devin.ai/cli/3000.6.7/devin-3000.6.7-x86_64-unknown-linux.tar.gz"
-
-[tools."http:devin"."platforms.linux-x64-musl"]
-url = "https://static.devin.ai/cli/3000.6.7/devin-3000.6.7-x86_64-unknown-linux.tar.gz"
-
-[tools."http:devin"."platforms.linux-x64-musl-baseline"]
-url = "https://static.devin.ai/cli/3000.6.7/devin-3000.6.7-x86_64-unknown-linux.tar.gz"
-
-[tools."http:devin"."platforms.macos-arm64"]
-url = "https://static.devin.ai/cli/3000.6.7/devin-3000.6.7-aarch64-apple-darwin.tar.gz"
-
-[tools."http:devin"."platforms.macos-x64"]
-url = "https://static.devin.ai/cli/3000.6.7/devin-3000.6.7-x86_64-apple-darwin.tar.gz"
-
-[tools."http:devin"."platforms.macos-x64-baseline"]
-url = "https://static.devin.ai/cli/3000.6.7/devin-3000.6.7-x86_64-apple-darwin.tar.gz"
-
 [[tools.node]]
 version = "26.8.1"
 backend = "core:node"

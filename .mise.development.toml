@@ -1,5 +1,5 @@
 [tools]
-hk = 'latest'
+hk = { version = 'latest', postinstall = 'hk install' }
 pitchfork = 'latest'
 actionlint = 'latest'
 hadolint = 'latest'
@@ -297,3 +297,7 @@ run = 'hk check --all'
 [tasks.fmt]
 description = 'Fix formatting and linting errors via hk'
 run = 'hk fix --all'
+
+[tasks.setup]
+description = 'Install toolchains and setup git hooks'
+run = 'mise install node bun && mise install'

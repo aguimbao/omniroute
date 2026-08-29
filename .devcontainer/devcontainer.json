@@ -13,6 +13,6 @@
   ],
   "containerUser": "vscode",
   "remoteUser": "vscode",
-  "postCreateCommand": "mise install node bun && mise install && hk install",
+  "postCreateCommand": "mise run setup",
   "forwardPorts": [20128, 20132, 20228, 20232]
 }
