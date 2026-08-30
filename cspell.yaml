@@ -2,6 +2,7 @@ useGitignore: true
 allowCompoundWords: true
 words:
   - aihorde
+  - dorny
   - fnox
   - hadolint
   - mimocode
@@ -14,6 +15,7 @@ words:
   - passt
   - pitchfork
   - pkl
+  - snok
   - taplo
   - theoldllm
   - tombi

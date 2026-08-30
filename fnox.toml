@@ -1,3 +1,5 @@
+env = 'exec'
+
 [providers.protonpass]
 type = 'proton-pass'
 
@@ -5,7 +7,7 @@ type = 'proton-pass'
 PROTON_PASS_CREDENTIALS = { default = 'true' }
 OMNIROUTE_PROTON_PASS_PAT = { provider = 'protonpass', value = 'Dev/PROTON/PASS_DEV_VIEWER_PAT' }
 
-[profiles.container.secrets]
+[profiles.omniroute-container.secrets]
 JWT_SECRET = { provider = 'protonpass', value = 'Dev/OMNIROUTE/JWT_SECRET' }
 STORAGE_ENCRYPTION_KEY = { provider = 'protonpass', value = 'Dev/OMNIROUTE/STORAGE_ENCRYPTION_KEY' }
 API_KEY_SECRET = { provider = 'protonpass', value = 'Dev/OMNIROUTE/API_KEY_SECRET' }
@@ -18,5 +20,5 @@ NVIDIA_NIM_API_KEY = { provider = 'protonpass', value = 'Dev/NVIDIA_NIM/API_KEY'
 STORAGE_ENCRYPTION_KEY_VERSION = { default = 'v1' }
 REQUIRE_API_KEY = { default = 'true' }
 
-[profiles.dev.secrets]
-RENOVATE_TOKEN = { provider = 'protonpass', value = 'Dev/GITHUB/RENOVATE_TOKEN' }
+[profiles.omniroute-dev.secrets]
+RENOVATE_TOKEN = { provider = 'protonpass', value = 'Dev/GITHUB/ADMIN_PAT' }

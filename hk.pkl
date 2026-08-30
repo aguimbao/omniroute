@@ -23,6 +23,10 @@ local linters = new Mapping<String, Step> {
         glob = new Listing<String> { ".mise*.toml", "mise*.lock" }
         check = "mise lock"
     }
+    ["renovate-config-validator"] {
+        glob = new Listing<String> { "renovate.json", ".github/renovate.json" }
+        check = "renovate-config-validator --strict {{files}}"
+    }
 }
 
 hooks {

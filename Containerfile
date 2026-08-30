@@ -14,10 +14,10 @@ RUN curl -fsSL https://mise.run | sh -s -- -y \
     && install -m 0755 /root/.local/bin/mise /usr/local/bin/mise \
     && rm -rf /root/.local
 
-COPY --chown=node:node .mise.toml .mise.build.toml /app/
+COPY --chown=node:node .mise.toml .mise.container.toml /app/
 
 ENV MISE_TRUSTED_CONFIG_PATHS=/app
-ENV MISE_ENV=build
+ENV MISE_ENV=container
 ENV PATH=/home/node/.local/share/mise/shims:${PATH}
 
 USER node
@@ -34,12 +34,11 @@ LABEL org.opencontainers.image.title="omniroute" \
 COPY --from=tools /usr/local/bin/mise /usr/local/bin/mise
 COPY --from=tools --chown=node:node /home/node/.local/share/mise /home/node/.local/share/mise
 
-COPY --chown=node:node .mise.toml .mise.build.toml /app/
+COPY --chown=node:node .mise.toml .mise.container.toml /app/
 COPY --chmod=755 entrypoint.nu /app/entrypoint.nu
 
 ENV MISE_TRUSTED_CONFIG_PATHS=/app
-ENV MISE_ENV=build
-ENV FNOX_PROFILE=container
+ENV MISE_ENV=container
 ENV PATH=/home/node/.local/share/mise/shims:${PATH}
 
 USER node
