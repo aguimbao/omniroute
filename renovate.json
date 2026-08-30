@@ -9,6 +9,8 @@
     ":semanticCommitScope(deps)"
   ],
   "dependencyDashboard": true,
+  "prHourlyLimit": 0,
+  "prConcurrentLimit": 0,
   "labels": ["dependencies"],
   "gitAuthor": "Renovate Bot <abraham@aguimbao.me>",
   "packageRules": [
