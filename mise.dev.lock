@@ -601,6 +601,9 @@ version = "44.52.0"
 backend = "npm:renovate"
 specifiers = ["44.52.0"]
 
+[tools."npm:renovate".options]
+bun_args = "--trust"
+
 [[tools."npm:tombi"]]
 version = "1.5.0"
 backend = "npm:tombi"
