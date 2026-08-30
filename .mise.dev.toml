@@ -280,7 +280,7 @@ if $is_remote {
 
 [tasks.ci]
 description = 'Run GitHub Actions workflows locally via act'
-run = 'systemctl --user start podman.socket 2>/dev/null || true; DOCKER_HOST="${DOCKER_HOST:-unix://${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/podman/podman.sock}" act'
+run = 'DOCKER_HOST="${DOCKER_HOST:-unix://${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/podman/podman.sock}" act'
 
 [tasks.lint]
 description = 'Run all code quality checks via hk'

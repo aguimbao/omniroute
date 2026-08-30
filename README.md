@@ -8,8 +8,8 @@
 
 ## Prerequisites
 
-- [mise](https://mise.jdx.dev) (only if you don't use `devcontainer`)
-- [podman](https://github.com/podman-container-tools/podman)
+- [mise](https://mise.jdx.dev) / [devcontainers](https://containers.dev/)
+- [podman](https://github.com/containers/podman) (+ podman socket active)
 
 ## Usage
 
@@ -37,7 +37,7 @@ mise run lint
 mise run fmt
 # test
 mise run test
-# test github workflows locally
+# test ci locally
 mise run ci
 # bump versions
 mise run renovate
