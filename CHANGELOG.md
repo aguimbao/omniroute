@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/aguimbao/omniroute/compare/v1.2.0...v1.3.0) (2026-08-30)
+
+
+### Features
+
+* sync mise-fnox profiles, pin container images, and add package retention ([#7](https://github.com/aguimbao/omniroute/issues/7)) ([b4847a9](https://github.com/aguimbao/omniroute/commit/b4847a96540235066f5a3bfda36e3b771e4874f8))
+
 ## [1.2.0](https://github.com/aguimbao/omniroute/compare/v1.1.0...v1.2.0) (2026-08-29)
 
 
