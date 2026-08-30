@@ -5,12 +5,11 @@
     "docker:pinDigests",
     "helpers:pinGitHubActionDigests",
     ":semanticCommits",
+    ":semanticPrefixChore",
     ":semanticCommitScope(deps)"
   ],
   "dependencyDashboard": true,
   "labels": ["dependencies"],
-  "commitMessagePrefix": "chore(deps):",
-  "commitMessageLowerCase": "always",
   "gitAuthor": "Renovate Bot <abraham@aguimbao.me>",
   "packageRules": [
     {
