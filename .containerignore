@@ -1,7 +1,2 @@
-.codegraph/
 .git*
-.containerignore
-Containerfile
-README.md
-pitchfork.toml
-.mise.development.toml
+fnox*.toml

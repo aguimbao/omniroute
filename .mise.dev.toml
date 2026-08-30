@@ -22,11 +22,13 @@ description = 'Create stack resources and start daemons via pitchfork. Supports 
 shell = 'nu -c'
 usage = '''
 flag "-b --build" help="Build Omniroute image locally instead of pulling"
-flag "-n --no-cache" help="Bypass cache (re-pulls base/redis or rebuilds without cache)"
+flag "-n --no-cache" help="Bypass cache for local image build"
 flag "-d --dev" help="Use dev isolated stack (omniroute-dev-*)"
 flag "-f --force-restart" help="Restart daemons if already running"
 '''
 run = '''
+const OMNIROUTE_IMAGE = "ghcr.io/aguimbao/omniroute:latest@sha256:1be9061f00bb9da28801d44e6140a00ac56aa1b4fe50b899349e59ef684fbeb6"
+
 def volume-exists [name: string] {
   (podman volume inspect $name | complete | get exit_code) == 0
 }
@@ -45,45 +47,16 @@ let is_dev = (($env.usage_dev? | default "false") == "true")
 let is_force = (($env.usage_force_restart? | default "false") == "true")
 let force_args = if $is_force { ["--force"] } else { [] }
 
+let target_img = if $is_dev { "localhost/omniroute:dev" } else { "localhost/omniroute:latest" }
+
 if $build_requested {
-  let target_img = if $is_dev { "localhost/omniroute:dev" } else { "localhost/omniroute:latest" }
-
-  if $is_dev {
-    if $no_cache or not (image-exists "docker.io/library/redis:alpine") {
-      podman pull docker.io/library/redis:alpine
-    }
-    podman tag docker.io/library/redis:alpine localhost/redis:dev
-  } else {
-    if $no_cache or not (image-exists "docker.io/library/redis:alpine") {
-      podman pull docker.io/library/redis:alpine
-    }
-  }
-
-  if $no_cache {
-    podman build --no-cache --format docker -t $target_img .
-  } else {
-    podman build --format docker -t $target_img .
-  }
+  let build_flags = if $no_cache { ["--no-cache"] } else { [] }
+  podman build ...$build_flags --format docker -t $target_img .
 } else {
-  if $is_dev {
-    if $no_cache or not (image-exists "docker.io/library/redis:alpine") {
-      podman pull docker.io/library/redis:alpine
-    }
-    podman tag docker.io/library/redis:alpine localhost/redis:dev
-
-    if $no_cache or not (image-exists "ghcr.io/aguimbao/omniroute:latest") {
-      podman pull ghcr.io/aguimbao/omniroute:latest
-    }
-    podman tag ghcr.io/aguimbao/omniroute:latest localhost/omniroute:dev
-  } else {
-    if $no_cache or not (image-exists "docker.io/library/redis:alpine") {
-      podman pull docker.io/library/redis:alpine
-    }
-    if $no_cache or not (image-exists "ghcr.io/aguimbao/omniroute:latest") {
-      podman pull ghcr.io/aguimbao/omniroute:latest
-    }
-    podman tag ghcr.io/aguimbao/omniroute:latest localhost/omniroute:latest
+  if not (image-exists $OMNIROUTE_IMAGE) {
+    podman pull $OMNIROUTE_IMAGE
   }
+  podman tag $OMNIROUTE_IMAGE $target_img
 }
 
 if $is_dev {
@@ -192,10 +165,6 @@ if $is_dev {
       podman image rm localhost/omniroute:dev
     }
 
-    if (image-exists localhost/redis:dev) {
-      podman image rm localhost/redis:dev
-    }
-
     if $volumes_requested {
       for name in [omniroute-dev-data omniroute-dev-redis-data] {
         if (volume-exists $name) {
@@ -222,14 +191,6 @@ if $is_dev {
 
     if (image-exists localhost/omniroute:latest) {
       podman image rm localhost/omniroute:latest
-    }
-
-    if (image-exists ghcr.io/aguimbao/omniroute:latest) {
-      podman image rm ghcr.io/aguimbao/omniroute:latest
-    }
-
-    if (image-exists docker.io/library/redis:alpine) {
-      podman image rm docker.io/library/redis:alpine
     }
 
     if $volumes_requested {
@@ -284,9 +245,9 @@ flag "-r --remote" help="Run remote Renovate against GitHub repository to open P
 run = '''
 let is_remote = (($env.usage_remote? | default "false") == "true")
 if $is_remote {
-  fnox exec -P dev -- renovate aguimbao/omniroute
+  fnox exec -P omniroute-dev -- renovate aguimbao/omniroute
 } else {
-  fnox exec -P dev -- renovate --platform=local
+  fnox exec -P omniroute-dev -- renovate --platform=local
 }
 '''
 

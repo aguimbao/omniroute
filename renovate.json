@@ -2,7 +2,8 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
-    ":pinAllDigests",
+    "docker:pinDigests",
+    "helpers:pinGitHubActionDigests",
     ":semanticCommits",
     ":semanticCommitScope(deps)"
   ],
@@ -11,11 +12,11 @@
   "commitMessagePrefix": "chore(deps):",
   "packageRules": [
     {
-      "matchPackagePatterns": ["*"],
       "matchUpdateTypes": ["minor", "patch", "digest", "pin", "pinDigest"],
       "automerge": true,
       "automergeType": "pr",
-      "platformAutomerge": false
+      "platformAutomerge": false,
+      "matchPackageNames": ["*"]
     },
     {
       "matchManagers": ["github-actions"],
@@ -26,14 +27,50 @@
     {
       "customType": "regex",
       "description": "Containerfile base image updater",
-      "fileMatch": ["(^|/)Containerfile.*$"],
+      "managerFilePatterns": ["/(^|/)Containerfile.*$/"],
       "matchStrings": [
         "FROM (?<depName>[^:\\s]+):(?<currentValue>[^@\\s]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?"
       ],
       "datasourceTemplate": "docker"
+    },
+    {
+      "customType": "regex",
+      "description": "Mise dev stack image updater",
+      "managerFilePatterns": ["/(^|/)\\.mise\\.dev\\.toml$/"],
+      "matchStrings": [
+        "const OMNIROUTE_IMAGE = [\"'](?<depName>[^:\\s\"']+):(?<currentValue>[^@\\s\"']+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?[\"']"
+      ],
+      "datasourceTemplate": "docker"
+    },
+    {
+      "customType": "regex",
+      "description": "Pitchfork daemon image updater",
+      "managerFilePatterns": ["/(^|/)pitchfork\\.toml$/"],
+      "matchStrings": [
+        "(?:run = \"[^\"]*\\s)(?<depName>[a-z0-9._/-]+):(?<currentValue>[a-zA-Z0-9._-]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?\\s"
+      ],
+      "datasourceTemplate": "docker"
+    },
+    {
+      "customType": "regex",
+      "description": "Act runner image updater",
+      "managerFilePatterns": ["/(^|/)\\.actrc$/"],
+      "matchStrings": [
+        "-P\\s+[a-zA-Z0-9._-]+=(?<depName>[^:\\s]+):(?<currentValue>[^@\\s]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?"
+      ],
+      "datasourceTemplate": "docker"
+    },
+    {
+      "customType": "regex",
+      "description": "hk.pkl package version updater",
+      "managerFilePatterns": ["/(^|/)hk\\.pkl$/"],
+      "matchStrings": [
+        "package://github\\.com/(?<depName>jdx/hk)/releases/download/v(?<currentValue>[^/]+)/hk@(?<currentVersion>[^#]+)#/"
+      ],
+      "datasourceTemplate": "github-releases"
     }
   ],
   "mise": {
-    "fileMatch": ["(^|/)\\.mise.*\\.toml$"]
+    "managerFilePatterns": ["/(^|/)\\.mise.*\\.toml$/"]
   }
 }

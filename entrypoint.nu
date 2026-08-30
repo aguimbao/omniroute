@@ -19,7 +19,7 @@ def main [...cmd] {
     }
   }
 
-  let exported = (fnox export --profile container --format json | complete)
+  let exported = (fnox export --all --profile omniroute-container --format json | complete)
   if $exported.exit_code != 0 {
     print -e "FATAL: fnox export failed"
     print -e $exported.stderr
