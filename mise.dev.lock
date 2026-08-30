@@ -597,12 +597,9 @@ specifiers = [
 ]
 
 [[tools."npm:renovate"]]
-version = "44.51.0"
+version = "44.52.0"
 backend = "npm:renovate"
-specifiers = [
-    "44.51.0",
-    "latest",
-]
+specifiers = ["44.52.0"]
 
 [[tools."npm:tombi"]]
 version = "1.5.0"
