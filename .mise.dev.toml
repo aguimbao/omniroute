@@ -27,7 +27,7 @@ flag "-d --dev" help="Use dev isolated stack (omniroute-dev-*)"
 flag "-f --force-restart" help="Restart daemons if already running"
 '''
 run = '''
-const OMNIROUTE_IMAGE = "ghcr.io/aguimbao/omniroute:latest@sha256:1be9061f00bb9da28801d44e6140a00ac56aa1b4fe50b899349e59ef684fbeb6"
+const OMNIROUTE_IMAGE = "ghcr.io/aguimbao/omniroute:latest@sha256:e19e73cbd0b8ec654d7f2594f04fda6ba986deb752779da17cde4c17daac1b2c"
 
 def volume-exists [name: string] {
   (podman volume inspect $name | complete | get exit_code) == 0
@@ -207,14 +207,37 @@ if $is_dev {
 '''
 
 [tasks.test]
-description = 'Build dev image, run full stack test and teardown'
+description = 'Run full stack test and teardown. Builds dev image by default or pulls from registry with --no-build'
 shell = 'nu -c'
+usage = '''
+flag "-n --no-build" help="Pull Omniroute image from registry instead of building locally"
+'''
 run = '''
+let no_build = (($env.usage_no_build? | default "false") == "true")
 let test_result = try {
-  mise run up --build --no-cache --dev
+  if $no_build {
+    mise run up --dev
+  } else {
+    mise run up --build --no-cache --dev
+  }
   print "[test] stack up — waiting for healthcheck"
   podman healthcheck run omniroute-dev-omniroute
-  print "[test] stack healthy"
+  print "[test] stack healthy — waiting for provisioning"
+  mut prov_done = false
+  for _ in 1..45 {
+    if ((podman exec omniroute-dev-omniroute test -f /tmp/provision.failed | complete).exit_code == 0) {
+      error make { msg: "provisioning failed inside container" }
+    }
+    if ((podman exec omniroute-dev-omniroute test -f /tmp/provision.done | complete).exit_code == 0) {
+      $prov_done = true
+      break
+    }
+    sleep 1sec
+  }
+  if not $prov_done {
+    error make { msg: "provisioning timed out after 45s" }
+  }
+  print "[test] provisioning healthy"
   0
 } catch {|err|
   print -e $"[test] failed: ($err.msg)"
