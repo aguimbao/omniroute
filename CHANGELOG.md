@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/aguimbao/omniroute/compare/v1.3.0...v1.4.0) (2026-08-30)
+
+
+### Features
+
+* support --no-build flag in test task and verify provisioning ([#10](https://github.com/aguimbao/omniroute/issues/10)) ([0495379](https://github.com/aguimbao/omniroute/commit/04953795427bbdf98e1b9fe33021df8014fbd0c2))
+
 ## [1.3.0](https://github.com/aguimbao/omniroute/compare/v1.2.0...v1.3.0) (2026-08-30)
 
 
