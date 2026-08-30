@@ -11,6 +11,7 @@
   "labels": ["dependencies"],
   "commitMessagePrefix": "chore(deps):",
   "commitMessageLowerCase": "always",
+  "gitAuthor": "Renovate Bot <abraham@aguimbao.me>",
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch", "digest", "pin", "pinDigest"],

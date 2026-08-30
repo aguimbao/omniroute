@@ -16,6 +16,33 @@ jobs:
         with:
           persist-credentials: false
 
+      - uses: jdx/mise-action@c37c93293d6b742fc901e1406b8f764f6fb19dac # v2.4.4
+        # zizmor: ignore[cache-poisoning]
+        with:
+          cache: true
+          install: false
+
+      - name: Setup tools
+        env:
+          PROTON_PASS_PERSONAL_ACCESS_TOKEN: ${{ secrets.PROTON_PASS_PERSONAL_ACCESS_TOKEN }}
+        run: mise run setup --pass-cli-login
+
+      - name: Load secrets from fnox
+        run: |
+          SECRETS_JSON="$(fnox export -P omniroute-dev --all --format json)"
+          export SECRETS_JSON
+          node -e '
+            const secrets = JSON.parse(process.env.SECRETS_JSON);
+            const fs = require("fs");
+            for (const [k, v] of Object.entries(secrets)) {
+              if (v) {
+                console.log("::add-mask::" + v);
+                const delimiter = "EOF_" + Date.now() + "_" + Math.random();
+                fs.appendFileSync(process.env.GITHUB_ENV, k + "<<" + delimiter + "\n" + v + "\n" + delimiter + "\n");
+              }
+            }
+          '
+
       - uses: renovatebot/github-action@02f4fdeb479bbb229caa7ad82cb5e691c07e80b3 # v41.0.14
         with:
-          token: ${{ secrets.RENOVATE_TOKEN || secrets.GITHUB_TOKEN }}
+          token: ${{ env.RENOVATE_TOKEN || secrets.RENOVATE_TOKEN || secrets.GITHUB_TOKEN }}
