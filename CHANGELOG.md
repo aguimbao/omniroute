@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.1](https://github.com/aguimbao/omniroute/compare/v1.5.0...v1.5.1) (2026-08-30)
+
+
+### Bug Fixes
+
+* **renovate:** use semantic prefix chore preset ([#29](https://github.com/aguimbao/omniroute/issues/29)) ([6e916f4](https://github.com/aguimbao/omniroute/commit/6e916f41bd71630be7042aa6157112962a1958e4))
+
 ## [1.5.0](https://github.com/aguimbao/omniroute/compare/v1.4.0...v1.5.0) (2026-08-30)
 
 
