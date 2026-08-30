@@ -163,7 +163,7 @@ def do-provision [] {
         }
     }
     if not $done {
-        print "[provision] blocking FAILED after 5 attempts (non-fatal)"
+        error make { msg: "blocking free-providers failed after 5 attempts" }
     }
 }
 
@@ -180,7 +180,8 @@ for i in 1..120 {
 
 if not $healthy {
     print "[provision] server not healthy after 120s — giving up"
-    exit 0
+    "" | save -f /tmp/provision.failed
+    exit 1
 }
 
 print "[provision] waiting 5sec for API to become ready..."
@@ -188,8 +189,11 @@ sleep 5sec
 
 try {
     do-provision
+    "" | save -f /tmp/provision.done
+    print "[provision] completed successfully"
 } catch {|err|
-    print $"[provision] failed (non-fatal) — ($err.msg | str substring 0..800)"
-    print $"[provision] debug ($err.debug | str substring 0..1200)"
+    "" | save -f /tmp/provision.failed
+    print -e $"[provision] failed — ($err.msg | str substring 0..800)"
+    print -e $"[provision] debug ($err.debug | str substring 0..1200)"
 }
 '''
