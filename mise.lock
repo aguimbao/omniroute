@@ -5,7 +5,10 @@ lockfile_version = 1
 [[tools."aqua:nushell/nushell"]]
 version = "0.115.1"
 backend = "aqua:nushell/nushell"
-specifiers = ["latest"]
+specifiers = [
+    "0.115.1",
+    "latest",
+]
 
 [tools."aqua:nushell/nushell"."platforms.linux-arm64"]
 checksum = "sha256:5c4a5bca0af5b070e903a68fa014cc24e6419d0ac9cec03a2948494b2d310e08"
@@ -45,7 +48,10 @@ url_api = "https://api.github.com/repos/nushell/nushell/releases/assets/52603017
 [[tools."aqua:protonpass/pass-cli"]]
 version = "2.3.3"
 backend = "aqua:protonpass/pass-cli"
-specifiers = ["latest"]
+specifiers = [
+    "2.3.3",
+    "latest",
+]
 
 [tools."aqua:protonpass/pass-cli"."platforms.linux-arm64"]
 checksum = "sha256:9c3e85e10d3bb631ffe377f063d996b9cc9a545d30971bcedf5910e16d03542b"
@@ -85,7 +91,10 @@ url_api = "https://api.github.com/repos/protonpass/pass-cli/releases/assets/5293
 [[tools.fnox]]
 version = "1.34.1"
 backend = "github:jdx/fnox"
-specifiers = ["latest"]
+specifiers = [
+    "1.34.1",
+    "latest",
+]
 
 [tools.fnox."platforms.linux-arm64"]
 checksum = "sha256:8a6a64c1f2367e6f61366a4cd206c4a8e2163aa72654c61ecb08de042afc8b06"
