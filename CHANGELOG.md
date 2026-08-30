@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.0](https://github.com/aguimbao/omniroute/compare/v1.4.0...v1.5.0) (2026-08-30)
+
+
+### Features
+
+* **container:** migrate to chainguard wolfi base and configure renovate managers ([#18](https://github.com/aguimbao/omniroute/issues/18)) ([d26967c](https://github.com/aguimbao/omniroute/commit/d26967c78729725ab76485f52fda5a965c086921))
+* **mise:** expose host env and add dry-run flag to renovate task ([#13](https://github.com/aguimbao/omniroute/issues/13)) ([3e8958e](https://github.com/aguimbao/omniroute/commit/3e8958e61c8d373b1efa31ae71a5fc954c2de0ed))
+
 ## [1.4.0](https://github.com/aguimbao/omniroute/compare/v1.3.0...v1.4.0) (2026-08-30)
 
 
