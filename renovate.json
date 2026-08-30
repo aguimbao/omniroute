@@ -10,6 +10,7 @@
   "dependencyDashboard": true,
   "labels": ["dependencies"],
   "commitMessagePrefix": "chore(deps):",
+  "commitMessageLowerCase": "always",
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch", "digest", "pin", "pinDigest"],
