@@ -90,6 +90,24 @@ jobs:
       - name: Run container tests
         run: mise run test
 
+  ci-gate:
+    runs-on: ubuntu-24.04
+    needs:
+      - lint
+      - test
+    if: always()
+    steps:
+      - name: Evaluate status
+        run: |
+          lint_status="${{ needs.lint.result }}"
+          test_status="${{ needs.test.result }}"
+          if [ "$lint_status" = "success" ] && { [ "$test_status" = "success" ] || [ "$test_status" = "skipped" ]; }; then
+            echo "CI passed."
+            exit 0
+          fi
+          echo "CI failed: lint=$lint_status, test=$test_status"
+          exit 1
+
   publish:
     runs-on: ubuntu-24.04
     needs:
