@@ -11,7 +11,7 @@ RUN apk add --no-cache \
         crun=1.29.1-r1 \
         curl=8.21.0-r2 \
         fuse-overlayfs=1.17-r1 \
-        libcap-utils=2.78-r2 \
+        libcap-utils=2.78-r3 \
         podman=6.0.0-r4 \
         shadow=4.20.2-r1 \
         shadow-subids=4.20.2-r1 \
