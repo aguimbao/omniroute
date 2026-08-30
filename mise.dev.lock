@@ -5,7 +5,10 @@ lockfile_version = 1
 [[tools.actionlint]]
 version = "1.7.12"
 backend = "aqua:rhysd/actionlint"
-specifiers = ["latest"]
+specifiers = [
+    "1.7.12",
+    "latest",
+]
 
 [tools.actionlint."platforms.linux-arm64"]
 checksum = "sha256:325e971b6ba9bfa504672e29be93c24981eeb1c07576d730e9f7c8805afff0c6"
@@ -76,7 +79,10 @@ provenance = "github-attestations"
 [[tools."aqua:biomejs/biome"]]
 version = "2.5.11"
 backend = "aqua:biomejs/biome"
-specifiers = ["latest"]
+specifiers = [
+    "2.5.11",
+    "latest",
+]
 
 [tools."aqua:biomejs/biome"."platforms.linux-arm64"]
 checksum = "sha256:b1e422c4cf5de788553f612b3952deadd6cb7669b35659197af14c4b1f763fab"
@@ -147,7 +153,10 @@ provenance = "github-attestations"
 [[tools."aqua:crate-ci/typos"]]
 version = "1.50.0"
 backend = "aqua:crate-ci/typos"
-specifiers = ["latest"]
+specifiers = [
+    "1.50.0",
+    "latest",
+]
 
 [tools."aqua:crate-ci/typos"."platforms.linux-arm64"]
 checksum = "sha256:a520651f52199efc91a27aa2b82362e93d50e7d96386d3d48b28c2ad06b9ae4e"
@@ -207,7 +216,10 @@ url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/534129526
 [[tools."aqua:nektos/act"]]
 version = "0.2.89"
 backend = "aqua:nektos/act"
-specifiers = ["latest"]
+specifiers = [
+    "0.2.89",
+    "latest",
+]
 
 [tools."aqua:nektos/act"."platforms.linux-arm64"]
 checksum = "sha256:daa8679ba9615a74d2d0cec321dc593f21948a2a11bb65862b063d8b930f4bcb"
@@ -267,7 +279,10 @@ url_api = "https://api.github.com/repos/nektos/act/releases/assets/434891261"
 [[tools."aqua:zizmorcore/zizmor"]]
 version = "1.29.0"
 backend = "aqua:zizmorcore/zizmor"
-specifiers = ["latest"]
+specifiers = [
+    "1.29.0",
+    "latest",
+]
 
 [tools."aqua:zizmorcore/zizmor"."platforms.linux-arm64"]
 checksum = "sha256:415eaa7c0a06479a701b8e44a3e812c1047decc848ec4bede7bd6bbf49f22d20"
@@ -329,7 +344,10 @@ provenance = "github-attestations"
 [[tools.bun]]
 version = "1.4.0"
 backend = "core:bun"
-specifiers = ["latest"]
+specifiers = [
+    "1.4.0",
+    "latest",
+]
 
 [tools.bun."platforms.linux-arm64"]
 checksum = "sha256:4b1a332ee861983eb93bcfe6f770fff94e3e31b2c388bdaea3c8ed35e58eed0e"
@@ -378,7 +396,10 @@ url = "https://github.com/oven-sh/bun/releases/download/bun-v1.4.0/bun-windows-x
 [[tools.hadolint]]
 version = "2.15.1"
 backend = "aqua:hadolint/hadolint"
-specifiers = ["latest"]
+specifiers = [
+    "2.15.1",
+    "latest",
+]
 
 [tools.hadolint."platforms.linux-arm64"]
 checksum = "sha256:f6198ef8090f404dbb771abfee086eb8c48ac177f30da7fd3510aca35b344b5d"
@@ -449,7 +470,10 @@ provenance = "github-attestations"
 [[tools.hk]]
 version = "1.56.1"
 backend = "aqua:jdx/hk"
-specifiers = ["latest"]
+specifiers = [
+    "1.56.1",
+    "latest",
+]
 
 [tools.hk."platforms.linux-arm64"]
 checksum = "sha256:cd671706a273dac35b012fd585a0fba1b0c0f340558dccfd4c9a4b976a794597"
@@ -499,12 +523,18 @@ url_api = "https://api.github.com/repos/jdx/hk/releases/assets/525632118"
 [[tools.markdownlint-cli2]]
 version = "0.23.2"
 backend = "npm:markdownlint-cli2"
-specifiers = ["latest"]
+specifiers = [
+    "0.23.2",
+    "latest",
+]
 
 [[tools.node]]
 version = "24.20.0"
 backend = "core:node"
-specifiers = ["24"]
+specifiers = [
+    "24",
+    "24.20.0",
+]
 
 [tools.node."platforms.linux-arm64"]
 checksum = "sha256:3515603e2487879a39bc75716f1a2affd027500c64ba50e845cf72cb33219013"
@@ -553,27 +583,42 @@ url = "https://nodejs.org/dist/v24.20.0/node-v24.20.0-win-x64.zip"
 [[tools."npm:@commitlint/cli"]]
 version = "21.2.2"
 backend = "npm:@commitlint/cli"
-specifiers = ["latest"]
+specifiers = [
+    "21.2.2",
+    "latest",
+]
 
 [[tools."npm:@devcontainers/cli"]]
 version = "0.88.0"
 backend = "npm:@devcontainers/cli"
-specifiers = ["latest"]
+specifiers = [
+    "0.88.0",
+    "latest",
+]
 
 [[tools."npm:renovate"]]
 version = "44.51.0"
 backend = "npm:renovate"
-specifiers = ["latest"]
+specifiers = [
+    "44.51.0",
+    "latest",
+]
 
 [[tools."npm:tombi"]]
 version = "1.5.0"
 backend = "npm:tombi"
-specifiers = ["latest"]
+specifiers = [
+    "1.5.0",
+    "latest",
+]
 
 [[tools.pitchfork]]
 version = "2.23.0"
 backend = "aqua:jdx/pitchfork"
-specifiers = ["latest"]
+specifiers = [
+    "2.23.0",
+    "latest",
+]
 
 [tools.pitchfork."platforms.linux-arm64"]
 checksum = "sha256:f3917d35991bb5c1bcb9e0f40f21ade55c2b9d2a81c580e8035ea5cbf24d2820"
@@ -608,7 +653,10 @@ url_api = "https://api.github.com/repos/jdx/pitchfork/releases/assets/530657294"
 [[tools.pkl]]
 version = "0.32.1"
 backend = "aqua:apple/pkl"
-specifiers = ["latest"]
+specifiers = [
+    "0.32.1",
+    "latest",
+]
 
 [tools.pkl."platforms.linux-arm64"]
 checksum = "sha256:a76d2dd47da435a8f911b0347373f47c7e59ea54fb75ff846d20b8df10dba058"
@@ -668,4 +716,7 @@ url_api = "https://api.github.com/repos/apple/pkl/releases/assets/487426668"
 [[tools.yamllint]]
 version = "1.38.0"
 backend = "pipx:yamllint"
-specifiers = ["latest"]
+specifiers = [
+    "1.38.0",
+    "latest",
+]

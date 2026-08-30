@@ -1,7 +1,4 @@
 [tools]
-"aqua:nushell/nushell" = "latest"
-"aqua:protonpass/pass-cli" = "latest"
-fnox = "latest"
-
-[settings]
-minimum_release_age = "0"
+'aqua:nushell/nushell' = '0.115.1'
+'aqua:protonpass/pass-cli' = '2.3.3'
+fnox = '1.34.1'
