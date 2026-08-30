@@ -1,6 +1,6 @@
 #!/usr/bin/env nu
 
-def main [...cmd] {
+def --wrapped main [...cmd] {
   let creds = (fnox get PROTON_PASS_CREDENTIALS | complete)
   if $creds.exit_code == 0 and ($creds.stdout | str trim) == "true" {
     let pat = $env.OMNIROUTE_PROTON_PASS_PAT? | default "" | str trim

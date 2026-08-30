@@ -1,21 +1,27 @@
-FROM docker.io/diegosouzapw/omniroute:3.8.50@sha256:085c57adf499a8aaa9f35ccde95c0df9c11bd9ecd18d6c9edbf3b68b8079ba9d AS tools
+FROM cgr.dev/chainguard/wolfi-base:latest@sha256:03c6561658909fc4eadd0b2dc717375df40a22cc05455b8f82f1f1974e7e4427 AS tools
 
 USER 0:0
 
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
-# hadolint ignore=DL3008
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends curl ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache \
+        ca-certificates-bundle=20260611-r0 \
+        curl=8.21.0-r2 \
+        shadow=4.20.2-r1
 
-RUN curl -fsSL https://mise.run | sh -s -- -y \
-    && test -x /root/.local/bin/mise \
-    && install -m 0755 /root/.local/bin/mise /usr/local/bin/mise \
-    && rm -rf /root/.local
+RUN mkdir -p /usr/local/bin /home/node \
+    && groupadd -g 1000 node \
+    && useradd -u 1000 -g 1000 -d /home/node node \
+    && chown -R 1000:1000 /home/node
+
+ENV MISE_VERSION=2026.8.14
+
+RUN curl -fsSL https://mise.run | MISE_VERSION="v${MISE_VERSION}" MISE_INSTALL_PATH=/usr/local/bin/mise sh \
+    && test -x /usr/local/bin/mise
 
 COPY --chown=1000:1000 .mise.toml .mise.container.toml /app/
 
+ENV HOME=/home/node
 ENV MISE_TRUSTED_CONFIG_PATHS=/app
 ENV MISE_ENV=container
 ENV PATH=/home/node/.local/share/mise/shims:${PATH}
