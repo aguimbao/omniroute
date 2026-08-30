@@ -22,3 +22,4 @@ REQUIRE_API_KEY = { default = 'true' }
 
 [profiles.omniroute-dev.secrets]
 RENOVATE_TOKEN = { provider = 'protonpass', value = 'Dev/GITHUB/ADMIN_PAT' }
+GH_TOKEN = { provider = 'protonpass', value = 'Dev/GITHUB/ADMIN_PAT' }

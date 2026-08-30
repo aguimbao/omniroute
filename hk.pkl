@@ -8,23 +8,30 @@ local linters = new Mapping<String, Step> {
     ["check-executables-have-shebangs"] = Builtins.check_executables_have_shebangs
     ["check-merge-conflict"] = Builtins.check_merge_conflict
     ["hadolint"] = (Builtins.hadolint) {
-        glob = new Listing<String> { "Containerfile*" }
+        glob = List("Containerfile*", ".devcontainer/Containerfile*")
+    }
+    ["markdownlint"] {
+        glob = List("**/*.md", "**/*.markdown")
+        check = "markdownlint-cli2 {{files}}"
+        fix = "markdownlint-cli2 --fix {{files}}"
     }
     ["newlines"] = Builtins.newlines
+    ["pkl"] = Builtins.pkl
     ["tombi"] = Builtins.tombi
     ["trailing-whitespace"] = Builtins.trailing_whitespace
     ["typos"] = Builtins.typos
+    ["yamllint"] = Builtins.yamllint
     ["zizmor"] = Builtins.zizmor
     ["nu-check"] {
-        glob = new Listing<String> { "*.nu" }
+        glob = "*.nu"
         check = "nu --commands 'open {{files}} | nu-check'"
     }
     ["mise-lock"] {
-        glob = new Listing<String> { ".mise*.toml", "mise*.lock" }
+        glob = List(".mise*.toml", "mise*.lock")
         check = "mise lock"
     }
     ["renovate-config-validator"] {
-        glob = new Listing<String> { "renovate.json", ".github/renovate.json" }
+        glob = List("renovate.json", ".github/renovate.json")
         check = "renovate-config-validator --strict {{files}}"
     }
 }

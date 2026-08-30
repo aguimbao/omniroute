@@ -13,6 +13,9 @@ bun = 'latest'
 'npm:@commitlint/cli' = 'latest'
 'npm:renovate' = 'latest'
 'npm:@devcontainers/cli' = 'latest'
+markdownlint-cli2 = 'latest'
+yamllint = 'latest'
+pkl = 'latest'
 
 [settings]
 npm.package_manager = 'bun'
@@ -284,11 +287,11 @@ run = 'DOCKER_HOST="${DOCKER_HOST:-unix://${XDG_RUNTIME_DIR:-/run/user/$(id -u)}
 
 [tasks.lint]
 description = 'Run all code quality checks via hk'
-run = 'hk check --all'
+run = 'fnox exec -P omniroute-dev -- hk check --all'
 
 [tasks.fmt]
 description = 'Fix formatting and linting errors via hk'
-run = 'hk fix --all'
+run = 'fnox exec -P omniroute-dev -- hk fix --all'
 
 [tasks.setup]
 description = 'Install toolchains and setup git hooks. Pass --pass-cli-login to log into Proton Pass.'
