@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/aguimbao/omniroute/compare/v1.5.2...v1.6.0) (2026-08-31)
+
+
+### Features
+
+* **ci:** authenticate via github app and auto-sign release-please commits ([#73](https://github.com/aguimbao/omniroute/issues/73)) ([3e91961](https://github.com/aguimbao/omniroute/commit/3e91961b43a55754d6a30fa142f540fd8bbbb663))
+
 ## [1.5.2](https://github.com/aguimbao/omniroute/compare/v1.5.1...v1.5.2) (2026-08-31)
 
 
