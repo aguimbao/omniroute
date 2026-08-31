@@ -9,6 +9,7 @@
     ":semanticCommitScope(deps)"
   ],
   "dependencyDashboard": true,
+  "dependencyDashboardAutoclose": true,
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
   "labels": ["dependencies"],
