@@ -8,7 +8,6 @@
     ":semanticPrefixChore",
     ":semanticCommitScope(deps)"
   ],
-  "commitMessageSuffix": "[skip ci]",
   "dependencyDashboard": true,
   "prHourlyLimit": 0,
   "prConcurrentLimit": 0,
