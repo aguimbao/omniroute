@@ -591,9 +591,9 @@ specifiers = [
 ]
 
 [[tools."npm:renovate"]]
-version = "44.52.0"
+version = "44.52.1"
 backend = "npm:renovate"
-specifiers = ["44.52.0"]
+specifiers = ["44.52.1"]
 
 [tools."npm:renovate".options]
 bun_args = "--trust"
