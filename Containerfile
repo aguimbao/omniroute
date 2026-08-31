@@ -14,7 +14,7 @@ RUN mkdir -p /usr/local/bin /home/node \
     && useradd -u 1000 -g 1000 -d /home/node node \
     && chown -R 1000:1000 /home/node
 
-ENV MISE_VERSION=2026.8.14
+ENV MISE_VERSION=2026.8.15
 
 RUN curl -fsSL https://mise.run | MISE_VERSION="v${MISE_VERSION}" MISE_INSTALL_PATH=/usr/local/bin/mise sh \
     && test -x /usr/local/bin/mise
