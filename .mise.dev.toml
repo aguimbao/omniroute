@@ -1,5 +1,5 @@
 [tools]
-hk = { version = '1.56.1', postinstall = 'hk install' }
+hk = { version = '1.57.0', postinstall = 'hk install' }
 pitchfork = '2.23.0'
 actionlint = '1.7.12'
 hadolint = '2.15.1'
