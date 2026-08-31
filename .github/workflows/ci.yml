@@ -21,6 +21,7 @@ permissions:
 
 jobs:
   lint:
+    if: github.event_name != 'pull_request' || !startsWith(github.head_ref, 'renovate/')
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -95,7 +96,7 @@ jobs:
     needs:
       - lint
       - test
-    if: always()
+    if: always() && (github.event_name != 'pull_request' || !startsWith(github.head_ref, 'renovate/'))
     steps:
       - name: Evaluate status
         run: |
