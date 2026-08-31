@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.2](https://github.com/aguimbao/omniroute/compare/v1.5.1...v1.5.2) (2026-08-31)
+
+
+### Bug Fixes
+
+* **ci:** parse inner secrets object from fnox json export ([#71](https://github.com/aguimbao/omniroute/issues/71)) ([7e0c44b](https://github.com/aguimbao/omniroute/commit/7e0c44b1ba4f5038cbe7c751fa667f09713e0b3f))
+
 ## [1.5.1](https://github.com/aguimbao/omniroute/compare/v1.5.0...v1.5.1) (2026-08-30)
 
 
