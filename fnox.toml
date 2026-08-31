@@ -22,6 +22,5 @@ REQUIRE_API_KEY = { default = 'true' }
 
 [profiles.omniroute-dev.secrets]
 RENOVATE_TOKEN = { provider = 'protonpass', value = 'Dev/GITHUB/ADMIN_PAT' }
-GH_PAT = { provider = 'protonpass', value = 'Dev/GITHUB/ADMIN_PAT' }
-RENOVATE_GIT_PRIVATE_KEY = { provider = 'protonpass', value = 'Dev/GITHUB/SSH_KEY_RENOVATE_SIGNING_KEY_PRIVATE_KEY' }
-RENOVATE_GIT_PRIVATE_KEY_PASSPHRASE = { provider = 'protonpass', value = 'Dev/GITHUB/SSH_KEY_RENOVATE_SIGNING_KEY_PASSWORD' }
+GH_APP_ID = { provider = 'protonpass', value = 'Dev/GITHUB/APP_AGUIMBAO_CI_ID' }
+GH_APP_PRIVATE_KEY = { provider = 'protonpass', value = 'Dev/GITHUB/APP_AGUIMBAO_CI_PRIVATE_KEY' }
