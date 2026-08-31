@@ -21,7 +21,6 @@ permissions:
 
 jobs:
   lint:
-    if: github.event_name != 'pull_request' || !startsWith(github.head_ref, 'renovate/')
     runs-on: ubuntu-24.04
     permissions:
       contents: read
