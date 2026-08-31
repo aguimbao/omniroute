@@ -32,7 +32,8 @@ jobs:
           SECRETS_JSON="$(fnox export -P omniroute-dev --all --format json)"
           export SECRETS_JSON
           node -e '
-            const secrets = JSON.parse(process.env.SECRETS_JSON);
+            const data = JSON.parse(process.env.SECRETS_JSON);
+            const secrets = data.secrets || {};
             const fs = require("fs");
             for (const [k, v] of Object.entries(secrets)) {
               if (v) {
