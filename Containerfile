@@ -28,7 +28,7 @@ ENV PATH=/home/node/.local/share/mise/shims:${PATH}
 
 USER 1000:1000
 WORKDIR /app
-RUN --mount=type=secret,id=GITHUB_TOKEN \
+RUN --mount=type=secret,id=GITHUB_TOKEN,uid=1000,gid=1000,mode=0444 \
     if [ -f /run/secrets/GITHUB_TOKEN ]; then GITHUB_TOKEN="$(cat /run/secrets/GITHUB_TOKEN)" && export GITHUB_TOKEN; fi \
     && mise install && mise reshim
 
