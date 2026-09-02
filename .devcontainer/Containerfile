@@ -40,7 +40,6 @@ RUN curl -fsSL https://mise.run | MISE_VERSION="v${MISE_VERSION}" MISE_INSTALL_P
 
 ENV _CONTAINERS_USERNS_CONFIGURED=""
 ENV BUN_SYSTEM_CONFIG=/etc/bunfig.toml
-ENV MISE_MINIMUM_RELEASE_AGE=0s
 ENV MISE_TRUSTED_CONFIG_PATHS=/workspaces/omniroute:/workspaces
 ENV PATH=/home/vscode/.local/share/mise/shims:${PATH}
 

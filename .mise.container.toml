@@ -26,6 +26,8 @@ const FREE_PROVIDERS = [
     {id: "devin-cli-agentic", alias: "dca"}
 ]
 
+const MODEL_COMBOS = []
+
 def usable [raw: string] {
     let v = $raw | str trim
     if ($v | is-empty) { return false }
@@ -164,6 +166,60 @@ def do-provision [] {
     }
     if not $done {
         error make { msg: "blocking free-providers failed after 5 attempts" }
+    }
+
+    mut existing_combos = []
+    for combo_list_try in 1..5 {
+        try {
+            $existing_combos = (http get --headers $headers $"($base)/api/combos" | get -o combos | default [])
+            break
+        } catch {|err|
+            print $"[provision] list combos attempt ($combo_list_try)/5 FAILED — ($err.msg | str substring 0..800)"
+            if $combo_list_try < 5 { sleep 2sec }
+        }
+    }
+
+    for mc in $MODEL_COMBOS {
+        let matches = ($existing_combos | where {|c| ($c | get -o name | default "") == $mc.name})
+        let body = {
+            name: $mc.name
+            strategy: "priority"
+            models: [$mc.target]
+        }
+        if ($matches | is-not-empty) {
+            let cid = (($matches | get 0) | get -o id)
+            mut updated = false
+            for upd_try in 1..5 {
+                try {
+                    http put --content-type application/json --headers $headers $"($base)/api/combos/($cid)" $body
+                    print $"[provision] combo '($mc.name)': updated"
+                    $updated = true
+                    break
+                } catch {|err|
+                    print $"[provision] combo '($mc.name)': update attempt ($upd_try)/5 FAILED — ($err.msg | str substring 0..800)"
+                    if $upd_try < 5 { sleep 2sec }
+                }
+            }
+            if not $updated {
+                print $"[provision] combo '($mc.name)': update FAILED after 5 attempts"
+            }
+        } else {
+            mut created = false
+            for crt_try in 1..5 {
+                try {
+                    http post --content-type application/json --headers $headers $"($base)/api/combos" $body
+                    print $"[provision] combo '($mc.name)': created"
+                    $created = true
+                    break
+                } catch {|err|
+                    print $"[provision] combo '($mc.name)': create attempt ($crt_try)/5 FAILED — ($err.msg | str substring 0..800)"
+                    if $crt_try < 5 { sleep 2sec }
+                }
+            }
+            if not $created {
+                print $"[provision] combo '($mc.name)': creation FAILED after 5 attempts"
+            }
+        }
     }
 }
 
