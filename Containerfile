@@ -19,7 +19,7 @@ ENV MISE_VERSION=2026.8.15
 RUN curl -fsSL https://mise.run | MISE_VERSION="v${MISE_VERSION}" MISE_INSTALL_PATH=/usr/local/bin/mise sh \
     && test -x /usr/local/bin/mise
 
-COPY --chown=1000:1000 .mise.toml .mise.container.toml /app/
+COPY --chown=1000:1000 .mise.toml .mise.container.toml mise.lock /app/
 
 ENV HOME=/home/node
 ENV MISE_TRUSTED_CONFIG_PATHS=/app
@@ -28,7 +28,9 @@ ENV PATH=/home/node/.local/share/mise/shims:${PATH}
 
 USER 1000:1000
 WORKDIR /app
-RUN mise install && mise reshim
+RUN --mount=type=secret,id=GITHUB_TOKEN \
+    if [ -f /run/secrets/GITHUB_TOKEN ]; then GITHUB_TOKEN="$(cat /run/secrets/GITHUB_TOKEN)" && export GITHUB_TOKEN; fi \
+    && mise install && mise reshim
 
 FROM docker.io/diegosouzapw/omniroute:3.8.50@sha256:085c57adf499a8aaa9f35ccde95c0df9c11bd9ecd18d6c9edbf3b68b8079ba9d
 
@@ -40,7 +42,7 @@ LABEL org.opencontainers.image.title="omniroute" \
 COPY --from=tools /usr/local/bin/mise /usr/local/bin/mise
 COPY --from=tools --chown=1000:1000 /home/node/.local/share/mise /home/node/.local/share/mise
 
-COPY --chown=1000:1000 .mise.toml .mise.container.toml /app/
+COPY --chown=1000:1000 .mise.toml .mise.container.toml mise.lock /app/
 COPY --chmod=755 entrypoint.nu /app/entrypoint.nu
 
 ENV MISE_TRUSTED_CONFIG_PATHS=/app
