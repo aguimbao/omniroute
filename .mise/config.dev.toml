@@ -1,6 +1,5 @@
 [tools]
 'aqua:nektos/act' = '0.2.89'
-'npm:renovate' = { version = '44.52.1', bun_args = '--trust' }
 'npm:@devcontainers/cli' = '0.88.0'
 
 [env]

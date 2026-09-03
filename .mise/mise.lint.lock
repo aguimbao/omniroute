@@ -269,6 +269,14 @@ version = "21.2.2"
 backend = "npm:@commitlint/cli"
 specifiers = ["21.2.2"]
 
+[[tools."npm:renovate"]]
+version = "44.52.1"
+backend = "npm:renovate"
+specifiers = ["44.52.1"]
+
+[tools."npm:renovate".options]
+bun_args = "--trust"
+
 [[tools."npm:tombi"]]
 version = "1.5.0"
 backend = "npm:tombi"
