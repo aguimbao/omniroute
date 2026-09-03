@@ -40,9 +40,8 @@ jobs:
             container:
               - 'Containerfile*'
               - 'entrypoint.nu'
-              - '.mise.toml'
-              - '.mise.container.toml'
-              - 'mise.lock'
+              - '.miserc.toml'
+              - '.mise/**'
               - 'fnox.toml'
               - 'pitchfork.toml'
               - '.github/workflows/ci.yml'
@@ -54,13 +53,19 @@ jobs:
           install: false
 
       - name: Setup tools
+        env:
+          MISE_ENV: 'nushell,setup,node,lint'
         run: mise run setup
 
       - name: Check code
+        env:
+          MISE_ENV: 'nushell,node,lint'
         run: mise run lint
 
       - name: Validate commit messages
         if: github.event_name == 'pull_request'
+        env:
+          MISE_ENV: 'node,lint'
         run: commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }}
 
   test:
@@ -83,10 +88,13 @@ jobs:
 
       - name: Setup tools
         env:
+          MISE_ENV: 'nushell,proton-pass,fnox,setup,orchestration,app'
           PROTON_PASS_PERSONAL_ACCESS_TOKEN: ${{ secrets.PROTON_PASS_PERSONAL_ACCESS_TOKEN }}
         run: mise run setup --pass-cli-login
 
       - name: Run container tests
+        env:
+          MISE_ENV: 'nushell,proton-pass,fnox,setup,orchestration,app'
         run: mise run test
 
   ci-gate:

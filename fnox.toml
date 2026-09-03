@@ -3,24 +3,29 @@ env = 'exec'
 [providers.protonpass]
 type = 'proton-pass'
 
-[secrets]
+[profiles.omniroute-proton-pass.secrets]
 PROTON_PASS_CREDENTIALS = { default = 'true' }
 OMNIROUTE_PROTON_PASS_PAT = { provider = 'protonpass', value = 'Dev/PROTON/PASS_DEV_VIEWER_PAT' }
 
-[profiles.omniroute-container.secrets]
+[profiles.omniroute-app.secrets]
 JWT_SECRET = { provider = 'protonpass', value = 'Dev/OMNIROUTE/JWT_SECRET' }
 STORAGE_ENCRYPTION_KEY = { provider = 'protonpass', value = 'Dev/OMNIROUTE/STORAGE_ENCRYPTION_KEY' }
+STORAGE_ENCRYPTION_KEY_VERSION = { default = 'v1' }
 API_KEY_SECRET = { provider = 'protonpass', value = 'Dev/OMNIROUTE/API_KEY_SECRET' }
 INITIAL_PASSWORD = { provider = 'protonpass', value = 'Dev/OMNIROUTE/INITIAL_PASSWORD' }
+REQUIRE_API_KEY = { default = 'true' }
 OMNIROUTE_API_KEY = { provider = 'protonpass', value = 'Dev/OMNIROUTE/API_KEY' }
 DIGITALOCEAN_API_KEY = { provider = 'protonpass', value = 'Dev/DIGITALOCEAN/API_KEY' }
 OPENROUTER_API_KEY = { provider = 'protonpass', value = 'Dev/OPENROUTER/API_KEY' }
 OPENCODE_ZEN_API_KEY = { provider = 'protonpass', value = 'Dev/OPENCODE/API_KEY' }
 NVIDIA_NIM_API_KEY = { provider = 'protonpass', value = 'Dev/NVIDIA_NIM/API_KEY' }
-STORAGE_ENCRYPTION_KEY_VERSION = { default = 'v1' }
-REQUIRE_API_KEY = { default = 'true' }
 
-[profiles.omniroute-dev.secrets]
+[profiles.omniroute-github.secrets]
+GITHUB_TOKEN = { provider = 'protonpass', value = 'Dev/GITHUB/ADMIN_PAT' }
+
+[profiles.omniroute-renovate.secrets]
 RENOVATE_TOKEN = { provider = 'protonpass', value = 'Dev/GITHUB/ADMIN_PAT' }
+
+[profiles.omniroute-github-app.secrets]
 GH_APP_ID = { provider = 'protonpass', value = 'Dev/GITHUB/APP_AGUIMBAO_CI_ID' }
 GH_APP_PRIVATE_KEY = { provider = 'protonpass', value = 'Dev/GITHUB/APP_AGUIMBAO_CI_PRIVATE_KEY' }

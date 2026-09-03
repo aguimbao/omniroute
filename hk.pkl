@@ -27,7 +27,7 @@ local linters = new Mapping<String, Step> {
         check = "nu --commands 'open {{files}} | nu-check'"
     }
     ["mise-lock"] {
-        glob = List(".mise*.toml", "mise*.lock")
+        glob = List(".miserc.toml", ".mise/**/*.toml", ".mise/**/*.lock")
         check = "mise lock"
     }
     ["renovate-config-validator"] {

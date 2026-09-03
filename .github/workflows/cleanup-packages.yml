@@ -28,13 +28,16 @@ jobs:
 
       - name: Setup tools
         env:
+          MISE_ENV: 'nushell,proton-pass,fnox,setup'
           PROTON_PASS_PERSONAL_ACCESS_TOKEN: ${{ secrets.PROTON_PASS_PERSONAL_ACCESS_TOKEN }}
         run: mise run setup --pass-cli-login
 
       - name: Fetch token from Proton Pass
         id: fnox-token
+        env:
+          MISE_ENV: 'nushell,proton-pass,fnox'
         run: |
-          token=$(fnox get RENOVATE_TOKEN -P omniroute-dev)
+          token=$(fnox get RENOVATE_TOKEN -P omniroute-proton-pass,omniroute-renovate)
           echo "::add-mask::$token"
           echo "token=$token" >> "$GITHUB_OUTPUT"
 

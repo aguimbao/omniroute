@@ -1,7 +1,7 @@
 #!/usr/bin/env nu
 
 def --wrapped main [...cmd] {
-  let creds = (fnox get PROTON_PASS_CREDENTIALS | complete)
+  let creds = (fnox get PROTON_PASS_CREDENTIALS -P omniroute-proton-pass | complete)
   if $creds.exit_code == 0 and ($creds.stdout | str trim) == "true" {
     let pat = $env.OMNIROUTE_PROTON_PASS_PAT? | default "" | str trim
     if ($pat | is-empty) {
@@ -19,7 +19,7 @@ def --wrapped main [...cmd] {
     }
   }
 
-  let exported = (fnox export --all --profile omniroute-container --format json | complete)
+  let exported = (fnox export --all --profile omniroute-app --format json | complete)
   if $exported.exit_code != 0 {
     print -e "FATAL: fnox export failed"
     print -e $exported.stderr

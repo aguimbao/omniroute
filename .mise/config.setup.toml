@@ -1,0 +1,17 @@
+[tasks.setup]
+description = 'Install toolchains and setup git hooks. Pass --pass-cli-login to log into Proton Pass.'
+shell = 'nu -c'
+usage = '''
+flag "-p --pass-cli-login" help="Log in to Proton Pass via pass-cli"
+'''
+run = '''
+mise install node bun
+mise install
+
+let do_login = (($env.usage_pass_cli_login? | default "false") == "true")
+if $do_login {
+  if (pass-cli info | complete | get exit_code) != 0 {
+    pass-cli login
+  }
+}
+'''
