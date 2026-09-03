@@ -2,15 +2,15 @@
 run = "podman run --replace --name omniroute-redis --network omniroute-net -p 127.0.0.1:6379:6379 -v omniroute-redis-data:/data docker.io/library/redis:alpine@sha256:9c3ecc609a8087c0f11c494fefaf37a8f7bf9a967631d4a0da8967a9810be354 redis-server --save 60 1 --loglevel warning"
 ready_cmd = "podman exec omniroute-redis redis-cli ping | grep -q PONG"
 
-[daemons.omniroute-omniroute]
+[daemons.omniroute-app]
 depends = ["omniroute-redis"]
 dir = "."
-ready_cmd = "podman healthcheck run omniroute-omniroute"
+ready_cmd = "podman healthcheck run omniroute-app"
 run = '''
 nu -c '
-let creds = (fnox get PROTON_PASS_CREDENTIALS | complete)
+let creds = (fnox get PROTON_PASS_CREDENTIALS -P omniroute-proton-pass | complete)
 let pat_args = if ($creds.exit_code == 0 and ($creds.stdout | str trim) == "true") {
-  let resolved = (fnox get OMNIROUTE_PROTON_PASS_PAT | complete)
+  let resolved = (fnox get OMNIROUTE_PROTON_PASS_PAT -P omniroute-proton-pass | complete)
   if $resolved.exit_code == 0 {
     ["-e", $"OMNIROUTE_PROTON_PASS_PAT=($resolved.stdout | str trim)"]
   } else {
@@ -19,23 +19,23 @@ let pat_args = if ($creds.exit_code == 0 and ($creds.stdout | str trim) == "true
 } else {
   []
 }
-podman run --replace --name omniroute-omniroute --network omniroute-net --stop-timeout 40 --health-cmd "node healthcheck.mjs" --health-interval 30s --health-timeout 5s --health-retries 3 --health-start-period 15s -e NODE_ENV=production -e DATA_DIR=/app/data -e REDIS_URL=redis://omniroute-redis:6379 -e LIVE_WS_HOST=0.0.0.0 -e LIVE_WS_ALLOWED_ORIGINS=http://localhost:20128,http://127.0.0.1:20128 -p 20128:20128 -p 20132:20132 -v omniroute-data:/app/data -v $"($env.PWD)/fnox.toml:/app/fnox.toml:ro,Z" ...$pat_args localhost/omniroute:latest
+podman run --replace --name omniroute-app --network omniroute-net --stop-timeout 40 --health-cmd "node healthcheck.mjs" --health-interval 30s --health-timeout 5s --health-retries 3 --health-start-period 15s -e NODE_ENV=production -e DATA_DIR=/app/data -e REDIS_URL=redis://omniroute-redis:6379 -e LIVE_WS_HOST=0.0.0.0 -e LIVE_WS_ALLOWED_ORIGINS=http://localhost:20128,http://127.0.0.1:20128 -p 20128:20128 -p 20132:20132 -v omniroute-app-data:/app/data -v $"($env.PWD)/fnox.toml:/app/fnox.toml:ro,Z" ...$pat_args localhost/omniroute:latest
 '
 '''
 
-[daemons.omniroute-dev-redis]
-run = "podman run --replace --name omniroute-dev-redis --network omniroute-dev-net -p 127.0.0.1:6389:6379 -v omniroute-dev-redis-data:/data docker.io/library/redis:alpine@sha256:9c3ecc609a8087c0f11c494fefaf37a8f7bf9a967631d4a0da8967a9810be354 redis-server --save 60 1 --loglevel warning"
-ready_cmd = "podman exec omniroute-dev-redis redis-cli ping | grep -q PONG"
+[daemons.omniroute-test-redis]
+run = "podman run --replace --name omniroute-test-redis --network omniroute-test-net -p 127.0.0.1:6389:6379 -v omniroute-test-redis-data:/data docker.io/library/redis:alpine@sha256:9c3ecc609a8087c0f11c494fefaf37a8f7bf9a967631d4a0da8967a9810be354 redis-server --save 60 1 --loglevel warning"
+ready_cmd = "podman exec omniroute-test-redis redis-cli ping | grep -q PONG"
 
-[daemons.omniroute-dev-omniroute]
-depends = ["omniroute-dev-redis"]
+[daemons.omniroute-test-app]
+depends = ["omniroute-test-redis"]
 dir = "."
-ready_cmd = "podman healthcheck run omniroute-dev-omniroute"
+ready_cmd = "podman healthcheck run omniroute-test-app"
 run = '''
 nu -c '
-let creds = (fnox get PROTON_PASS_CREDENTIALS | complete)
+let creds = (fnox get PROTON_PASS_CREDENTIALS -P omniroute-proton-pass | complete)
 let pat_args = if ($creds.exit_code == 0 and ($creds.stdout | str trim) == "true") {
-  let resolved = (fnox get OMNIROUTE_PROTON_PASS_PAT | complete)
+  let resolved = (fnox get OMNIROUTE_PROTON_PASS_PAT -P omniroute-proton-pass | complete)
   if $resolved.exit_code == 0 {
     ["-e", $"OMNIROUTE_PROTON_PASS_PAT=($resolved.stdout | str trim)"]
   } else {
@@ -44,6 +44,6 @@ let pat_args = if ($creds.exit_code == 0 and ($creds.stdout | str trim) == "true
 } else {
   []
 }
-podman run --replace --name omniroute-dev-omniroute --network omniroute-dev-net --stop-timeout 40 --health-cmd "node healthcheck.mjs" --health-interval 30s --health-timeout 5s --health-retries 3 --health-start-period 15s -e NODE_ENV=production -e DATA_DIR=/app/data -e REDIS_URL=redis://omniroute-dev-redis:6379 -e LIVE_WS_HOST=0.0.0.0 -e LIVE_WS_ALLOWED_ORIGINS=http://localhost:20228,http://127.0.0.1:20228 -p 20228:20128 -p 20232:20132 -v omniroute-dev-data:/app/data -v $"($env.PWD)/fnox.toml:/app/fnox.toml:ro,Z" ...$pat_args localhost/omniroute:dev
+podman run --replace --name omniroute-test-app --network omniroute-test-net --stop-timeout 40 --health-cmd "node healthcheck.mjs" --health-interval 30s --health-timeout 5s --health-retries 3 --health-start-period 15s -e NODE_ENV=production -e DATA_DIR=/app/data -e REDIS_URL=redis://omniroute-test-redis:6379 -e LIVE_WS_HOST=0.0.0.0 -e LIVE_WS_ALLOWED_ORIGINS=http://localhost:20228,http://127.0.0.1:20228 -p 20228:20128 -p 20232:20132 -v omniroute-test-app-data:/app/data -v $"($env.PWD)/fnox.toml:/app/fnox.toml:ro,Z" ...$pat_args localhost/omniroute:test
 '
 '''

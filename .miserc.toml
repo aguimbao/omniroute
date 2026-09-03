@@ -1,1 +1,10 @@
-env = ["dev"]
+env = [
+  "nushell",
+  "proton-pass",
+  "fnox",
+  "setup",
+  "node",
+  "lint",
+  "orchestration",
+  "dev",
+]

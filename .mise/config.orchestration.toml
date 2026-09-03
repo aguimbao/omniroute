@@ -1,32 +1,13 @@
 [tools]
-hk = { version = '1.57.0', postinstall = 'hk install' }
 pitchfork = '2.23.0'
-actionlint = '1.7.12'
-hadolint = '2.15.1'
-'aqua:nektos/act' = '0.2.89'
-'aqua:biomejs/biome' = '2.5.11'
-'aqua:zizmorcore/zizmor' = '1.30.0'
-'aqua:crate-ci/typos' = '1.50.0'
-node = '24.20.0'
-bun = '1.4.0'
-'npm:tombi' = '1.5.0'
-'npm:@commitlint/cli' = '21.2.2'
-'npm:renovate' = { version = '44.52.1', bun_args = '--trust' }
-'npm:@devcontainers/cli' = '0.88.0'
-markdownlint-cli2 = '0.23.2'
-yamllint = '1.38.0'
-pkl = '0.32.1'
-
-[settings]
-npm.package_manager = 'bun'
 
 [tasks.up]
-description = 'Create stack resources and start daemons via pitchfork. Supports pull/build and dev isolation'
+description = 'Create stack resources and start daemons via pitchfork. Supports pull/build and test isolation'
 shell = 'nu -c'
 usage = '''
 flag "-b --build" help="Build Omniroute image locally instead of pulling"
 flag "-n --no-cache" help="Bypass cache for local image build"
-flag "-d --dev" help="Use dev isolated stack (omniroute-dev-*)"
+flag "-t --test" help="Use test isolated stack (omniroute-test-*)"
 flag "-f --force-restart" help="Restart daemons if already running"
 '''
 run = '''
@@ -46,15 +27,18 @@ def image-exists [name: string] {
 
 let build_requested = (($env.usage_build? | default "false") == "true")
 let no_cache = (($env.usage_no_cache? | default "false") == "true")
-let is_dev = (($env.usage_dev? | default "false") == "true")
+let is_test = (($env.usage_test? | default "false") == "true")
 let is_force = (($env.usage_force_restart? | default "false") == "true")
 let force_args = if $is_force { ["--force"] } else { [] }
 
-let target_img = if $is_dev { "localhost/omniroute:dev" } else { "localhost/omniroute:latest" }
+let target_img = if $is_test { "localhost/omniroute:test" } else { "localhost/omniroute:latest" }
 
 if $build_requested {
   let build_flags = if $no_cache { ["--no-cache"] } else { [] }
-  podman build ...$build_flags --format docker -t $target_img .
+  let secret_flags = if ($env.GITHUB_TOKEN? | is-not-empty) {
+    ["--secret", "id=GITHUB_TOKEN,env=GITHUB_TOKEN"]
+  } else { [] }
+  podman build ...$build_flags ...$secret_flags --format docker -t $target_img .
 } else {
   if not (image-exists $OMNIROUTE_IMAGE) {
     podman pull $OMNIROUTE_IMAGE
@@ -62,21 +46,21 @@ if $build_requested {
   podman tag $OMNIROUTE_IMAGE $target_img
 }
 
-if $is_dev {
-  if not (volume-exists omniroute-dev-data) {
-    podman volume create omniroute-dev-data
+if $is_test {
+  if not (volume-exists omniroute-test-app-data) {
+    podman volume create omniroute-test-app-data
   }
 
-  if not (volume-exists omniroute-dev-redis-data) {
-    podman volume create omniroute-dev-redis-data
+  if not (volume-exists omniroute-test-redis-data) {
+    podman volume create omniroute-test-redis-data
   }
 
-  if not (network-exists omniroute-dev-net) {
-    podman network create omniroute-dev-net
+  if not (network-exists omniroute-test-net) {
+    podman network create omniroute-test-net
   }
 } else {
-  if not (volume-exists omniroute-data) {
-    podman volume create omniroute-data
+  if not (volume-exists omniroute-app-data) {
+    podman volume create omniroute-app-data
   }
 
   if not (volume-exists omniroute-redis-data) {
@@ -98,10 +82,10 @@ if $status != "up" {
     pitchfork supervisor start
 }
 
-if $is_dev {
-  pitchfork start ...$force_args omniroute-dev-redis omniroute-dev-omniroute
+if $is_test {
+  pitchfork start ...$force_args omniroute-test-redis omniroute-test-app
 } else {
-  pitchfork start ...$force_args omniroute-redis omniroute-omniroute
+  pitchfork start ...$force_args omniroute-redis omniroute-app
 }
 '''
 
@@ -111,7 +95,7 @@ shell = 'nu -c'
 usage = '''
 flag "-p --prune" help="Remove network, images and containers after stopping"
 flag "-v --volumes" help="Also remove volumes (requires --prune)"
-flag "-d --dev" help="Target dev stack (omniroute-dev-*)"
+flag "-t --test" help="Target test stack (omniroute-test-*)"
 '''
 run = '''
 def container-exists [name: string] {
@@ -132,7 +116,7 @@ def volume-exists [name: string] {
 
 let prune_requested = (($env.usage_prune? | default "false") == "true")
 let volumes_requested = (($env.usage_volumes? | default "false") == "true")
-let is_dev = (($env.usage_dev? | default "false") == "true")
+let is_test = (($env.usage_test? | default "false") == "true")
 
 if $volumes_requested and not $prune_requested {
   error make {
@@ -150,26 +134,26 @@ if $status != "up" {
     pitchfork supervisor start
 }
 
-if $is_dev {
-  pitchfork stop omniroute-dev-omniroute omniroute-dev-redis
+if $is_test {
+  pitchfork stop omniroute-test-app omniroute-test-redis
 
   if $prune_requested {
-    for name in [omniroute-dev-omniroute omniroute-dev-redis] {
+    for name in [omniroute-test-app omniroute-test-redis] {
       if (container-exists $name) {
         podman rm --force --time 40 $name
       }
     }
 
-    if (network-exists omniroute-dev-net) {
-      podman network rm omniroute-dev-net
+    if (network-exists omniroute-test-net) {
+      podman network rm omniroute-test-net
     }
 
-    if (image-exists localhost/omniroute:dev) {
-      podman image rm localhost/omniroute:dev
+    if (image-exists localhost/omniroute:test) {
+      podman image rm localhost/omniroute:test
     }
 
     if $volumes_requested {
-      for name in [omniroute-dev-data omniroute-dev-redis-data] {
+      for name in [omniroute-test-app-data omniroute-test-redis-data] {
         if (volume-exists $name) {
           podman volume rm $name
         }
@@ -179,10 +163,10 @@ if $is_dev {
     podman image prune --force
   }
 } else {
-  pitchfork stop omniroute-omniroute omniroute-redis
+  pitchfork stop omniroute-app omniroute-redis
 
   if $prune_requested {
-    for name in [omniroute-omniroute omniroute-redis] {
+    for name in [omniroute-app omniroute-redis] {
       if (container-exists $name) {
         podman rm --force --time 40 $name
       }
@@ -197,7 +181,7 @@ if $is_dev {
     }
 
     if $volumes_requested {
-      for name in [omniroute-data omniroute-redis-data] {
+      for name in [omniroute-app-data omniroute-redis-data] {
         if (volume-exists $name) {
           podman volume rm $name
         }
@@ -210,7 +194,7 @@ if $is_dev {
 '''
 
 [tasks.test]
-description = 'Run full stack test and teardown. Builds dev image by default or pulls from registry with --no-build'
+description = 'Run full stack test and teardown. Builds test image by default or pulls from registry with --no-build'
 shell = 'nu -c'
 usage = '''
 flag "-n --no-build" help="Pull Omniroute image from registry instead of building locally"
@@ -219,19 +203,19 @@ run = '''
 let no_build = (($env.usage_no_build? | default "false") == "true")
 let test_result = try {
   if $no_build {
-    mise run up --dev --force-restart
+    mise run up --test --force-restart
   } else {
-    mise run up --build --no-cache --dev --force-restart
+    mise run up --build --no-cache --test --force-restart
   }
   print "[test] stack up — waiting for healthcheck"
-  podman healthcheck run omniroute-dev-omniroute
+  podman healthcheck run omniroute-test-app
   print "[test] stack healthy — waiting for provisioning"
   mut prov_done = false
   for _ in 1..45 {
-    if ((podman exec omniroute-dev-omniroute test -f /tmp/provision.failed | complete).exit_code == 0) {
+    if ((podman exec omniroute-test-app test -f /tmp/provision.failed | complete).exit_code == 0) {
       error make { msg: "provisioning failed inside container" }
     }
-    if ((podman exec omniroute-dev-omniroute test -f /tmp/provision.done | complete).exit_code == 0) {
+    if ((podman exec omniroute-test-app test -f /tmp/provision.done | complete).exit_code == 0) {
       $prov_done = true
       break
     }
@@ -247,7 +231,7 @@ let test_result = try {
   1
 }
 
-let teardown = (mise run down --prune --volumes --dev | complete)
+let teardown = (mise run down --prune --volumes --test | complete)
 if $teardown.exit_code != 0 {
   print -e "[test] teardown failed"
   print -e $teardown.stderr
@@ -259,54 +243,5 @@ if $test_result != 0 {
 
 if $teardown.exit_code != 0 {
   exit $teardown.exit_code
-}
-'''
-
-[tasks.renovate]
-description = 'Run Renovate dependency updates locally or remotely'
-shell = 'nu -c'
-usage = '''
-flag "-r --remote" help="Run remote Renovate against GitHub repository to open PRs"
-flag "-d --dry-run" help="Perform dry run without modifying repository (requires -r)"
-'''
-run = '''
-let is_remote = (($env.usage_remote? | default "false") == "true")
-let is_dry_run = (($env.usage_dry_run? | default "false") == "true")
-
-if $is_remote {
-  let dry_args = if $is_dry_run { ["--dry-run=full"] } else { [] }
-  fnox exec -P omniroute-dev -- renovate --expose-all-env=true ...$dry_args aguimbao/omniroute
-} else {
-  fnox exec -P omniroute-dev -- renovate --expose-all-env=true --platform=local
-}
-'''
-
-[tasks.ci]
-description = 'Run GitHub Actions workflows locally via act'
-run = 'DOCKER_HOST="${DOCKER_HOST:-unix://${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/podman/podman.sock}" act'
-
-[tasks.lint]
-description = 'Run all code quality checks via hk'
-run = 'fnox exec -P omniroute-dev -- hk check --all'
-
-[tasks.fmt]
-description = 'Fix formatting and linting errors via hk'
-run = 'fnox exec -P omniroute-dev -- hk fix --all'
-
-[tasks.setup]
-description = 'Install toolchains and setup git hooks. Pass --pass-cli-login to log into Proton Pass.'
-shell = 'nu -c'
-usage = '''
-flag "-p --pass-cli-login" help="Log in to Proton Pass via pass-cli"
-'''
-run = '''
-mise install node bun
-mise install
-
-let do_login = (($env.usage_pass_cli_login? | default "false") == "true")
-if $do_login {
-  if (pass-cli info | complete | get exit_code) != 0 {
-    pass-cli login
-  }
 }
 '''
