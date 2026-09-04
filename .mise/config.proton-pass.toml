@@ -1,2 +1,5 @@
 [tools]
 'aqua:protonpass/pass-cli' = '2.3.3'
+
+[env]
+FNOX_PROFILE = '{% if env.FNOX_PROFILE %}{{ env.FNOX_PROFILE }},{% endif %}omniroute-proton-pass'

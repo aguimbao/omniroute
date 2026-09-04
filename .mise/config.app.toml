@@ -1,3 +1,6 @@
+[env]
+FNOX_PROFILE = '{% if env.FNOX_PROFILE %}{{ env.FNOX_PROFILE }},{% endif %}omniroute-app'
+
 [tasks.provision]
 description = 'Waits for server healthcheck, then runs automatic provider provisioning against the management API. Non-fatal, idempotent'
 shell = 'nu -c'

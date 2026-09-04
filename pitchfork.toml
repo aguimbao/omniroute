@@ -8,9 +8,9 @@ dir = "."
 ready_cmd = "podman healthcheck run omniroute-app"
 run = '''
 nu -c '
-let creds = (fnox get PROTON_PASS_CREDENTIALS -P omniroute-proton-pass | complete)
+let creds = (fnox get PROTON_PASS_CREDENTIALS | complete)
 let pat_args = if ($creds.exit_code == 0 and ($creds.stdout | str trim) == "true") {
-  let resolved = (fnox get OMNIROUTE_PROTON_PASS_PAT -P omniroute-proton-pass | complete)
+  let resolved = (fnox get OMNIROUTE_PROTON_PASS_PAT | complete)
   if $resolved.exit_code == 0 {
     ["-e", $"OMNIROUTE_PROTON_PASS_PAT=($resolved.stdout | str trim)"]
   } else {
@@ -33,9 +33,9 @@ dir = "."
 ready_cmd = "podman healthcheck run omniroute-test-app"
 run = '''
 nu -c '
-let creds = (fnox get PROTON_PASS_CREDENTIALS -P omniroute-proton-pass | complete)
+let creds = (fnox get PROTON_PASS_CREDENTIALS | complete)
 let pat_args = if ($creds.exit_code == 0 and ($creds.stdout | str trim) == "true") {
-  let resolved = (fnox get OMNIROUTE_PROTON_PASS_PAT -P omniroute-proton-pass | complete)
+  let resolved = (fnox get OMNIROUTE_PROTON_PASS_PAT | complete)
   if $resolved.exit_code == 0 {
     ["-e", $"OMNIROUTE_PROTON_PASS_PAT=($resolved.stdout | str trim)"]
   } else {
