@@ -19,11 +19,12 @@ ENV MISE_VERSION=2026.8.15
 RUN curl -fsSL https://mise.run | MISE_VERSION="v${MISE_VERSION}" MISE_INSTALL_PATH=/usr/local/bin/mise sh \
     && test -x /usr/local/bin/mise
 
+COPY --chown=1000:1000 .miserc.toml /app/.miserc.toml
 COPY --chown=1000:1000 .mise/ /app/.mise/
 
 ENV HOME=/home/node
 ENV MISE_TRUSTED_CONFIG_PATHS=/app
-ENV MISE_ENV=nushell,proton-pass,fnox,app
+ENV MISE_SCOPE=app
 ENV PATH=/home/node/.local/share/mise/shims:${PATH}
 
 USER 1000:1000
@@ -42,11 +43,12 @@ LABEL org.opencontainers.image.title="omniroute" \
 COPY --from=tools /usr/local/bin/mise /usr/local/bin/mise
 COPY --from=tools --chown=1000:1000 /home/node/.local/share/mise /home/node/.local/share/mise
 
+COPY --chown=1000:1000 .miserc.toml /app/.miserc.toml
 COPY --chown=1000:1000 .mise/ /app/.mise/
 COPY --chmod=755 entrypoint.nu /app/entrypoint.nu
 
 ENV MISE_TRUSTED_CONFIG_PATHS=/app
-ENV MISE_ENV=nushell,proton-pass,fnox,app
+ENV MISE_SCOPE=app
 ENV PATH=/home/node/.local/share/mise/shims:${PATH}
 
 USER 1000:1000

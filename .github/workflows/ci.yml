@@ -54,18 +54,18 @@ jobs:
 
       - name: Setup tools
         env:
-          MISE_ENV: 'nushell,setup,node,lint'
+          MISE_SCOPE: 'ci-lint'
         run: mise run setup
 
       - name: Check code
         env:
-          MISE_ENV: 'nushell,node,lint'
+          MISE_SCOPE: 'ci-lint'
         run: mise run lint
 
       - name: Validate commit messages
         if: github.event_name == 'pull_request'
         env:
-          MISE_ENV: 'node,lint'
+          MISE_SCOPE: 'ci-lint'
         run: commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }}
 
   test:
@@ -88,13 +88,13 @@ jobs:
 
       - name: Setup tools
         env:
-          MISE_ENV: 'nushell,proton-pass,fnox,setup,orchestration,app'
+          MISE_SCOPE: 'ci-test'
           PROTON_PASS_PERSONAL_ACCESS_TOKEN: ${{ secrets.PROTON_PASS_PERSONAL_ACCESS_TOKEN }}
         run: mise run setup --pass-cli-login
 
       - name: Run container tests
         env:
-          MISE_ENV: 'nushell,proton-pass,fnox,setup,orchestration,app'
+          MISE_SCOPE: 'ci-test'
         run: mise run test
 
   ci-gate:

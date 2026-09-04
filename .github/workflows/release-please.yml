@@ -30,15 +30,15 @@ jobs:
 
       - name: Setup tools
         env:
-          MISE_ENV: 'nushell,proton-pass,fnox,node,setup'
+          MISE_SCOPE: 'ci-release-please'
           PROTON_PASS_PERSONAL_ACCESS_TOKEN: ${{ secrets.PROTON_PASS_PERSONAL_ACCESS_TOKEN }}
         run: mise run setup --pass-cli-login
 
       - name: Load secrets from fnox
         env:
-          MISE_ENV: 'nushell,proton-pass,fnox,node'
+          MISE_SCOPE: 'ci-release-please'
         run: |
-          SECRETS_JSON="$(fnox export -P omniroute-proton-pass,omniroute-github-app --all --format json)"
+          SECRETS_JSON="$(fnox export --all --format json)"
           export SECRETS_JSON
           node -e '
             const data = JSON.parse(process.env.SECRETS_JSON);

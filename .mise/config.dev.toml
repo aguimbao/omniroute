@@ -2,9 +2,6 @@
 'aqua:nektos/act' = '0.2.89'
 'npm:@devcontainers/cli' = '0.88.0'
 
-[env]
-FNOX_PROFILE = 'omniroute-proton-pass,omniroute-app,omniroute-github,omniroute-renovate'
-
 [tasks.renovate]
 description = 'Run Renovate dependency updates locally or remotely'
 shell = 'nu -c'
@@ -18,9 +15,9 @@ let is_dry_run = (($env.usage_dry_run? | default "false") == "true")
 
 if $is_remote {
   let dry_args = if $is_dry_run { ["--dry-run=full"] } else { [] }
-  fnox exec -P omniroute-renovate -- renovate --expose-all-env=true ...$dry_args aguimbao/omniroute
+  fnox exec -- renovate --expose-all-env=true ...$dry_args aguimbao/omniroute
 } else {
-  fnox exec -P omniroute-renovate -- renovate --expose-all-env=true --platform=local
+  fnox exec -- renovate --expose-all-env=true --platform=local
 }
 '''
 
