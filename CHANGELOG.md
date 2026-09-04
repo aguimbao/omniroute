@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.1](https://github.com/aguimbao/omniroute/compare/v1.6.0...v1.6.1) (2026-09-04)
+
+
+### Bug Fixes
+
+* **container:** copy mise.lock in Containerfile and pass GITHUB_TOKEN in ci ([#78](https://github.com/aguimbao/omniroute/issues/78)) ([9ba6ba7](https://github.com/aguimbao/omniroute/commit/9ba6ba73f117bcf20d98c45235bca2db6038d0f2))
+* **container:** set uid and mode for GITHUB_TOKEN secret mount in Containerfile ([#79](https://github.com/aguimbao/omniroute/issues/79)) ([eb999f2](https://github.com/aguimbao/omniroute/commit/eb999f2761df429bf9b50428b50beebeeede7237))
+
 ## [1.6.0](https://github.com/aguimbao/omniroute/compare/v1.5.2...v1.6.0) (2026-08-31)
 
 
