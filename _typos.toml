@@ -1,5 +1,5 @@
 [files]
-extend-exclude = ["CHANGELOG.md"]
+extend-exclude = ['CHANGELOG.md']
 
 [default.extend-words]
-passt = "passt"
+passt = 'passt'
