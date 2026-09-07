@@ -49,53 +49,6 @@ url = "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_
 url_api = "https://api.github.com/repos/rhysd/actionlint/releases/assets/384924919"
 provenance = "github-attestations"
 
-[[tools."aqua:biomejs/biome"]]
-version = "2.5.11"
-backend = "aqua:biomejs/biome"
-specifiers = ["2.5.11"]
-
-[tools."aqua:biomejs/biome"."platforms.linux-arm64"]
-checksum = "sha256:b1e422c4cf5de788553f612b3952deadd6cb7669b35659197af14c4b1f763fab"
-url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.11/biome-linux-arm64"
-url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/532854961"
-provenance = "github-attestations"
-
-[tools."aqua:biomejs/biome"."platforms.linux-arm64-musl"]
-checksum = "sha256:d279c5e36af85d712a906284af0d2dd43d4baee8a36e2139f072c891fbeacfd9"
-url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.11/biome-linux-arm64-musl"
-url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/532854959"
-provenance = "github-attestations"
-
-[tools."aqua:biomejs/biome"."platforms.linux-x64"]
-checksum = "sha256:629a72d30e5b625b70723a651c510c0c2d4adc7c9b7334a690afe848ba4426ce"
-url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.11/biome-linux-x64"
-url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/532854966"
-provenance = "github-attestations"
-
-[tools."aqua:biomejs/biome"."platforms.linux-x64-musl"]
-checksum = "sha256:6ae4389db2e140734af826963e677a6a78dca9690bb089127aef50d8f9edbadb"
-url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.11/biome-linux-x64-musl"
-url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/532854967"
-provenance = "github-attestations"
-
-[tools."aqua:biomejs/biome"."platforms.macos-arm64"]
-checksum = "sha256:7a067b00fdf8eeefb7f5f5f247b7dac1bb23adfeaea380a91293353b8e2eba2b"
-url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.11/biome-darwin-arm64"
-url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/532854963"
-provenance = "github-attestations"
-
-[tools."aqua:biomejs/biome"."platforms.macos-x64"]
-checksum = "sha256:74f6d1845e5c1a47ebafd42ba4a90ed174b4bb7a669d70acc1fd925894dbb168"
-url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.11/biome-darwin-x64"
-url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/532854965"
-provenance = "github-attestations"
-
-[tools."aqua:biomejs/biome"."platforms.windows-x64"]
-checksum = "sha256:8bdf679275458a444f7befb8dacc38001625645cc498facf3cc114d77239f1cd"
-url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.11/biome-win32-x64.exe"
-url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/532854960"
-provenance = "github-attestations"
-
 [[tools."aqua:crate-ci/typos"]]
 version = "1.50.0"
 backend = "aqua:crate-ci/typos"
@@ -282,6 +235,51 @@ version = "1.5.0"
 backend = "npm:tombi"
 specifiers = ["1.5.0"]
 
+[[tools.oxfmt]]
+version = "0.66.0"
+backend = "npm:oxfmt"
+specifiers = ["0.66.0"]
+
+[[tools.oxlint]]
+version = "1.81.0"
+backend = "aqua:oxc-project/oxc/oxlint"
+specifiers = ["1.81.0"]
+
+[tools.oxlint."platforms.linux-arm64"]
+checksum = "sha256:e80f0a157a6ebbba332848a19f93f2fe593c42bc69d51d316446ada1ae47abc8"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.81.0/oxlint-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/539734294"
+
+[tools.oxlint."platforms.linux-arm64-musl"]
+checksum = "sha256:ada20dd15dd7c76c07f65c1d6e183c5e42d829f07cd6767e6fe9c8544f2bf8ec"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.81.0/oxlint-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/539734298"
+
+[tools.oxlint."platforms.linux-x64"]
+checksum = "sha256:d176d586ff131466383c70ce655afee7dc5a0f0e8fcbdebc8e1320021431e69c"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.81.0/oxlint-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/539734366"
+
+[tools.oxlint."platforms.linux-x64-musl"]
+checksum = "sha256:b102feb3a1ee8b6b773d814dd3155354ad5e7b9d11f1c61766c0d36f48b2e9d9"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.81.0/oxlint-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/539734364"
+
+[tools.oxlint."platforms.macos-arm64"]
+checksum = "sha256:329c5853e91fc0eb7fe84e324b606391a6b4ab7d85b573a9d7862571d307ea3f"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.81.0/oxlint-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/539734287"
+
+[tools.oxlint."platforms.macos-x64"]
+checksum = "sha256:3e0cb2fe4c62bde28b78160aa505a82a2e7811cee8f91b15d15a9e89e1f505ad"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.81.0/oxlint-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/539734345"
+
+[tools.oxlint."platforms.windows-x64"]
+checksum = "sha256:4ac6a6f80ac590d441623fa68fe51a93feefcdc9ac170fd3c8d79c7dce6b4e9e"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.81.0/oxlint-x86_64-pc-windows-msvc.zip"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/539734350"
+
 [[tools.pkl]]
 version = "0.32.1"
 backend = "aqua:apple/pkl"
@@ -322,7 +320,88 @@ checksum = "sha256:8550a00fcf027335e42c5e2cd553b88e98845408cb1880b3e3d1860caf46d
 url = "https://github.com/apple/pkl/releases/download/0.32.1/pkl-windows-amd64.exe"
 url_api = "https://api.github.com/repos/apple/pkl/releases/assets/487426668"
 
+[[tools.typos]]
+version = "1.50.0"
+backend = "aqua:crate-ci/typos"
+specifiers = ["1.50.0"]
+
+[tools.typos."platforms.linux-arm64"]
+checksum = "sha256:a520651f52199efc91a27aa2b82362e93d50e7d96386d3d48b28c2ad06b9ae4e"
+url = "https://github.com/crate-ci/typos/releases/download/v1.50.0/typos-v1.50.0-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/534125470"
+
+[tools.typos."platforms.linux-arm64-musl"]
+checksum = "sha256:a520651f52199efc91a27aa2b82362e93d50e7d96386d3d48b28c2ad06b9ae4e"
+url = "https://github.com/crate-ci/typos/releases/download/v1.50.0/typos-v1.50.0-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/534125470"
+
+[tools.typos."platforms.linux-x64"]
+checksum = "sha256:a1497c9626ba0bab731b3e37c12ac9051bbfa2a253463d4d574c28f190b5497b"
+url = "https://github.com/crate-ci/typos/releases/download/v1.50.0/typos-v1.50.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/534125001"
+
+[tools.typos."platforms.linux-x64-musl"]
+checksum = "sha256:a1497c9626ba0bab731b3e37c12ac9051bbfa2a253463d4d574c28f190b5497b"
+url = "https://github.com/crate-ci/typos/releases/download/v1.50.0/typos-v1.50.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/534125001"
+
+[tools.typos."platforms.macos-arm64"]
+checksum = "sha256:3c9e3cdc20fbed3812c1f2060650398e88af0c0a251bbe069398752dd71513ed"
+url = "https://github.com/crate-ci/typos/releases/download/v1.50.0/typos-v1.50.0-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/534128210"
+
+[tools.typos."platforms.macos-x64"]
+checksum = "sha256:ab88faa54ab9ceac55c6fc2a9841ceab8ef883ed46522dbcbde2ec7a110350b0"
+url = "https://github.com/crate-ci/typos/releases/download/v1.50.0/typos-v1.50.0-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/534129540"
+
+[tools.typos."platforms.windows-x64"]
+checksum = "sha256:a48abe229e6fd48729ee891b2c410c41bfa9dc15ca77815e723c4b66c311c53c"
+url = "https://github.com/crate-ci/typos/releases/download/v1.50.0/typos-v1.50.0-x86_64-pc-windows-msvc.zip"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/534129526"
+
 [[tools.yamllint]]
 version = "1.38.0"
 backend = "pipx:yamllint"
 specifiers = ["1.38.0"]
+
+[[tools.zizmor]]
+version = "1.30.0"
+backend = "aqua:zizmorcore/zizmor"
+specifiers = ["1.30.0"]
+
+[tools.zizmor."platforms.linux-arm64"]
+checksum = "sha256:018a024d6b6d09733b07f6ef42838d984c23ec04bc9b2acd55f7d67826aeafe5"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.30.0/zizmor-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/537081734"
+provenance = "github-attestations"
+
+[tools.zizmor."platforms.linux-arm64-musl"]
+provenance = "github-attestations"
+
+[tools.zizmor."platforms.linux-x64"]
+checksum = "sha256:ec8c95cd800845abb9bbc5f377ec7c57d2eb8e2386a00a201d3a74ee4092e5ed"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.30.0/zizmor-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/537081732"
+provenance = "github-attestations"
+
+[tools.zizmor."platforms.linux-x64-musl"]
+provenance = "github-attestations"
+
+[tools.zizmor."platforms.macos-arm64"]
+checksum = "sha256:c9c5d83730efb86f2cd71b487605c00a4d63903e4f9458485ed5eac3b1924ab1"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.30.0/zizmor-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/537081737"
+provenance = "github-attestations"
+
+[tools.zizmor."platforms.macos-x64"]
+checksum = "sha256:343c85c8f709edf14bf3c8781d53574975ecbb2d23c80ed1eab4932ab0a72343"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.30.0/zizmor-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/537081736"
+provenance = "github-attestations"
+
+[tools.zizmor."platforms.windows-x64"]
+checksum = "sha256:a2fcf298b84d3d8498a3d718bb63f0abe26823bf68a11f0f439620f8f2f878f0"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.30.0/zizmor-x86_64-pc-windows-msvc.zip"
+url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/537081735"
+provenance = "github-attestations"

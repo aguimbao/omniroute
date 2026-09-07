@@ -1,5 +1,5 @@
 [tools]
-'aqua:nektos/act' = '0.2.89'
+act = '0.2.89'
 'npm:@devcontainers/cli' = '0.88.0'
 
 [tasks.renovate]

@@ -15,26 +15,23 @@ function patchFile(relPath, patcher) {
 
 patchFile("open-sse/config/providerModels.ts", (content) => {
   if (content.includes("/^muse-spark/i.test(bareModelId)")) return content;
-  const needle =
-    'if (alias === "openai" && /-pro$/i.test(bareModelId)) return "openai-responses";';
+  const needle = 'if (alias === "openai" && /-pro$/i.test(bareModelId)) return "openai-responses";';
   if (!content.includes(needle)) return content;
   const addition =
     '\n  if ((alias === "opencode" || alias === "oc" || alias === "opencode-zen" || alias === "opencode-go") && /^muse-spark/i.test(bareModelId)) return "openai-responses";';
   return content.replace(needle, needle + addition);
 });
 
-patchFile(
-  "open-sse/config/providers/registry/opencode/zen/index.ts",
-  (content) => {
-    if (content.includes('"muse-spark-1.3"')) return content;
-    const needle = `    {
+patchFile("open-sse/config/providers/registry/opencode/zen/index.ts", (content) => {
+  if (content.includes('"muse-spark-1.3"')) return content;
+  const needle = `    {
       id: "muse-spark-1.2-contributor-free",
       name: "Muse Spark 1.2 Contributor Free",
       supportsReasoning: true,
       targetFormat: "openai-responses",
     },`;
-    if (!content.includes(needle)) return content;
-    const addition = `
+  if (!content.includes(needle)) return content;
+  const addition = `
     {
       id: "muse-spark-1.3",
       name: "Muse Spark 1.3",
@@ -47,9 +44,8 @@ patchFile(
       supportsReasoning: true,
       targetFormat: "openai-responses",
     },`;
-    return content.replace(needle, needle + addition);
-  }
-);
+  return content.replace(needle, needle + addition);
+});
 
 patchFile("open-sse/config/providers/registry/opencode/index.ts", (content) => {
   if (content.includes('"muse-spark-1.3"')) return content;
@@ -76,11 +72,9 @@ patchFile("open-sse/config/providers/registry/opencode/index.ts", (content) => {
   return content.replace(needle, needle + addition);
 });
 
-patchFile(
-  "open-sse/config/providers/registry/opencode/go/index.ts",
-  (content) => {
-    if (content.includes('"muse-spark-1.3-contributor"')) return content;
-    const needle = `    {
+patchFile("open-sse/config/providers/registry/opencode/go/index.ts", (content) => {
+  if (content.includes('"muse-spark-1.3-contributor"')) return content;
+  const needle = `    {
       id: "muse-spark-1.2-contributor-xhigh",
       name: "Muse Spark 1.2 Contributor (xhigh effort)",
       contextLength: 1048576,
@@ -91,11 +85,11 @@ patchFile(
       supportsVideo: true,
       targetFormat: "openai-responses",
     },`;
-    if (!content.includes(needle)) return content;
-    const tiers = ["minimal", "low", "medium", "high", "xhigh"];
-    const tierBlocks = tiers
-      .map(
-        (tier) => `    {
+  if (!content.includes(needle)) return content;
+  const tiers = ["minimal", "low", "medium", "high", "xhigh"];
+  const tierBlocks = tiers
+    .map(
+      (tier) => `    {
       id: "muse-spark-1.3-contributor-${tier}",
       name: "Muse Spark 1.3 Contributor (${tier} effort)",
       contextLength: 1048576,
@@ -105,10 +99,10 @@ patchFile(
       supportsAudio: true,
       supportsVideo: true,
       targetFormat: "openai-responses",
-    },`
-      )
-      .join("\n");
-    const addition = `
+    },`,
+    )
+    .join("\n");
+  const addition = `
     {
       id: "muse-spark-1.3-contributor",
       name: "Muse Spark 1.3 Contributor",
@@ -121,14 +115,12 @@ patchFile(
       targetFormat: "openai-responses",
     },
 ${tierBlocks}`;
-    return content.replace(needle, needle + addition);
-  }
-);
+  return content.replace(needle, needle + addition);
+});
 
 patchFile("open-sse/executors/opencode.ts", (content) => {
   if (content.includes('"muse-spark-1.3-contributor"')) return content;
-  const needle =
-    '"muse-spark-1.2-contributor": ["minimal", "low", "medium", "high", "xhigh"],';
+  const needle = '"muse-spark-1.2-contributor": ["minimal", "low", "medium", "high", "xhigh"],';
   if (!content.includes(needle)) return content;
   const addition =
     '\n  "muse-spark-1.3-contributor": ["minimal", "low", "medium", "high", "xhigh"],';
@@ -155,7 +147,7 @@ function patchChunks(chunksDir) {
       if (regex.test(content)) {
         content = content.replace(
           regex,
-          '"openai"===$1&&/-pro$/i.test($2)?"openai-responses":("opencode"===$1||"oc"===$1||"opencode-zen"===$1||"opencode-go"===$1)&&/^muse-spark/i.test($2)?"openai-responses"'
+          '"openai"===$1&&/-pro$/i.test($2)?"openai-responses":("opencode"===$1||"oc"===$1||"opencode-zen"===$1||"opencode-go"===$1)&&/^muse-spark/i.test($2)?"openai-responses"',
         );
         changed = true;
       }
@@ -176,13 +168,10 @@ function patchChunks(chunksDir) {
     }
 
     if (
-      content.includes(
-        '"muse-spark-1.2-contributor":["minimal","low","medium","high","xhigh"]'
-      ) &&
+      content.includes('"muse-spark-1.2-contributor":["minimal","low","medium","high","xhigh"]') &&
       !content.includes('"muse-spark-1.3-contributor"')
     ) {
-      const needle =
-        '"muse-spark-1.2-contributor":["minimal","low","medium","high","xhigh"]';
+      const needle = '"muse-spark-1.2-contributor":["minimal","low","medium","high","xhigh"]';
       const replacement =
         '"muse-spark-1.2-contributor":["minimal","low","medium","high","xhigh"],"muse-spark-1.3-contributor":["minimal","low","medium","high","xhigh"]';
       content = content.replace(needle, replacement);
