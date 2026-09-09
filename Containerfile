@@ -5,9 +5,9 @@ USER 0:0
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 RUN apk add --no-cache \
-        ca-certificates-bundle=20260611-r0 \
-        curl=8.22.0-r2 \
-        shadow=4.20.2-r1
+    curl=8.22.0-r2 \
+    ca-certificates-bundle=20260611-r1 \
+    shadow=4.20.2-r1
 
 RUN mkdir -p /usr/local/bin /home/node \
     && groupadd -g 1000 node \
@@ -36,9 +36,9 @@ RUN --mount=type=secret,id=GITHUB_TOKEN,uid=1000,gid=1000,mode=0444 \
 FROM docker.io/diegosouzapw/omniroute:3.8.50@sha256:085c57adf499a8aaa9f35ccde95c0df9c11bd9ecd18d6c9edbf3b68b8079ba9d
 
 LABEL org.opencontainers.image.title="omniroute" \
-      org.opencontainers.image.description="Omniroute service" \
-      org.opencontainers.image.source=https://github.com/aguimbao/omniroute \
-      org.opencontainers.image.licenses=MIT
+    org.opencontainers.image.description="Omniroute service" \
+    org.opencontainers.image.source=https://github.com/aguimbao/omniroute \
+    org.opencontainers.image.licenses=MIT
 
 COPY --from=tools /usr/local/bin/mise /usr/local/bin/mise
 COPY --from=tools --chown=1000:1000 /home/node/.local/share/mise /home/node/.local/share/mise
