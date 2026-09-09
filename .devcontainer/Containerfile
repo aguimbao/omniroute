@@ -11,7 +11,7 @@ RUN apk add --no-cache \
     crun=1.29.1-r1 \
     curl=8.22.0-r2 \
     fuse-overlayfs=1.18-r0 \
-    git=2.55.0-r5 \
+    git=2.55.0-r6 \
     libcap-utils=2.78-r3 \
     libstdc++=16.2.0-r1 \
     podman=6.0.0-r4 \
