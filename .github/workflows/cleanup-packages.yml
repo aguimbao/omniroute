@@ -30,14 +30,14 @@ jobs:
         env:
           MISE_SCOPE: 'ci-cleanup-packages'
           PROTON_PASS_PERSONAL_ACCESS_TOKEN: ${{ secrets.PROTON_PASS_PERSONAL_ACCESS_TOKEN }}
-        run: mise run setup --pass-cli-login
+        run: mise install && mise run setup-pass-cli
 
       - name: Fetch token from Proton Pass
         id: fnox-token
         env:
           MISE_SCOPE: 'ci-cleanup-packages'
         run: |
-          token=$(fnox get GITHUB_TOKEN)
+          token=$(fnox get GH_TOKEN)
           echo "::add-mask::$token"
           echo "token=$token" >> "$GITHUB_OUTPUT"
 

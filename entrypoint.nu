@@ -3,20 +3,8 @@
 def --wrapped main [...cmd] {
   let creds = (fnox get PROTON_PASS_CREDENTIALS | complete)
   if $creds.exit_code == 0 and ($creds.stdout | str trim) == "true" {
-    let pat = $env.OMNIROUTE_PROTON_PASS_PAT? | default "" | str trim
-    if ($pat | is-empty) {
-      print -e "FATAL: PROTON_PASS_CREDENTIALS=true but OMNIROUTE_PROTON_PASS_PAT could not be resolved"
-      exit 1
-    }
     $env.PROTON_PASS_KEY_PROVIDER = "fs"
-    let session = (pass-cli info | complete)
-    if $session.exit_code == 0 {
-      print "[secrets] reusing existing pass-cli session"
-    } else {
-      print "[secrets] logging in with personal access token…"
-      pass-cli logout --force o+e>| null
-      pass-cli login --pat $pat
-    }
+    mise run setup-pass-cli
   }
 
   let exported = (fnox export --all --format json | complete)
@@ -25,7 +13,6 @@ def --wrapped main [...cmd] {
     print -e $exported.stderr
     exit 1
   }
-  # Output shape: {"secrets": {KEY: VALUE, …}, "metadata": {…}}
   $exported.stdout | from json | get -o secrets | default {} | load-env
 
   for v in [JWT_SECRET STORAGE_ENCRYPTION_KEY API_KEY_SECRET OMNIROUTE_API_KEY] {

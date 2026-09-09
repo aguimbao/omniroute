@@ -11,7 +11,9 @@ RUN apk add --no-cache \
         crun=1.29.1-r1 \
         curl=8.21.0-r2 \
         fuse-overlayfs=1.17-r1 \
+        git=2.55.0-r5 \
         libcap-utils=2.78-r3 \
+        libstdc++=16.2.0-r1 \
         podman=6.0.0-r4 \
         shadow=4.20.2-r1 \
         shadow-subids=4.20.2-r1 \
@@ -44,4 +46,4 @@ ENV MISE_TRUSTED_CONFIG_PATHS=/workspaces/omniroute:/workspaces
 ENV PATH=/home/vscode/.local/share/mise/shims:${PATH}
 
 USER 1000:1000
-WORKDIR /workspaces/omniroute
+WORKDIR /workspaces

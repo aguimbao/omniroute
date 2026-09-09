@@ -35,8 +35,9 @@ let target_img = if $is_test { "localhost/omniroute:test" } else { "localhost/om
 
 if $build_requested {
   let build_flags = if $no_cache { ["--no-cache"] } else { [] }
-  let secret_flags = if ($env.GITHUB_TOKEN? | is-not-empty) {
-    ["--secret", "id=GITHUB_TOKEN,env=GITHUB_TOKEN"]
+  let gh_token_var = if ($env.GH_TOKEN? | is-not-empty) { "GH_TOKEN" } else if ($env.GITHUB_TOKEN? | is-not-empty) { "GITHUB_TOKEN" } else { "" }
+  let secret_flags = if ($gh_token_var | is-not-empty) {
+    ["--secret", $"id=GITHUB_TOKEN,env=($gh_token_var)"]
   } else { [] }
   podman build ...$build_flags ...$secret_flags --format docker -t $target_img .
 } else {
@@ -70,6 +71,20 @@ if $is_test {
   if not (network-exists omniroute-net) {
     podman network create omniroute-net
   }
+}
+
+mut pat = ($env.PROTON_PASS_PERSONAL_ACCESS_TOKEN? | default "" | str trim)
+if ($pat | is-empty) and (is-terminal --stdin) {
+  $pat = (input --suppress-output "Proton Pass personal access token for container: " | str trim)
+  if ($pat | is-not-empty) {
+    $env.PROTON_PASS_PERSONAL_ACCESS_TOKEN = $pat
+  }
+}
+let runtime_dir = ($env.XDG_RUNTIME_DIR? | default "/tmp")
+let pat_file = ($runtime_dir | path join "omniroute-container-pat")
+if ($pat | is-not-empty) {
+  $pat | save -f $pat_file
+  chmod 600 $pat_file
 }
 
 let status = (
@@ -122,6 +137,11 @@ if $volumes_requested and not $prune_requested {
   error make {
     msg: "--volumes requires --prune"
   }
+}
+
+let pat_file = ($env.XDG_RUNTIME_DIR? | default "/tmp" | path join "omniroute-container-pat")
+if ($pat_file | path exists) {
+  rm -f $pat_file
 }
 
 let status = (

@@ -2,26 +2,23 @@
 {% if target == "app" %}
 env = ["nushell", "proton-pass", "fnox", "app"]
 {% elif target == "ci-lint" %}
-env = ["nushell", "setup", "node", "lint"]
+env = ["nushell", "node", "lint"]
 {% elif target == "ci-test" %}
-env = ["nushell", "proton-pass", "fnox", "setup", "orchestration", "app"]
+env = ["nushell", "proton-pass", "fnox", "orchestration", "app"]
 {% elif target == "ci-renovate" %}
-env = ["nushell", "proton-pass", "fnox", "node", "setup", "github-app"]
+env = ["nushell", "proton-pass", "fnox", "node", "github-app-ci-renovate"]
 {% elif target == "ci-release-please" %}
-env = ["nushell", "proton-pass", "fnox", "node", "setup", "github-app"]
+env = ["nushell", "proton-pass", "fnox", "node", "github-app-ci-release-please"]
 {% elif target == "ci-cleanup-packages" %}
-env = ["nushell", "proton-pass", "fnox", "setup", "github"]
+env = ["nushell", "proton-pass", "fnox", "github-package-cleanup"]
 {% else %}
 env = [
   "nushell",
   "proton-pass",
   "fnox",
-  "setup",
   "node",
   "lint",
   "orchestration",
   "dev",
-  "github",
-  "renovate",
 ]
 {% endif %}

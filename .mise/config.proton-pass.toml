@@ -2,4 +2,32 @@
 'aqua:protonpass/pass-cli' = '2.3.3'
 
 [env]
-FNOX_PROFILE = '{% if env.FNOX_PROFILE %}{{ env.FNOX_PROFILE }},{% endif %}omniroute-proton-pass'
+PROTON_PASS_SESSION_DIR = "{{ [xdg_cache_home, 'pass-cli-' ~ (config_root | trim_start_matches(pat='/') | replace(from='/', to='__'))] | join_path }}"
+
+[tasks.setup-pass-cli]
+description = 'Authenticate Proton Pass CLI via personal access token'
+shell = 'nu -c'
+run = '''
+if (which pass-cli | is-empty) {
+  error make { msg: "pass-cli is not installed" }
+}
+
+if ((pass-cli info | complete | get exit_code) == 0) {
+  print "[setup-pass-cli] Proton Pass already authenticated"
+} else {
+  let pat = ($env.PROTON_PASS_PERSONAL_ACCESS_TOKEN? | default "" | str trim)
+  if ($pat | is-not-empty) {
+    print "[setup-pass-cli] Logging in to Proton Pass using PROTON_PASS_PERSONAL_ACCESS_TOKEN..."
+    pass-cli login --pat $pat
+  } else if (is-terminal --stdin) {
+    let token = (input --suppress-output "Proton Pass personal access token: " | str trim)
+    if ($token | is-not-empty) {
+      pass-cli login --pat $token
+    } else {
+      error make { msg: "No token provided" }
+    }
+  } else {
+    error make { msg: "Headless mode and PROTON_PASS_PERSONAL_ACCESS_TOKEN unset" }
+  }
+}
+'''

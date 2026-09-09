@@ -3,29 +3,32 @@ env = 'exec'
 [providers.protonpass]
 type = 'proton-pass'
 
-[profiles.omniroute-proton-pass.secrets]
+[secrets]
 PROTON_PASS_CREDENTIALS = { default = 'true' }
-OMNIROUTE_PROTON_PASS_PAT = { provider = 'protonpass', value = 'Dev/PROTON/PASS_DEV_VIEWER_PAT' }
 
-[profiles.omniroute-app.secrets]
-JWT_SECRET = { provider = 'protonpass', value = 'Dev/OMNIROUTE/JWT_SECRET' }
-STORAGE_ENCRYPTION_KEY = { provider = 'protonpass', value = 'Dev/OMNIROUTE/STORAGE_ENCRYPTION_KEY' }
+[profiles.omniroute.secrets]
+JWT_SECRET = { provider = 'protonpass', value = 'hW1g_G4VBU0L4SzTbHeI3pM1tS4pm9vnga_AHoqk0XUdhcOVStNaN17jvKw_a9NCWhId7G3Vpx9UQ0GUyp_Qrg==/flmb4WxmosPDm8bscWatLVCoDIN3-Ga7reXxPBVnVH3JKHUb37ur89AXJntPehAjrVdolOXHl_2mNRlPvufdeg==/JWT_SECRET' }
+STORAGE_ENCRYPTION_KEY = { provider = 'protonpass', value = 'hW1g_G4VBU0L4SzTbHeI3pM1tS4pm9vnga_AHoqk0XUdhcOVStNaN17jvKw_a9NCWhId7G3Vpx9UQ0GUyp_Qrg==/flmb4WxmosPDm8bscWatLVCoDIN3-Ga7reXxPBVnVH3JKHUb37ur89AXJntPehAjrVdolOXHl_2mNRlPvufdeg==/STORAGE_ENCRYPTION_KEY' }
 STORAGE_ENCRYPTION_KEY_VERSION = { default = 'v1' }
-API_KEY_SECRET = { provider = 'protonpass', value = 'Dev/OMNIROUTE/API_KEY_SECRET' }
-INITIAL_PASSWORD = { provider = 'protonpass', value = 'Dev/OMNIROUTE/INITIAL_PASSWORD' }
+API_KEY_SECRET = { provider = 'protonpass', value = 'hW1g_G4VBU0L4SzTbHeI3pM1tS4pm9vnga_AHoqk0XUdhcOVStNaN17jvKw_a9NCWhId7G3Vpx9UQ0GUyp_Qrg==/flmb4WxmosPDm8bscWatLVCoDIN3-Ga7reXxPBVnVH3JKHUb37ur89AXJntPehAjrVdolOXHl_2mNRlPvufdeg==/API_KEY_SECRET' }
+INITIAL_PASSWORD = { provider = 'protonpass', value = 'hW1g_G4VBU0L4SzTbHeI3pM1tS4pm9vnga_AHoqk0XUdhcOVStNaN17jvKw_a9NCWhId7G3Vpx9UQ0GUyp_Qrg==/flmb4WxmosPDm8bscWatLVCoDIN3-Ga7reXxPBVnVH3JKHUb37ur89AXJntPehAjrVdolOXHl_2mNRlPvufdeg==/INITIAL_PASSWORD' }
 REQUIRE_API_KEY = { default = 'true' }
-OMNIROUTE_API_KEY = { provider = 'protonpass', value = 'Dev/OMNIROUTE/API_KEY' }
-DIGITALOCEAN_API_KEY = { provider = 'protonpass', value = 'Dev/DIGITALOCEAN/API_KEY' }
-OPENROUTER_API_KEY = { provider = 'protonpass', value = 'Dev/OPENROUTER/API_KEY' }
-OPENCODE_ZEN_API_KEY = { provider = 'protonpass', value = 'Dev/OPENCODE/API_KEY' }
-NVIDIA_NIM_API_KEY = { provider = 'protonpass', value = 'Dev/NVIDIA_NIM/API_KEY' }
+OMNIROUTE_API_KEY = { provider = 'protonpass', value = 'hW1g_G4VBU0L4SzTbHeI3pM1tS4pm9vnga_AHoqk0XUdhcOVStNaN17jvKw_a9NCWhId7G3Vpx9UQ0GUyp_Qrg==/flmb4WxmosPDm8bscWatLVCoDIN3-Ga7reXxPBVnVH3JKHUb37ur89AXJntPehAjrVdolOXHl_2mNRlPvufdeg==/API_KEY' }
+DIGITALOCEAN_API_KEY = { provider = 'protonpass', value = 'SudNy9ibY2OzEJSCvI-D6H4uXTli1DCMq7XwrDdjosZd9M3PkMsWIAb9EWLGXY1yfO64GNeN1HdZf3mdTI7QVg==/CWiKnmX1YZDrq0NFppzkO9R2Lv3CBu_fMxum35RHhjw9nMZmDJt4UHuQrMDYh0xjXiqQsVD327BEP849op6OFA==/API_KEY' }
+OPENROUTER_API_KEY = { provider = 'protonpass', value = 'cEq6JvwKdFEelFE1RJkaivu38WuIS6svv_dmJVyB7FQtRiBulJBPVEN5a4oYOU8qru1jEJIi-rFk4xCZ4aMsdg==/qw4p2sE7pVLy14tbtESnf19ml3tr0dN0iX8U5wz9kWxGUCGX9FJ8i4LlOlSvj9zxO0WD1bQgkR_NauUkpTm2_A==/API_KEY' }
+OPENCODE_ZEN_API_KEY = { provider = 'protonpass', value = 'Brn-WgGByk3TOrgGraMSMejaP6nN1QjkQ_F8_9ju6SVdBp515T6GVqYwmrWr-h7RMX4HzYEaMkI5y_NzePlO5A==/L8tf3Ea0MrQBa4e2GTZgkUkUSDbmRn3_cjoNGdUTznjX63WT22nX_McvvBMW7TMB0vHhUwEbfczAzz_W5hdNQA==/API_KEY' }
+NVIDIA_NIM_API_KEY = { provider = 'protonpass', value = '6eApcitDc0ZPigzcmADDvMqXJU3AfN8feaFPzaSg6BcCzrPwMevNepv1objDtTE71pznifMj8C3_948zaKrgwg==/pGUw1u-rmbmImNa9dottrJngiq_mc1lk_hP8GT3DirZwUqR7T5WhF52rNv8YRSRQ3Oq0dJtoVlTitzTuZqbwZQ==/API_KEY' }
 
-[profiles.omniroute-github.secrets]
-GITHUB_TOKEN = { provider = 'protonpass', value = 'Dev/GITHUB/ADMIN_PAT' }
+[profiles.github-package-cleanup.secrets]
+GH_TOKEN = { provider = 'protonpass', value = 'Q4Lpg72_Wp-1o_ZTjblySuQ9O1xdqIEHkRPEQIIfQIUiDDHx46qgX0bbjJJIYEBzXBAyvQvwDt-uAq_oG3uiEA==/CjT9NC8oPa2y3If6OYcH4_EDaNO23-6LGNJdNqA7OFUiU_iGSsgd1hRD6IP-eS-nx8YiQUWru4-a4bltU_mArA==/CI_PACKAGE_CLEANUP_CLASSIC_PAT' }
 
-[profiles.omniroute-renovate.secrets]
-RENOVATE_TOKEN = { provider = 'protonpass', value = 'Dev/GITHUB/ADMIN_PAT' }
+[profiles.github.secrets]
+GH_TOKEN = { provider = 'protonpass', value = 'Q4Lpg72_Wp-1o_ZTjblySuQ9O1xdqIEHkRPEQIIfQIUiDDHx46qgX0bbjJJIYEBzXBAyvQvwDt-uAq_oG3uiEA==/CjT9NC8oPa2y3If6OYcH4_EDaNO23-6LGNJdNqA7OFUiU_iGSsgd1hRD6IP-eS-nx8YiQUWru4-a4bltU_mArA==/READ_PUBLIC_PAT' }
 
-[profiles.omniroute-github-app.secrets]
-GH_APP_ID = { provider = 'protonpass', value = 'Dev/GITHUB/APP_AGUIMBAO_CI_ID' }
-GH_APP_PRIVATE_KEY = { provider = 'protonpass', value = 'Dev/GITHUB/APP_AGUIMBAO_CI_PRIVATE_KEY' }
+[profiles.github-app-ci-release-please.secrets]
+GH_APP_ID = { provider = 'protonpass', value = 'Q4Lpg72_Wp-1o_ZTjblySuQ9O1xdqIEHkRPEQIIfQIUiDDHx46qgX0bbjJJIYEBzXBAyvQvwDt-uAq_oG3uiEA==/CjT9NC8oPa2y3If6OYcH4_EDaNO23-6LGNJdNqA7OFUiU_iGSsgd1hRD6IP-eS-nx8YiQUWru4-a4bltU_mArA==/APP_AGUIMBAO_CI_RELEASE_PLEASE_ID' }
+GH_APP_PRIVATE_KEY = { provider = 'protonpass', value = 'Q4Lpg72_Wp-1o_ZTjblySuQ9O1xdqIEHkRPEQIIfQIUiDDHx46qgX0bbjJJIYEBzXBAyvQvwDt-uAq_oG3uiEA==/CjT9NC8oPa2y3If6OYcH4_EDaNO23-6LGNJdNqA7OFUiU_iGSsgd1hRD6IP-eS-nx8YiQUWru4-a4bltU_mArA==/APP_AGUIMBAO_CI_RELEASE_PLEASE_PRIVATE_KEY' }
+
+[profiles.github-app-ci-renovate.secrets]
+GH_APP_ID = { provider = 'protonpass', value = 'Q4Lpg72_Wp-1o_ZTjblySuQ9O1xdqIEHkRPEQIIfQIUiDDHx46qgX0bbjJJIYEBzXBAyvQvwDt-uAq_oG3uiEA==/CjT9NC8oPa2y3If6OYcH4_EDaNO23-6LGNJdNqA7OFUiU_iGSsgd1hRD6IP-eS-nx8YiQUWru4-a4bltU_mArA==/APP_AGUIMBAO_CI_RENOVATE_ID' }
+GH_APP_PRIVATE_KEY = { provider = 'protonpass', value = 'Q4Lpg72_Wp-1o_ZTjblySuQ9O1xdqIEHkRPEQIIfQIUiDDHx46qgX0bbjJJIYEBzXBAyvQvwDt-uAq_oG3uiEA==/CjT9NC8oPa2y3If6OYcH4_EDaNO23-6LGNJdNqA7OFUiU_iGSsgd1hRD6IP-eS-nx8YiQUWru4-a4bltU_mArA==/APP_AGUIMBAO_CI_RENOVATE_PRIVATE_KEY' }
