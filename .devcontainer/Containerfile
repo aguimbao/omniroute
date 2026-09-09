@@ -1,4 +1,4 @@
-FROM cgr.dev/chainguard/wolfi-base:latest@sha256:e624c5d5e42382ce7165ddafcbbf8e6769a24cbd02ea6114b880b05ae5ba2a8d
+FROM cgr.dev/chainguard/wolfi-base:latest@sha256:918a593b8268c222afd4e2c4f06860ac984e60719b4697e4c71d796bc8fcd042
 
 USER 0:0
 
@@ -6,11 +6,11 @@ SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 RUN apk add --no-cache \
         bash=5.3-r12 \
-        ca-certificates=20260611-r0 \
+        ca-certificates=20260611-r1 \
         ca-certificates-bundle=20260611-r0 \
         crun=1.29.1-r1 \
         curl=8.22.0-r2 \
-        fuse-overlayfs=1.17-r1 \
+        fuse-overlayfs=1.18-r0 \
         git=2.55.0-r5 \
         libcap-utils=2.78-r3 \
         libstdc++=16.2.0-r1 \
