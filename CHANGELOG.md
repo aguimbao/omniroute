@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.7.0](https://github.com/aguimbao/omniroute/compare/v1.6.0...v1.7.0) (2026-09-09)
+
+
+### Features
+
+* add tokenrouter and orcarouter providers, migrate tools to aqua ([#86](https://github.com/aguimbao/omniroute/issues/86)) ([929a441](https://github.com/aguimbao/omniroute/commit/929a44104d9a7e39440853a6ba6c6e8d63bc59fb))
+* **models:** add muse-spark-1.3 variants via build-time patch script ([#83](https://github.com/aguimbao/omniroute/issues/83)) ([dd77797](https://github.com/aguimbao/omniroute/commit/dd777973549449494b4963cf1704e02b228d9c3d))
+
+
+### Bug Fixes
+
+* **container:** copy mise.lock in Containerfile and pass GITHUB_TOKEN in ci ([#78](https://github.com/aguimbao/omniroute/issues/78)) ([9ba6ba7](https://github.com/aguimbao/omniroute/commit/9ba6ba73f117bcf20d98c45235bca2db6038d0f2))
+* **container:** set uid and mode for GITHUB_TOKEN secret mount in Containerfile ([#79](https://github.com/aguimbao/omniroute/issues/79)) ([eb999f2](https://github.com/aguimbao/omniroute/commit/eb999f2761df429bf9b50428b50beebeeede7237))
+
 ## [1.6.0](https://github.com/aguimbao/omniroute/compare/v1.5.2...v1.6.0) (2026-08-31)
 
 
