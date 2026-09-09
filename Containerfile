@@ -6,7 +6,7 @@ SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 RUN apk add --no-cache \
         ca-certificates-bundle=20260611-r0 \
-        curl=8.21.0-r2 \
+        curl=8.22.0-r2 \
         shadow=4.20.2-r1
 
 RUN mkdir -p /usr/local/bin /home/node \
