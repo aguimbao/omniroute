@@ -55,11 +55,12 @@ jobs:
       - name: Setup tools
         env:
           MISE_SCOPE: 'ci-lint'
-        run: mise run setup
+        run: mise install
 
       - name: Check code
         env:
           MISE_SCOPE: 'ci-lint'
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mise run lint
 
       - name: Validate commit messages
@@ -90,7 +91,7 @@ jobs:
         env:
           MISE_SCOPE: 'ci-test'
           PROTON_PASS_PERSONAL_ACCESS_TOKEN: ${{ secrets.PROTON_PASS_PERSONAL_ACCESS_TOKEN }}
-        run: mise run setup --pass-cli-login
+        run: mise install && mise run setup-pass-cli
 
       - name: Run container tests
         env:

@@ -8,14 +8,13 @@ dir = '.'
 ready_cmd = 'podman healthcheck run omniroute-app'
 run = '''
 nu -c '
-let creds = (fnox get PROTON_PASS_CREDENTIALS | complete)
-let pat_args = if ($creds.exit_code == 0 and ($creds.stdout | str trim) == "true") {
-  let resolved = (fnox get OMNIROUTE_PROTON_PASS_PAT | complete)
-  if $resolved.exit_code == 0 {
-    ["-e", $"OMNIROUTE_PROTON_PASS_PAT=($resolved.stdout | str trim)"]
-  } else {
-    []
-  }
+mut pat = ($env.PROTON_PASS_PERSONAL_ACCESS_TOKEN? | default "" | str trim)
+let pat_file = ($env.XDG_RUNTIME_DIR? | default "/tmp" | path join "omniroute-container-pat")
+if ($pat | is-empty) and ($pat_file | path exists) {
+  $pat = (open $pat_file | str trim)
+}
+let pat_args = if ($pat | is-not-empty) {
+  ["-e", $"PROTON_PASS_PERSONAL_ACCESS_TOKEN=($pat)"]
 } else {
   []
 }
@@ -33,14 +32,13 @@ dir = '.'
 ready_cmd = 'podman healthcheck run omniroute-test-app'
 run = '''
 nu -c '
-let creds = (fnox get PROTON_PASS_CREDENTIALS | complete)
-let pat_args = if ($creds.exit_code == 0 and ($creds.stdout | str trim) == "true") {
-  let resolved = (fnox get OMNIROUTE_PROTON_PASS_PAT | complete)
-  if $resolved.exit_code == 0 {
-    ["-e", $"OMNIROUTE_PROTON_PASS_PAT=($resolved.stdout | str trim)"]
-  } else {
-    []
-  }
+mut pat = ($env.PROTON_PASS_PERSONAL_ACCESS_TOKEN? | default "" | str trim)
+let pat_file = ($env.XDG_RUNTIME_DIR? | default "/tmp" | path join "omniroute-container-pat")
+if ($pat | is-empty) and ($pat_file | path exists) {
+  $pat = (open $pat_file | str trim)
+}
+let pat_args = if ($pat | is-not-empty) {
+  ["-e", $"PROTON_PASS_PERSONAL_ACCESS_TOKEN=($pat)"]
 } else {
   []
 }

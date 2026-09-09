@@ -17,13 +17,16 @@
 
 Use your own `.fnox.local.toml` if needed
 
+> If using Proton Pass pass-cli, you need an authenticated pass-cli session with access to the project vault items. Run `mise run setup-pass-cli` to authenticate.
+
 ```bash
 # devcontainer
 devcontainer up
 
 # no devcontainer
 mise trust
-mise run setup
+mise install
+mise run setup-pass-cli  # optional, for Proton Pass authentication
 ```
 
 ### Commands

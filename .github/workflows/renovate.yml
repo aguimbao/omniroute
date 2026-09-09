@@ -26,7 +26,7 @@ jobs:
         env:
           MISE_SCOPE: 'ci-renovate'
           PROTON_PASS_PERSONAL_ACCESS_TOKEN: ${{ secrets.PROTON_PASS_PERSONAL_ACCESS_TOKEN }}
-        run: mise run setup --pass-cli-login
+        run: mise install && mise run setup-pass-cli
 
       - name: Load secrets from fnox
         env:

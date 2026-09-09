@@ -15,9 +15,9 @@ let is_dry_run = (($env.usage_dry_run? | default "false") == "true")
 
 if $is_remote {
   let dry_args = if $is_dry_run { ["--dry-run=full"] } else { [] }
-  fnox exec -- renovate --expose-all-env=true ...$dry_args aguimbao/omniroute
+  fnox exec -P github -- renovate --expose-all-env=true ...$dry_args aguimbao/omniroute
 } else {
-  fnox exec -- renovate --expose-all-env=true --platform=local
+  fnox exec -P github -- renovate --expose-all-env=true --platform=local
 }
 '''
 

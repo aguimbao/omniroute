@@ -1,7 +1,8 @@
 {
   "name": "omniroute",
   "build": {
-    "dockerfile": "Containerfile"
+    "dockerfile": "Containerfile",
+    "options": ["--format=docker"]
   },
   "runArgs": [
     "--device=/dev/fuse",
@@ -13,6 +14,6 @@
   ],
   "containerUser": "vscode",
   "remoteUser": "vscode",
-  "postCreateCommand": "mise run setup",
+  "postCreateCommand": "mise install",
   "forwardPorts": [20128, 20132, 20228, 20232]
 }

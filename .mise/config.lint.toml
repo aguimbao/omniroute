@@ -12,11 +12,31 @@ typos = '1.50.0'
 markdownlint-cli2 = '0.23.2'
 yamllint = '1.38.0'
 pkl = '0.32.1'
+python = '3.13.15'
+uv = '0.12.11'
 
 [tasks.lint]
 description = 'Run all code quality checks via hk'
-run = 'hk check --all'
+shell = 'nu -c'
+run = '''
+if ($env.GH_TOKEN? | is-not-empty) or ($env.GITHUB_TOKEN? | is-not-empty) {
+  hk check --all
+} else if (which fnox | is-not-empty) {
+  fnox exec -P github --if-missing ignore -- hk check --all
+} else {
+  hk check --all
+}
+'''
 
 [tasks.fmt]
 description = 'Fix formatting and linting errors via hk'
-run = 'hk fix --all'
+shell = 'nu -c'
+run = '''
+if ($env.GH_TOKEN? | is-not-empty) or ($env.GITHUB_TOKEN? | is-not-empty) {
+  hk fix --all
+} else if (which fnox | is-not-empty) {
+  fnox exec -P github --if-missing ignore -- hk fix --all
+} else {
+  hk fix --all
+}
+'''

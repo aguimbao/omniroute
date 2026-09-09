@@ -60,7 +60,7 @@
     {
       "customType": "regex",
       "description": "Mise dev stack image updater",
-      "managerFilePatterns": ["/(^|/)\\.mise\\.dev\\.toml$/"],
+      "managerFilePatterns": ["/(^|/)\\.mise/config\\.orchestration\\.toml$/"],
       "matchStrings": [
         "const OMNIROUTE_IMAGE = [\"'](?<depName>[^:\\s\"']+):(?<currentValue>[^@\\s\"']+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?[\"']"
       ],
