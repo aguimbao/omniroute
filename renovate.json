@@ -27,15 +27,32 @@
     },
     {
       "groupName": "lint tools",
-      "matchFileNames": [".mise/config.lint.toml"]
+      "matchFileNames": ["**/.mise/config.lint.toml", "**/hk.pkl"]
     },
     {
       "groupName": "node runtime",
-      "matchFileNames": [".mise/config.node.toml"]
+      "matchFileNames": ["**/.mise/config.node.toml"]
     },
     {
       "groupName": "dev tools",
-      "matchFileNames": [".mise/config.dev.toml"]
+      "matchFileNames": ["**/.mise/config.dev.toml"]
+    },
+    {
+      "groupName": "core tools",
+      "matchFileNames": [
+        "**/.mise/config.fnox.toml",
+        "**/.mise/config.nushell.toml",
+        "**/.mise/config.proton-pass.toml"
+      ]
+    },
+    {
+      "groupName": "core tools",
+      "matchPackageNames": ["jdx/mise"]
+    },
+    {
+      "groupName": "orchestration tools",
+      "matchManagers": ["mise"],
+      "matchFileNames": ["**/.mise/config.orchestration.toml"]
     },
     {
       "groupName": "wolfi packages",
@@ -125,8 +142,5 @@
       "datasourceTemplate": "github-releases",
       "extractVersionTemplate": "^v?(?<version>.+)$"
     }
-  ],
-  "mise": {
-    "managerFilePatterns": ["/(^|/)\\.mise.*\\.toml$/"]
-  }
+  ]
 }
