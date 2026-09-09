@@ -10,6 +10,8 @@ const MAPPING = [
     {env: "OPENROUTER_API_KEY", provider: "openrouter"}
     {env: "OPENCODE_ZEN_API_KEY", provider: "opencode-zen"}
     {env: "NVIDIA_NIM_API_KEY", provider: "nvidia"}
+    {env: "TOKENROUTER_API_KEY", provider: "tokenrouter"}
+    {env: "ORCAROUTER_API_KEY", provider: "orcarouter"}
 ]
 
 const FREE_PROVIDERS = [

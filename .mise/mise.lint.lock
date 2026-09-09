@@ -89,6 +89,140 @@ checksum = "sha256:a48abe229e6fd48729ee891b2c410c41bfa9dc15ca77815e723c4b66c311c
 url = "https://github.com/crate-ci/typos/releases/download/v1.50.0/typos-v1.50.0-x86_64-pc-windows-msvc.zip"
 url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/534129526"
 
+[[tools."aqua:oxc-project/oxc/oxfmt"]]
+version = "1.81.0"
+backend = "aqua:oxc-project/oxc/oxfmt"
+specifiers = ["1.81.0"]
+
+[tools."aqua:oxc-project/oxc/oxfmt"."platforms.linux-arm64"]
+checksum = "sha256:a85df4acc7ffd378ea5990712b769e580f5c9cd7818bb66f2449b3e362f6bae1"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.81.0/oxfmt-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/539734188"
+
+[tools."aqua:oxc-project/oxc/oxfmt"."platforms.linux-arm64-musl"]
+checksum = "sha256:63a8c2314f7561ff99d48f9f601e38f0fd68a446ed6c82bde892740ee393e0f5"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.81.0/oxfmt-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/539734191"
+
+[tools."aqua:oxc-project/oxc/oxfmt"."platforms.linux-x64"]
+checksum = "sha256:c64538f889330f1ca27c588b38b3605fd9ff477fa2eeb5efddb92c7e9862a9c8"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.81.0/oxfmt-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/539734246"
+
+[tools."aqua:oxc-project/oxc/oxfmt"."platforms.linux-x64-musl"]
+checksum = "sha256:31857809c6bedf1bae03aeb128269f010d61be7dc232e2467572186a059b7caa"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.81.0/oxfmt-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/539734286"
+
+[tools."aqua:oxc-project/oxc/oxfmt"."platforms.macos-arm64"]
+checksum = "sha256:83cb74205190cce07983775f53d2063bf6946bbc9c63028fd000c5c3632be8ce"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.81.0/oxfmt-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/539734190"
+
+[tools."aqua:oxc-project/oxc/oxfmt"."platforms.macos-x64"]
+checksum = "sha256:8d0b6fd6bffbb514cb06ccf433b081ab9b55cf84e4e519c0545cb5887947ca01"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.81.0/oxfmt-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/539734240"
+
+[tools."aqua:oxc-project/oxc/oxfmt"."platforms.windows-x64"]
+checksum = "sha256:1513aa65c7d70a9eb955b03fcfd477b7e44433f59a3bbe28e37c90e9bc53c310"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.81.0/oxfmt-x86_64-pc-windows-msvc.zip"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/539734241"
+
+[[tools."aqua:tombi-toml/tombi"]]
+version = "1.5.0"
+backend = "aqua:tombi-toml/tombi"
+specifiers = ["1.5.0"]
+
+[tools."aqua:tombi-toml/tombi"."platforms.linux-arm64"]
+checksum = "sha256:963e8d91a7b5517071837971dc7c60a84f766038ea4467a5c3799a511413ac78"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.5.0/tombi-cli-1.5.0-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/534556744"
+provenance = "github-attestations"
+
+[tools."aqua:tombi-toml/tombi"."platforms.linux-arm64-musl"]
+checksum = "sha256:963e8d91a7b5517071837971dc7c60a84f766038ea4467a5c3799a511413ac78"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.5.0/tombi-cli-1.5.0-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/534556744"
+provenance = "github-attestations"
+
+[tools."aqua:tombi-toml/tombi"."platforms.linux-x64"]
+checksum = "sha256:440381b5d3ea67d325c6b4c4b4d0c681bc4aabd3623f31fce379a30cec6694db"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.5.0/tombi-cli-1.5.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/534556771"
+provenance = "github-attestations"
+
+[tools."aqua:tombi-toml/tombi"."platforms.linux-x64-musl"]
+checksum = "sha256:440381b5d3ea67d325c6b4c4b4d0c681bc4aabd3623f31fce379a30cec6694db"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.5.0/tombi-cli-1.5.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/534556771"
+provenance = "github-attestations"
+
+[tools."aqua:tombi-toml/tombi"."platforms.macos-arm64"]
+checksum = "sha256:0e14d1f61ecfba7dd22fce1417be4c1c0428354cfe7e5b2756a2fe36424e15f1"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.5.0/tombi-cli-1.5.0-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/534556743"
+provenance = "github-attestations"
+
+[tools."aqua:tombi-toml/tombi"."platforms.macos-x64"]
+checksum = "sha256:ba2966ea709a3b1417f3cae9506880642306426fec7c970dc0202882e2634593"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.5.0/tombi-cli-1.5.0-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/534556742"
+provenance = "github-attestations"
+
+[tools."aqua:tombi-toml/tombi"."platforms.windows-x64"]
+checksum = "sha256:6566cd1a9d87d83e905bf2aa9b72858dc66e21dc949b9ccf3a09447155b21245"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.5.0/tombi-cli-1.5.0-x86_64-pc-windows-msvc.zip"
+url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/534556764"
+provenance = "github-attestations"
+
+[[tools."aqua:wasilibs/go-yamllint"]]
+version = "1.38.0"
+backend = "aqua:wasilibs/go-yamllint"
+specifiers = ["1.38.0"]
+
+[tools."aqua:wasilibs/go-yamllint"."platforms.linux-arm64"]
+checksum = "sha256:0f14176716bde7aaa3362583ee2b303919dfdfc2b6991829cc23718155bf9bed"
+url = "https://github.com/wasilibs/go-yamllint/releases/download/v1.38.0/go-yamllint_1.38.0_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/wasilibs/go-yamllint/releases/assets/344155011"
+provenance = "github-attestations"
+
+[tools."aqua:wasilibs/go-yamllint"."platforms.linux-arm64-musl"]
+checksum = "sha256:0f14176716bde7aaa3362583ee2b303919dfdfc2b6991829cc23718155bf9bed"
+url = "https://github.com/wasilibs/go-yamllint/releases/download/v1.38.0/go-yamllint_1.38.0_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/wasilibs/go-yamllint/releases/assets/344155011"
+provenance = "github-attestations"
+
+[tools."aqua:wasilibs/go-yamllint"."platforms.linux-x64"]
+checksum = "sha256:f38a5a5740dceb3d4e2fb17bdabafa9ea16e7aaedde832a99c738e9b1eb7f746"
+url = "https://github.com/wasilibs/go-yamllint/releases/download/v1.38.0/go-yamllint_1.38.0_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/wasilibs/go-yamllint/releases/assets/344155001"
+provenance = "github-attestations"
+
+[tools."aqua:wasilibs/go-yamllint"."platforms.linux-x64-musl"]
+checksum = "sha256:f38a5a5740dceb3d4e2fb17bdabafa9ea16e7aaedde832a99c738e9b1eb7f746"
+url = "https://github.com/wasilibs/go-yamllint/releases/download/v1.38.0/go-yamllint_1.38.0_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/wasilibs/go-yamllint/releases/assets/344155001"
+provenance = "github-attestations"
+
+[tools."aqua:wasilibs/go-yamllint"."platforms.macos-arm64"]
+checksum = "sha256:81186d9648d7c3b0f7d92b6f7648f041d99aacd6be52b554173fbea65472a6a4"
+url = "https://github.com/wasilibs/go-yamllint/releases/download/v1.38.0/go-yamllint_1.38.0_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/wasilibs/go-yamllint/releases/assets/344155009"
+provenance = "github-attestations"
+
+[tools."aqua:wasilibs/go-yamllint"."platforms.macos-x64"]
+checksum = "sha256:b8890e825678674165845d6244795ce06687ef7d6dc6a5f0d2e40b582ae1205a"
+url = "https://github.com/wasilibs/go-yamllint/releases/download/v1.38.0/go-yamllint_1.38.0_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/wasilibs/go-yamllint/releases/assets/344155000"
+provenance = "github-attestations"
+
+[tools."aqua:wasilibs/go-yamllint"."platforms.windows-x64"]
+checksum = "sha256:1e7a21e8ac6a9e33577ac8a96a6094f3810a061aa4277a95b32c48a838da99c7"
+url = "https://github.com/wasilibs/go-yamllint/releases/download/v1.38.0/go-yamllint_1.38.0_windows_amd64.zip"
+url_api = "https://api.github.com/repos/wasilibs/go-yamllint/releases/assets/344155003"
+provenance = "github-attestations"
+
 [[tools."aqua:zizmorcore/zizmor"]]
 version = "1.30.0"
 backend = "aqua:zizmorcore/zizmor"
@@ -230,16 +364,6 @@ specifiers = ["44.52.1"]
 [tools."npm:renovate".options]
 bun_args = "--trust"
 
-[[tools."npm:tombi"]]
-version = "1.5.0"
-backend = "npm:tombi"
-specifiers = ["1.5.0"]
-
-[[tools.oxfmt]]
-version = "0.66.0"
-backend = "npm:oxfmt"
-specifiers = ["0.66.0"]
-
 [[tools.oxlint]]
 version = "1.81.0"
 backend = "aqua:oxc-project/oxc/oxlint"
@@ -320,46 +444,6 @@ checksum = "sha256:8550a00fcf027335e42c5e2cd553b88e98845408cb1880b3e3d1860caf46d
 url = "https://github.com/apple/pkl/releases/download/0.32.1/pkl-windows-amd64.exe"
 url_api = "https://api.github.com/repos/apple/pkl/releases/assets/487426668"
 
-[[tools.python]]
-version = "3.13.15"
-backend = "core:python"
-specifiers = ["3.13.15"]
-
-[tools.python."platforms.linux-arm64"]
-checksum = "sha256:01ce0ce9189feaead3298abf10d4efe998c55a489b3d5d38ca4f83dda7e7977e"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260901/cpython-3.13.15+20260901-aarch64-unknown-linux-gnu-install_only_stripped.tar.gz"
-provenance = "github-attestations"
-
-[tools.python."platforms.linux-arm64-musl"]
-checksum = "sha256:40b7d31b0f50d9f500821b44ac8c0f253d94839b82cd07ed1c7e240787271bb2"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260901/cpython-3.13.15+20260901-aarch64-unknown-linux-musl-install_only_stripped.tar.gz"
-provenance = "github-attestations"
-
-[tools.python."platforms.linux-x64"]
-checksum = "sha256:8a689a077337bea6d1c4bc0b7df1d52fcaa28f5f67e50df8bf417c1e3f9d8874"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260901/cpython-3.13.15+20260901-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
-provenance = "github-attestations"
-
-[tools.python."platforms.linux-x64-musl"]
-checksum = "sha256:6d26dd7e3adaf613565cc703e0096774154d761c65523d373e6a36bc478dd4d5"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260901/cpython-3.13.15+20260901-x86_64-unknown-linux-musl-install_only_stripped.tar.gz"
-provenance = "github-attestations"
-
-[tools.python."platforms.macos-arm64"]
-checksum = "sha256:d3904bd6a072246e07aa0bdadee9a14e80521e42a943c0848059feb16a2816dc"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260901/cpython-3.13.15+20260901-aarch64-apple-darwin-install_only_stripped.tar.gz"
-provenance = "github-attestations"
-
-[tools.python."platforms.macos-x64"]
-checksum = "sha256:f712a9143c8a5d248438ec7921a0b48d548bca4f1337d33c690d28c2d0504137"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260901/cpython-3.13.15+20260901-x86_64-apple-darwin-install_only_stripped.tar.gz"
-provenance = "github-attestations"
-
-[tools.python."platforms.windows-x64"]
-checksum = "sha256:63d263ab0162f34a241a56dc5b283c22d6e131f5516117e6a921350c69ba7d4f"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260901/cpython-3.13.15+20260901-x86_64-pc-windows-msvc-install_only_stripped.tar.gz"
-provenance = "github-attestations"
-
 [[tools.typos]]
 version = "1.50.0"
 backend = "aqua:crate-ci/typos"
@@ -399,58 +483,6 @@ url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/534129540
 checksum = "sha256:a48abe229e6fd48729ee891b2c410c41bfa9dc15ca77815e723c4b66c311c53c"
 url = "https://github.com/crate-ci/typos/releases/download/v1.50.0/typos-v1.50.0-x86_64-pc-windows-msvc.zip"
 url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/534129526"
-
-[[tools.uv]]
-version = "0.12.11"
-backend = "aqua:astral-sh/uv"
-specifiers = ["0.12.11"]
-
-[tools.uv."platforms.linux-arm64"]
-checksum = "sha256:e9933d907fb9cd27d606d819bbded419f2844c0e2efc98225ecfa409288eb28d"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.11/uv-aarch64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/551278504"
-provenance = "github-attestations"
-
-[tools.uv."platforms.linux-arm64-musl"]
-checksum = "sha256:de99cafdeb5ee6f61ac3acd6d9dc6a1ef166f9398fa5623c436246ee1ecea099"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.11/uv-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/551278510"
-provenance = "github-attestations"
-
-[tools.uv."platforms.linux-x64"]
-checksum = "sha256:4ae93e0f148a18434cc094072547cec88912fc4a72b984183c7d0d0e9586cb5e"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.11/uv-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/551278642"
-provenance = "github-attestations"
-
-[tools.uv."platforms.linux-x64-musl"]
-checksum = "sha256:3343303ad6b4f9537ae0abfb36f1926a90c0445ba8f23d0e0a840a66a124cffd"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.11/uv-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/551278646"
-provenance = "github-attestations"
-
-[tools.uv."platforms.macos-arm64"]
-checksum = "sha256:e01b69ee15e81918d5e8fc9cf39b3db7f59c5576e5e306cd9b7aeb2c7b7321c3"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.11/uv-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/551278468"
-provenance = "github-attestations"
-
-[tools.uv."platforms.macos-x64"]
-checksum = "sha256:96d773bf5fda4f9b08c4444847f9183d1c14bc8a28ff9c0490e261a8fc6e5309"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.11/uv-x86_64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/551278628"
-provenance = "github-attestations"
-
-[tools.uv."platforms.windows-x64"]
-checksum = "sha256:e94225dea91e051472847bd6d146d7d66c4f54ffcd1f106678866a99580845f9"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.11/uv-x86_64-pc-windows-msvc.zip"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/551278631"
-provenance = "github-attestations"
-
-[[tools.yamllint]]
-version = "1.38.0"
-backend = "pipx:yamllint"
-specifiers = ["1.38.0"]
 
 [[tools.zizmor]]
 version = "1.30.0"
