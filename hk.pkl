@@ -47,7 +47,8 @@ local linters = new Mapping<String, Step> {
     }
     ["mise-lock"] {
         glob = List(".miserc.toml", ".mise/**/*.toml", ".mise/**/*.lock")
-        check = "mise lock"
+        check = "nu -c 'mise lock; git diff --exit-code -- .mise/*.lock'"
+        fix = "mise lock"
     }
     ["renovate-config-validator"] {
         glob = List("renovate.json", ".github/renovate.json")

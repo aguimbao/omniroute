@@ -24,6 +24,26 @@
     {
       "matchManagers": ["github-actions"],
       "pinDigests": true
+    },
+    {
+      "groupName": "lint tools",
+      "matchFileNames": [".mise/config.lint.toml"]
+    },
+    {
+      "groupName": "node runtime",
+      "matchFileNames": [".mise/config.node.toml"]
+    },
+    {
+      "groupName": "dev tools",
+      "matchFileNames": [".mise/config.dev.toml"]
+    },
+    {
+      "groupName": "wolfi packages",
+      "matchDatasources": ["custom.apk-wolfi"]
+    },
+    {
+      "groupName": "github actions",
+      "matchManagers": ["github-actions"]
     }
   ],
   "customDatasources": {

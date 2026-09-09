@@ -63,6 +63,9 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mise run lint
 
+      - name: Verify clean worktree
+        run: git diff --exit-code
+
       - name: Validate commit messages
         if: github.event_name == 'pull_request'
         env:
