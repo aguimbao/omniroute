@@ -1,6 +1,10 @@
+[tool_alias]
+node = 'aqua:nodejs/node'
+bun = 'aqua:oven-sh/bun'
+
 [tools]
-'aqua:nodejs/node' = '24.20.0'
-'aqua:oven-sh/bun' = '1.4.0'
+node = '24.20.0'
+bun = '1.4.0'
 
 [settings]
 npm.package_manager = 'bun'
