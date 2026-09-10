@@ -1,5 +1,5 @@
 [tools]
-'aqua:jdx/hk' = { version = '1.57.0', postinstall = 'hk install' }
+'aqua:jdx/hk' = { version = '1.58.1', postinstall = 'hk install' }
 'aqua:rhysd/actionlint' = '1.7.12'
 'aqua:hadolint/hadolint' = '2.15.1'
 'aqua:oxc-project/oxc/oxlint' = '1.81.0'
@@ -8,7 +8,7 @@
 'aqua:crate-ci/typos' = '1.50.1'
 'aqua:tombi-toml/tombi' = '1.5.4'
 'npm:@commitlint/cli' = '21.2.2'
-'npm:renovate' = { version = '44.52.1', bun_args = '--trust' }
+'npm:renovate' = { version = '44.74.0', bun_args = '--trust' }
 markdownlint-cli2 = '0.23.2'
 'aqua:wasilibs/go-yamllint' = '1.38.0'
 'aqua:apple/pkl' = '0.32.1'
