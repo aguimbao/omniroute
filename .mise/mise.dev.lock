@@ -43,6 +43,6 @@ url = "https://github.com/nektos/act/releases/download/v0.2.89/act_Windows_x86_6
 url_api = "https://api.github.com/repos/nektos/act/releases/assets/434891261"
 
 [[tools."npm:@devcontainers/cli"]]
-version = "0.88.0"
+version = "0.89.0"
 backend = "npm:@devcontainers/cli"
-specifiers = ["0.88.0"]
+specifiers = ["0.89.0"]
