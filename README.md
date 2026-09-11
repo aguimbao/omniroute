@@ -1,6 +1,6 @@
 # OmniRoute
 
-[OmniRoute](https://github.com/diegosouzapw/omniroute) service, uses [mise](https://mise.jdx.dev) for dependencies, [fnox](https://github.com/jdx/fnox) for secret handling and [podman](https://github.com/podman-container-tools/podman) + [pitchfork](https://github.com/jdx/pitchfork) container / daemon management.
+[OmniRoute](https://github.com/diegosouzapw/omniroute) service, uses [mise](https://mise.jdx.dev) for dependencies, [fnox](https://github.com/jdx/fnox) for secret handling and [podman](https://github.com/podman-container-tools/podman) + [pitchfork](https://github.com/jdx/pitchfork) for container / daemon management.
 
 ## Docs
 
@@ -26,6 +26,8 @@ devcontainer up
 # no devcontainer
 mise trust
 mise install
+
+# both
 mise run setup-pass-cli  # optional, for Proton Pass authentication
 ```
 

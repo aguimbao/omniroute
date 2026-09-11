@@ -1,5 +1,4 @@
 [tool_alias]
-node = 'aqua:nodejs/node'
 bun = 'aqua:oven-sh/bun'
 
 [tools]
