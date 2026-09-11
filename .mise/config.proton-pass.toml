@@ -18,7 +18,22 @@ if ((pass-cli info | complete | get exit_code) == 0) {
   let pat = ($env.PROTON_PASS_PERSONAL_ACCESS_TOKEN? | default "" | str trim)
   if ($pat | is-not-empty) {
     print "[setup-pass-cli] Logging in to Proton Pass using PROTON_PASS_PERSONAL_ACCESS_TOKEN..."
-    pass-cli login --pat $pat
+    mut logged_in = false
+    for a in 1..5 {
+      let res = (pass-cli login --pat $pat | complete)
+      if $res.exit_code == 0 {
+        if ($res.stdout | is-not-empty) { print ($res.stdout | str trim) }
+        $logged_in = true
+        break
+      }
+      let err = ($res.stderr | str trim)
+      let msg = (if ($err | is-not-empty) { $err } else { $res.stdout | str trim })
+      print -e $"[setup-pass-cli] Attempt ($a)/5 failed \(exit=($res.exit_code)\): ($msg)"
+      if $a < 5 { sleep ($a * 2sec) }
+    }
+    if not $logged_in {
+      error make { msg: "pass-cli login failed after 5 attempts" }
+    }
   } else if (is-terminal --stdin) {
     let token = (input --suppress-output "Proton Pass personal access token: " | str trim)
     if ($token | is-not-empty) {
