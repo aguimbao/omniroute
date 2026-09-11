@@ -11,7 +11,7 @@ flag "-t --test" help="Use test isolated stack (omniroute-test-*)"
 flag "-f --force-restart" help="Restart daemons if already running"
 '''
 run = '''
-const OMNIROUTE_IMAGE = "ghcr.io/aguimbao/omniroute:latest@sha256:872bc46115d225371017a36eb108ee33e2de9f11a589cce07980b5d3800f81cc"
+const OMNIROUTE_IMAGE = "ghcr.io/aguimbao/omniroute:latest@sha256:e7759d690bb6d65d8af1c6c79f9c55c856acfd1ee23f3c97ff90d337f0c89a59"
 
 def volume-exists [name: string] {
   (podman volume inspect $name | complete | get exit_code) == 0
