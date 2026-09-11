@@ -437,9 +437,9 @@ backend = "npm:@commitlint/cli"
 specifiers = ["21.2.2"]
 
 [[tools."npm:renovate"]]
-version = "44.79.5"
+version = "44.79.6"
 backend = "npm:renovate"
-specifiers = ["44.79.5"]
+specifiers = ["44.79.6"]
 
 [tools."npm:renovate".options]
 bun_args = "--trust"
