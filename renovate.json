@@ -15,6 +15,12 @@
   "labels": ["dependencies"],
   "packageRules": [
     {
+      "description": "Self-image: bump only on release version tags; never chase digest-only drift (prevents build/rebuild loop)",
+      "matchDepNames": ["ghcr.io/aguimbao/omniroute"],
+      "matchUpdateTypes": ["digest"],
+      "enabled": false
+    },
+    {
       "matchUpdateTypes": ["minor", "patch", "digest", "pin", "pinDigest"],
       "automerge": true,
       "automergeType": "pr",
