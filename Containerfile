@@ -46,8 +46,10 @@ COPY --from=tools --chown=1000:1000 /home/node/.local/share/mise /home/node/.loc
 COPY --chown=1000:1000 .miserc.toml /app/.miserc.toml
 COPY --chown=1000:1000 .mise/ /app/.mise/
 COPY --chmod=755 entrypoint.nu /app/entrypoint.nu
-COPY --chown=1000:1000 patch-omniroute.mjs /app/patch-omniroute.mjs
-RUN node /app/patch-omniroute.mjs && rm -f /app/patch-omniroute.mjs
+COPY --chown=1000:1000 patch-muse-spark.mjs /app/patch-muse-spark.mjs
+RUN node /app/patch-muse-spark.mjs && rm -f /app/patch-muse-spark.mjs
+COPY --chown=1000:1000 patch-orcarouter.mjs /app/patch-orcarouter.mjs
+RUN node /app/patch-orcarouter.mjs && rm -f /app/patch-orcarouter.mjs
 
 ENV MISE_TRUSTED_CONFIG_PATHS=/app
 ENV MISE_SCOPE=app
