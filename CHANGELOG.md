@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.1](https://github.com/aguimbao/omniroute/compare/v1.7.0...v1.7.1) (2026-09-11)
+
+
+### Bug Fixes
+
+* patch orcarouter endpoint and rename muse-spark patch script ([#123](https://github.com/aguimbao/omniroute/issues/123)) ([272b977](https://github.com/aguimbao/omniroute/commit/272b9770f7ce57eb41d13feb9961979b591edabc))
+
 ## [1.7.0](https://github.com/aguimbao/omniroute/compare/v1.6.0...v1.7.0) (2026-09-09)
 
 
