@@ -16,11 +16,13 @@ run = '''
 let is_remote = (($env.usage_remote? | default "false") == "true")
 let is_dry_run = (($env.usage_dry_run? | default "false") == "true")
 
-if $is_remote {
-  let dry_args = if $is_dry_run { ["--dry-run=full"] } else { [] }
-  fnox exec -P github-local-renovate -- renovate --expose-all-env=true ...$dry_args aguimbao/omniroute
-} else {
-  fnox exec -P github-local-renovate -- renovate --expose-all-env=true --platform=local
+with-env { EDITOR: null, VISUAL: null } {
+  if $is_remote {
+    let dry_args = if $is_dry_run { ["--dry-run=full"] } else { [] }
+    fnox exec -P github-local-renovate -- renovate --expose-all-env=true ...$dry_args aguimbao/omniroute
+  } else {
+    fnox exec -P github-local-renovate -- renovate --expose-all-env=true --platform=local
+  }
 }
 '''
 
