@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.7.2](https://github.com/aguimbao/omniroute/compare/v1.7.1...v1.7.2) (2026-09-11)
+
+
+### Bug Fixes
+
+* retry pass-cli login with backoff ([#131](https://github.com/aguimbao/omniroute/issues/131)) ([0b8d2df](https://github.com/aguimbao/omniroute/commit/0b8d2df658b88eeb9f032aa4155b9ab790152754))
+* unset EDITOR and VISUAL env vars in renovate task ([#136](https://github.com/aguimbao/omniroute/issues/136)) ([62ed30a](https://github.com/aguimbao/omniroute/commit/62ed30a31efb2f91be94fb72a15a4453647a061d))
+
 ## [1.7.1](https://github.com/aguimbao/omniroute/compare/v1.7.0...v1.7.1) (2026-09-11)
 
 
