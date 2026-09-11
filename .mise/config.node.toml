@@ -1,9 +1,8 @@
 [tool_alias]
-node = 'aqua:nodejs/node'
 bun = 'aqua:oven-sh/bun'
 
 [tools]
-node = '24.20.0'
+node = '24.21.0'
 bun = '1.4.2'
 
 [settings]
