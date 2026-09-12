@@ -25,8 +25,8 @@ ORCAROUTER_API_KEY = { provider = 'protonpass', value = 'l-cDbPu-JU4Ai-8wLEMx0Sd
 GH_TOKEN = { provider = 'protonpass', value = 'Q4Lpg72_Wp-1o_ZTjblySuQ9O1xdqIEHkRPEQIIfQIUiDDHx46qgX0bbjJJIYEBzXBAyvQvwDt-uAq_oG3uiEA==/CjT9NC8oPa2y3If6OYcH4_EDaNO23-6LGNJdNqA7OFUiU_iGSsgd1hRD6IP-eS-nx8YiQUWru4-a4bltU_mArA==/CI_PACKAGE_CLEANUP_CLASSIC_PAT' }
 
 [profiles.github-local-renovate.secrets]
-RENOVATE_TOKEN = { provider = 'protonpass', value = 'Q4Lpg72_Wp-1o_ZTjblySuQ9O1xdqIEHkRPEQIIfQIUiDDHx46qgX0bbjJJIYEBzXBAyvQvwDt-uAq_oG3uiEA==/CjT9NC8oPa2y3If6OYcH4_EDaNO23-6LGNJdNqA7OFUiU_iGSsgd1hRD6IP-eS-nx8YiQUWru4-a4bltU_mArA==/LOCAL_RENOVATE_PAT' }
-GITHUB_COM_TOKEN = { provider = 'protonpass', value = 'Q4Lpg72_Wp-1o_ZTjblySuQ9O1xdqIEHkRPEQIIfQIUiDDHx46qgX0bbjJJIYEBzXBAyvQvwDt-uAq_oG3uiEA==/CjT9NC8oPa2y3If6OYcH4_EDaNO23-6LGNJdNqA7OFUiU_iGSsgd1hRD6IP-eS-nx8YiQUWru4-a4bltU_mArA==/LOCAL_RENOVATE_PAT' }
+RENOVATE_TOKEN = { provider = 'protonpass', value = 'Q4Lpg72_Wp-1o_ZTjblySuQ9O1xdqIEHkRPEQIIfQIUiDDHx46qgX0bbjJJIYEBzXBAyvQvwDt-uAq_oG3uiEA==/CjT9NC8oPa2y3If6OYcH4_EDaNO23-6LGNJdNqA7OFUiU_iGSsgd1hRD6IP-eS-nx8YiQUWru4-a4bltU_mArA==/RENOVATE_PAT' }
+GITHUB_COM_TOKEN = { provider = 'protonpass', value = 'Q4Lpg72_Wp-1o_ZTjblySuQ9O1xdqIEHkRPEQIIfQIUiDDHx46qgX0bbjJJIYEBzXBAyvQvwDt-uAq_oG3uiEA==/CjT9NC8oPa2y3If6OYcH4_EDaNO23-6LGNJdNqA7OFUiU_iGSsgd1hRD6IP-eS-nx8YiQUWru4-a4bltU_mArA==/RENOVATE_PAT' }
 
 [profiles.github.secrets]
 GH_TOKEN = { provider = 'protonpass', value = 'Q4Lpg72_Wp-1o_ZTjblySuQ9O1xdqIEHkRPEQIIfQIUiDDHx46qgX0bbjJJIYEBzXBAyvQvwDt-uAq_oG3uiEA==/CjT9NC8oPa2y3If6OYcH4_EDaNO23-6LGNJdNqA7OFUiU_iGSsgd1hRD6IP-eS-nx8YiQUWru4-a4bltU_mArA==/READ_PUBLIC_PAT' }
