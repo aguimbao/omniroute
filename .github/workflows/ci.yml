@@ -22,6 +22,8 @@ permissions:
 jobs:
   lint:
     runs-on: ubuntu-24.04
+    env:
+      MISE_SCOPE: 'ci-lint'
     permissions:
       contents: read
       pull-requests: read
@@ -53,13 +55,10 @@ jobs:
           install: false
 
       - name: Setup tools
-        env:
-          MISE_SCOPE: 'ci-lint'
         run: mise install
 
       - name: Check code
         env:
-          MISE_SCOPE: 'ci-lint'
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mise run lint
 
@@ -68,8 +67,6 @@ jobs:
 
       - name: Validate commit messages
         if: github.event_name == 'pull_request'
-        env:
-          MISE_SCOPE: 'ci-lint'
         run: commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }}
 
   test:

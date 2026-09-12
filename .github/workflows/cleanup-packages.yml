@@ -15,6 +15,9 @@ permissions:
 jobs:
   cleanup:
     runs-on: ubuntu-24.04
+    env:
+      MISE_SCOPE: 'ci-cleanup-packages'
+      PROTON_PASS_PERSONAL_ACCESS_TOKEN: ${{ secrets.PROTON_PASS_PERSONAL_ACCESS_TOKEN }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -27,15 +30,10 @@ jobs:
           install: false
 
       - name: Setup tools
-        env:
-          MISE_SCOPE: 'ci-cleanup-packages'
-          PROTON_PASS_PERSONAL_ACCESS_TOKEN: ${{ secrets.PROTON_PASS_PERSONAL_ACCESS_TOKEN }}
         run: mise install && mise run setup-pass-cli
 
       - name: Fetch token from Proton Pass
         id: fnox-token
-        env:
-          MISE_SCOPE: 'ci-cleanup-packages'
         run: |
           token=$(fnox get GH_TOKEN)
           echo "::add-mask::$token"
