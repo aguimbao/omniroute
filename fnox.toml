@@ -30,6 +30,7 @@ GITHUB_COM_TOKEN = { provider = 'protonpass', value = 'Q4Lpg72_Wp-1o_ZTjblySuQ9O
 
 [profiles.github.secrets]
 GH_TOKEN = { provider = 'protonpass', value = 'Q4Lpg72_Wp-1o_ZTjblySuQ9O1xdqIEHkRPEQIIfQIUiDDHx46qgX0bbjJJIYEBzXBAyvQvwDt-uAq_oG3uiEA==/CjT9NC8oPa2y3If6OYcH4_EDaNO23-6LGNJdNqA7OFUiU_iGSsgd1hRD6IP-eS-nx8YiQUWru4-a4bltU_mArA==/READ_PUBLIC_PAT' }
+GITHUB_TOKEN = { provider = 'protonpass', value = 'Q4Lpg72_Wp-1o_ZTjblySuQ9O1xdqIEHkRPEQIIfQIUiDDHx46qgX0bbjJJIYEBzXBAyvQvwDt-uAq_oG3uiEA==/CjT9NC8oPa2y3If6OYcH4_EDaNO23-6LGNJdNqA7OFUiU_iGSsgd1hRD6IP-eS-nx8YiQUWru4-a4bltU_mArA==/READ_PUBLIC_PAT' }
 
 [profiles.github-app-ci-release-please.secrets]
 GH_APP_ID = { provider = 'protonpass', value = 'Q4Lpg72_Wp-1o_ZTjblySuQ9O1xdqIEHkRPEQIIfQIUiDDHx46qgX0bbjJJIYEBzXBAyvQvwDt-uAq_oG3uiEA==/CjT9NC8oPa2y3If6OYcH4_EDaNO23-6LGNJdNqA7OFUiU_iGSsgd1hRD6IP-eS-nx8YiQUWru4-a4bltU_mArA==/APP_AGUIMBAO_CI_RELEASE_PLEASE_ID' }
