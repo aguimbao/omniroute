@@ -1,19 +1,18 @@
 {% set target = env.MISE_SCOPE | default(value="dev") %}
 {% if target == "app" %}
-env = ["nushell", "proton-pass", "fnox", "app"]
+env = ["proton-pass", "fnox", "app"]
 {% elif target == "ci-lint" %}
-env = ["nushell", "node", "lint"]
+env = ["node", "lint"]
 {% elif target == "ci-test" %}
-env = ["nushell", "proton-pass", "fnox", "orchestration", "app"]
+env = ["proton-pass", "fnox", "orchestration", "app"]
 {% elif target == "ci-renovate" %}
-env = ["nushell", "proton-pass", "fnox", "node", "github-app-ci-renovate"]
+env = ["proton-pass", "fnox", "node", "github-app-ci-renovate"]
 {% elif target == "ci-release-please" %}
-env = ["nushell", "proton-pass", "fnox", "node", "github-app-ci-release-please"]
+env = ["proton-pass", "fnox", "node", "github-app-ci-release-please"]
 {% elif target == "ci-cleanup-packages" %}
-env = ["nushell", "proton-pass", "fnox", "github-package-cleanup"]
+env = ["proton-pass", "fnox", "github-package-cleanup"]
 {% else %}
 env = [
-  "nushell",
   "proton-pass",
   "fnox",
   "node",
