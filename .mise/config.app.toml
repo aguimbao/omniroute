@@ -6,7 +6,6 @@ description = 'Waits for server healthcheck, then runs automatic provider provis
 shell = 'nu -c'
 run = '''
 const MAPPING = [
-    {env: "DIGITALOCEAN_API_KEY", provider: "digitalocean"}
     {env: "OPENROUTER_API_KEY", provider: "openrouter"}
     {env: "OPENCODE_ZEN_API_KEY", provider: "opencode-zen"}
     {env: "NVIDIA_NIM_API_KEY", provider: "nvidia"}
