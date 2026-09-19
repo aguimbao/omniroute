@@ -1,5 +1,5 @@
 [daemons.omniroute-redis]
-run = 'podman run --replace --name omniroute-redis --network omniroute-net -p 127.0.0.1:6379:6379 -v omniroute-redis-data:/data docker.io/library/redis:alpine@sha256:9c3ecc609a8087c0f11c494fefaf37a8f7bf9a967631d4a0da8967a9810be354 redis-server --save 60 1 --loglevel warning'
+run = 'podman run --replace --name omniroute-redis --network omniroute-net -p 127.0.0.1:6379:6379 -v omniroute-redis-data:/data docker.io/library/redis:alpine@sha256:de4d18872bf67ad0bd62224a712263975ca1d53b9b1d0d5d076082e7fa887890 redis-server --save 60 1 --loglevel warning'
 ready_cmd = 'podman exec omniroute-redis redis-cli ping | grep -q PONG'
 
 [daemons.omniroute-app]
@@ -23,7 +23,7 @@ podman run --replace --name omniroute-app --network omniroute-net --stop-timeout
 '''
 
 [daemons.omniroute-test-redis]
-run = 'podman run --replace --name omniroute-test-redis --network omniroute-test-net -p 127.0.0.1:6389:6379 -v omniroute-test-redis-data:/data docker.io/library/redis:alpine@sha256:9c3ecc609a8087c0f11c494fefaf37a8f7bf9a967631d4a0da8967a9810be354 redis-server --save 60 1 --loglevel warning'
+run = 'podman run --replace --name omniroute-test-redis --network omniroute-test-net -p 127.0.0.1:6389:6379 -v omniroute-test-redis-data:/data docker.io/library/redis:alpine@sha256:de4d18872bf67ad0bd62224a712263975ca1d53b9b1d0d5d076082e7fa887890 redis-server --save 60 1 --loglevel warning'
 ready_cmd = 'podman exec omniroute-test-redis redis-cli ping | grep -q PONG'
 
 [daemons.omniroute-test-app]
