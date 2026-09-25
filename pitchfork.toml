@@ -8,17 +8,7 @@ dir = '.'
 ready_cmd = 'podman healthcheck run omniroute-app'
 run = '''
 nu -c '
-mut pat = ($env.PROTON_PASS_PERSONAL_ACCESS_TOKEN? | default "" | str trim)
-let pat_file = ($env.XDG_RUNTIME_DIR? | default "/tmp" | path join "omniroute-container-pat")
-if ($pat | is-empty) and ($pat_file | path exists) {
-  $pat = (open $pat_file | str trim)
-}
-let pat_args = if ($pat | is-not-empty) {
-  ["-e", $"PROTON_PASS_PERSONAL_ACCESS_TOKEN=($pat)"]
-} else {
-  []
-}
-podman run --replace --name omniroute-app --network omniroute-net --stop-timeout 40 --health-cmd "node healthcheck.mjs" --health-interval 30s --health-timeout 5s --health-retries 3 --health-start-period 15s -e NODE_ENV=production -e DATA_DIR=/app/data -e REDIS_URL=redis://omniroute-redis:6379 -e LIVE_WS_HOST=0.0.0.0 -e LIVE_WS_ALLOWED_ORIGINS=http://localhost:20128,http://127.0.0.1:20128 -p 20128:20128 -p 20132:20132 -v omniroute-app-data:/app/data -v $"($env.PWD)/fnox.toml:/app/fnox.toml:ro,Z" ...$pat_args localhost/omniroute:latest
+podman run --replace --name omniroute-app --network omniroute-net --stop-timeout 40 --health-cmd "node healthcheck.mjs" --health-interval 30s --health-timeout 5s --health-retries 3 --health-start-period 15s -e NODE_ENV=production -e DATA_DIR=/app/data -e REDIS_URL=redis://omniroute-redis:6379 -e LIVE_WS_HOST=0.0.0.0 -e LIVE_WS_ALLOWED_ORIGINS=http://localhost:20128,http://127.0.0.1:20128 -p 20128:20128 -p 20132:20132 -v omniroute-app-data:/app/data -v $"($env.PWD)/fnox.toml:/app/fnox.toml:ro,Z" --secret omniroute-proton-pass-pat,type=env,target=PROTON_PASS_PERSONAL_ACCESS_TOKEN localhost/omniroute:latest
 '
 '''
 
@@ -32,16 +22,6 @@ dir = '.'
 ready_cmd = 'podman healthcheck run omniroute-test-app'
 run = '''
 nu -c '
-mut pat = ($env.PROTON_PASS_PERSONAL_ACCESS_TOKEN? | default "" | str trim)
-let pat_file = ($env.XDG_RUNTIME_DIR? | default "/tmp" | path join "omniroute-container-pat")
-if ($pat | is-empty) and ($pat_file | path exists) {
-  $pat = (open $pat_file | str trim)
-}
-let pat_args = if ($pat | is-not-empty) {
-  ["-e", $"PROTON_PASS_PERSONAL_ACCESS_TOKEN=($pat)"]
-} else {
-  []
-}
-podman run --replace --name omniroute-test-app --network omniroute-test-net --stop-timeout 40 --health-cmd "node healthcheck.mjs" --health-interval 30s --health-timeout 5s --health-retries 3 --health-start-period 15s -e NODE_ENV=production -e DATA_DIR=/app/data -e REDIS_URL=redis://omniroute-test-redis:6379 -e LIVE_WS_HOST=0.0.0.0 -e LIVE_WS_ALLOWED_ORIGINS=http://localhost:20228,http://127.0.0.1:20228 -p 20228:20128 -p 20232:20132 -v omniroute-test-app-data:/app/data -v $"($env.PWD)/fnox.toml:/app/fnox.toml:ro,Z" ...$pat_args localhost/omniroute:test
+podman run --replace --name omniroute-test-app --network omniroute-test-net --stop-timeout 40 --health-cmd "node healthcheck.mjs" --health-interval 30s --health-timeout 5s --health-retries 3 --health-start-period 15s -e NODE_ENV=production -e DATA_DIR=/app/data -e REDIS_URL=redis://omniroute-test-redis:6379 -e LIVE_WS_HOST=0.0.0.0 -e LIVE_WS_ALLOWED_ORIGINS=http://localhost:20228,http://127.0.0.1:20228 -p 20228:20128 -p 20232:20132 -v omniroute-test-app-data:/app/data -v $"($env.PWD)/fnox.toml:/app/fnox.toml:ro,Z" --secret omniroute-test-proton-pass-pat,type=env,target=PROTON_PASS_PERSONAL_ACCESS_TOKEN localhost/omniroute:test
 '
 '''
