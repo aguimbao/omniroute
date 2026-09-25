@@ -1,4 +1,10 @@
 export default {
+  parserPreset: {
+    parserOpts: {
+      headerPattern: /^(\w*)(?:\((.*)\))?!?: (.*)$/,
+      headerCorrespondence: ["type", "scope", "subject"],
+    },
+  },
   rules: {
     "body-leading-blank": [1, "always"],
     "body-max-line-length": [2, "always", 100],
