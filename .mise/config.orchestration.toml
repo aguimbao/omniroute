@@ -73,21 +73,23 @@ if $is_test {
   }
 }
 
+# Host PAT resolution (single prompt): feeds the podman secret for containers
+# and the host login below (daemons resolving vault on the host need it).
 mut pat = ($env.PROTON_PASS_PERSONAL_ACCESS_TOKEN? | default "" | str trim)
 let secret_name = if $is_test { "omniroute-test-proton-pass-pat" } else { "omniroute-proton-pass-pat" }
 let secret_exists = (podman secret exists $secret_name | complete | get exit_code) == 0
 if ($pat | is-empty) and not $secret_exists and (is-terminal --stdin) {
   $pat = (input --suppress-output "Proton Pass personal access token for container: " | str trim)
-  if ($pat | is-not-empty) {
-    $env.PROTON_PASS_PERSONAL_ACCESS_TOKEN = $pat
-  }
+  if ($pat | is-not-empty) { $env.PROTON_PASS_PERSONAL_ACCESS_TOKEN = $pat }
 }
 if ($pat | is-not-empty) and not $secret_exists {
   $pat | podman secret create $secret_name -
 }
+# Host login (uses env PAT, no re-prompt).
+mise run setup-pass-cli
 # The supervisor is a singleton: it keeps the starter's env for every future
 # daemon spawn in every project. Blank the PAT so a first start from a
-# PAT-exported shell can never poison it; files are the only PAT channel.
+# PAT-exported shell can never poison it; secrets are the only PAT channel.
 $env.PROTON_PASS_PERSONAL_ACCESS_TOKEN = ""
 
 let status = (
@@ -121,10 +123,6 @@ def container-exists [name: string] {
   (podman container exists $name | complete | get exit_code) == 0
 }
 
-def secret-exists [name: string] {
-  (podman secret exists $name | complete | get exit_code) == 0
-}
-
 def image-exists [name: string] {
   (podman image exists $name | complete | get exit_code) == 0
 }
@@ -137,9 +135,12 @@ def volume-exists [name: string] {
   (podman volume inspect $name | complete | get exit_code) == 0
 }
 
+def secret-exists [name: string] {
+  (podman secret exists $name | complete | get exit_code) == 0
+}
+
 let prune_requested = (($env.usage_prune? | default "false") == "true")
 let volumes_requested = (($env.usage_volumes? | default "false") == "true")
-let secrets_requested = (($env.usage_secrets? | default "false") == "true")
 let is_test = (($env.usage_test? | default "false") == "true")
 
 if $volumes_requested and not $prune_requested {
@@ -148,6 +149,7 @@ if $volumes_requested and not $prune_requested {
   }
 }
 
+let secrets_requested = (($env.usage_secrets? | default "false") == "true")
 if $secrets_requested and not $prune_requested {
   error make {
     msg: "--secrets requires --prune"
