@@ -3,6 +3,7 @@
 def --wrapped main [...cmd] {
   let creds = (fnox get PROTON_PASS_CREDENTIALS | complete)
   if $creds.exit_code == 0 and ($creds.stdout | str trim) == "true" {
+    # PAT arrives via podman secret; login always happens with it here.
     $env.PROTON_PASS_KEY_PROVIDER = "fs"
     mise run setup-pass-cli
   }
