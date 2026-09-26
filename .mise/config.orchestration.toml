@@ -90,7 +90,7 @@ mise run setup-pass-cli
 # The supervisor is a singleton: it keeps the starter's env for every future
 # daemon spawn in every project. Blank the PAT so a first start from a
 # PAT-exported shell can never poison it; secrets are the only PAT channel.
-$env.PROTON_PASS_PERSONAL_ACCESS_TOKEN = "
+$env.PROTON_PASS_PERSONAL_ACCESS_TOKEN = ""
 
 let status = (
     pitchfork supervisor status --json
