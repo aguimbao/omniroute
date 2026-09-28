@@ -1,2 +1,12 @@
-.git*
-fnox*.toml
+**/*
+!Containerfile
+!.miserc.toml
+!.mise/
+!.mise/config.toml
+!.mise/config.proton-pass.toml
+!.mise/config.fnox.toml
+!.mise/config.app.toml
+!.mise/mise*.lock
+!entrypoint.nu
+!patch-muse-spark.mjs
+!patch-orcarouter.mjs
