@@ -15,11 +15,6 @@
   "labels": ["dependencies"],
   "packageRules": [
     {
-      "description": "Hold ubuntu runner major until GitHub ships a 26.04 image",
-      "matchDepNames": ["ubuntu"],
-      "enabled": false
-    },
-    {
       "description": "Self-image: bump only on release version tags; never chase digest-only drift (prevents build/rebuild loop)",
       "matchDepNames": ["ghcr.io/aguimbao/omniroute"],
       "matchUpdateTypes": ["digest"],
