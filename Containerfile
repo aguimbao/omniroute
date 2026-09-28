@@ -5,7 +5,7 @@ USER 0:0
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 RUN apk add --no-cache \
-    curl=8.22.0-r2 \
+    curl=8.22.0-r3 \
     ca-certificates-bundle=20260611-r1 \
     shadow=4.20.2-r1
 
