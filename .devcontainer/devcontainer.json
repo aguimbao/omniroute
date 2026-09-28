@@ -12,8 +12,8 @@
     "--security-opt=unmask=ALL",
     "--userns=keep-id"
   ],
-  "containerUser": "vscode",
-  "remoteUser": "vscode",
+  "containerUser": "dev",
+  "remoteUser": "dev",
   "postCreateCommand": "mise install",
   "forwardPorts": [20128, 20132, 20228, 20232]
 }

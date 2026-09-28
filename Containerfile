@@ -20,7 +20,7 @@ RUN curl -fsSL https://mise.run | MISE_VERSION="v${MISE_VERSION}" MISE_INSTALL_P
     && test -x /usr/local/bin/mise
 
 COPY --chown=1000:1000 .miserc.toml /app/.miserc.toml
-COPY --chown=1000:1000 .mise/ /app/.mise/
+COPY --chown=1000:1000 .mise/config.toml .mise/config.proton-pass.toml .mise/config.fnox.toml .mise/config.app.toml .mise/mise*.lock /app/.mise/
 
 ENV HOME=/home/node
 ENV MISE_TRUSTED_CONFIG_PATHS=/app
@@ -30,6 +30,7 @@ ENV PATH=/home/node/.local/share/mise/shims:${PATH}
 USER 1000:1000
 WORKDIR /app
 RUN --mount=type=secret,id=GITHUB_TOKEN,uid=1000,gid=1000,mode=0444 \
+    --mount=type=cache,target=/home/node/.cache/mise,uid=1000,gid=1000 \
     if [ -f /run/secrets/GITHUB_TOKEN ]; then GITHUB_TOKEN="$(cat /run/secrets/GITHUB_TOKEN)" && export GITHUB_TOKEN; fi \
     && mise install && mise reshim
 
@@ -44,7 +45,7 @@ COPY --from=tools /usr/local/bin/mise /usr/local/bin/mise
 COPY --from=tools --chown=1000:1000 /home/node/.local/share/mise /home/node/.local/share/mise
 
 COPY --chown=1000:1000 .miserc.toml /app/.miserc.toml
-COPY --chown=1000:1000 .mise/ /app/.mise/
+COPY --chown=1000:1000 .mise/config.toml .mise/config.proton-pass.toml .mise/config.fnox.toml .mise/config.app.toml .mise/mise*.lock /app/.mise/
 COPY --chmod=755 entrypoint.nu /app/entrypoint.nu
 COPY --chown=1000:1000 patch-muse-spark.mjs /app/patch-muse-spark.mjs
 RUN node /app/patch-muse-spark.mjs && rm -f /app/patch-muse-spark.mjs

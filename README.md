@@ -15,7 +15,7 @@
 
 ### Setup
 
-Use your own `.fnox.local.toml` if needed
+Use your own `.fnox*local.toml` if needed
 
 > If using Proton Pass pass-cli, you need an authenticated pass-cli session with access to the project vault items. Run `mise run setup-pass-cli` to authenticate.
 
@@ -47,10 +47,8 @@ mise run ci
 # bump versions
 mise run renovate
 
-# run
+# up
 mise run up
-# stop
+# down
 mise run down
-# clean
-mise run down --prune --volumes
 ```
