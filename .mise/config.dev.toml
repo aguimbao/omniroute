@@ -28,4 +28,5 @@ with-env { EDITOR: null, VISUAL: null } {
 
 [tasks.ci]
 description = 'Run GitHub Actions workflows locally via act'
-run = 'DOCKER_HOST="${DOCKER_HOST:-unix://${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/podman/podman.sock}" act'
+shell = 'nu -c'
+run = 'with-env { DOCKER_HOST: ($env.DOCKER_HOST? | default $"unix:($env.XDG_RUNTIME_DIR? | default $"/run/user/(^id -u | str trim)")/podman/podman.sock") } { ^act }'
