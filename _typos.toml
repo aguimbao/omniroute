@@ -1,5 +1,5 @@
 [files]
-extend-exclude = ['CHANGELOG.md', 'fnox.toml']
+extend-exclude = ['CHANGELOG.md', 'fnox.toml', 'fnox.omniroute.toml']
 
 [default.extend-words]
 passt = 'passt'

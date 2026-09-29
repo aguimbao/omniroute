@@ -1,0 +1,21 @@
+env = 'exec'
+
+[providers.protonpass]
+type = 'proton-pass'
+
+[secrets]
+PROTON_PASS_CREDENTIALS = { default = 'true' }
+
+[profiles.omniroute.secrets]
+JWT_SECRET = { provider = 'protonpass', value = 'hW1g_G4VBU0L4SzTbHeI3pM1tS4pm9vnga_AHoqk0XUdhcOVStNaN17jvKw_a9NCWhId7G3Vpx9UQ0GUyp_Qrg==/flmb4WxmosPDm8bscWatLVCoDIN3-Ga7reXxPBVnVH3JKHUb37ur89AXJntPehAjrVdolOXHl_2mNRlPvufdeg==/JWT_SECRET' }
+STORAGE_ENCRYPTION_KEY = { provider = 'protonpass', value = 'hW1g_G4VBU0L4SzTbHeI3pM1tS4pm9vnga_AHoqk0XUdhcOVStNaN17jvKw_a9NCWhId7G3Vpx9UQ0GUyp_Qrg==/flmb4WxmosPDm8bscWatLVCoDIN3-Ga7reXxPBVnVH3JKHUb37ur89AXJntPehAjrVdolOXHl_2mNRlPvufdeg==/STORAGE_ENCRYPTION_KEY' }
+STORAGE_ENCRYPTION_KEY_VERSION = { default = 'v1' }
+API_KEY_SECRET = { provider = 'protonpass', value = 'hW1g_G4VBU0L4SzTbHeI3pM1tS4pm9vnga_AHoqk0XUdhcOVStNaN17jvKw_a9NCWhId7G3Vpx9UQ0GUyp_Qrg==/flmb4WxmosPDm8bscWatLVCoDIN3-Ga7reXxPBVnVH3JKHUb37ur89AXJntPehAjrVdolOXHl_2mNRlPvufdeg==/API_KEY_SECRET' }
+INITIAL_PASSWORD = { provider = 'protonpass', value = 'hW1g_G4VBU0L4SzTbHeI3pM1tS4pm9vnga_AHoqk0XUdhcOVStNaN17jvKw_a9NCWhId7G3Vpx9UQ0GUyp_Qrg==/flmb4WxmosPDm8bscWatLVCoDIN3-Ga7reXxPBVnVH3JKHUb37ur89AXJntPehAjrVdolOXHl_2mNRlPvufdeg==/INITIAL_PASSWORD' }
+REQUIRE_API_KEY = { default = 'true' }
+OMNIROUTE_API_KEY = { provider = 'protonpass', value = 'hW1g_G4VBU0L4SzTbHeI3pM1tS4pm9vnga_AHoqk0XUdhcOVStNaN17jvKw_a9NCWhId7G3Vpx9UQ0GUyp_Qrg==/flmb4WxmosPDm8bscWatLVCoDIN3-Ga7reXxPBVnVH3JKHUb37ur89AXJntPehAjrVdolOXHl_2mNRlPvufdeg==/API_KEY' }
+OPENROUTER_API_KEY = { provider = 'protonpass', value = 'cEq6JvwKdFEelFE1RJkaivu38WuIS6svv_dmJVyB7FQtRiBulJBPVEN5a4oYOU8qru1jEJIi-rFk4xCZ4aMsdg==/qw4p2sE7pVLy14tbtESnf19ml3tr0dN0iX8U5wz9kWxGUCGX9FJ8i4LlOlSvj9zxO0WD1bQgkR_NauUkpTm2_A==/API_KEY' }
+OPENCODE_ZEN_API_KEY = { provider = 'protonpass', value = 'Brn-WgGByk3TOrgGraMSMejaP6nN1QjkQ_F8_9ju6SVdBp515T6GVqYwmrWr-h7RMX4HzYEaMkI5y_NzePlO5A==/L8tf3Ea0MrQBa4e2GTZgkUkUSDbmRn3_cjoNGdUTznjX63WT22nX_McvvBMW7TMB0vHhUwEbfczAzz_W5hdNQA==/API_KEY' }
+NVIDIA_NIM_API_KEY = { provider = 'protonpass', value = '6eApcitDc0ZPigzcmADDvMqXJU3AfN8feaFPzaSg6BcCzrPwMevNepv1objDtTE71pznifMj8C3_948zaKrgwg==/pGUw1u-rmbmImNa9dottrJngiq_mc1lk_hP8GT3DirZwUqR7T5WhF52rNv8YRSRQ3Oq0dJtoVlTitzTuZqbwZQ==/API_KEY' }
+TOKENROUTER_API_KEY = { provider = 'protonpass', value = 'o_dLspir96f3csdEMyuw3PmDiCXr4oRWdhka_4TWHznhzSUePh1IUewXh9JSQN5yy_VnZL2DzLnlLvQxUpnekw==/1BbW2O_8-Jk6cCgWStfCpZ64b0nUs130DJy5GWUNHQ_3cLBAufmJqj6COrP7cNIoFnwkmY_NLD8RX5ret8AttA==/API_KEY' }
+ORCAROUTER_API_KEY = { provider = 'protonpass', value = 'l-cDbPu-JU4Ai-8wLEMx0Sd6iTxCnfCr_rfT1iHH8TV5qW8H2QpBfAMOdTXncOqQgiJMWBRltzNrXu700FMCaA==/S6FpMfTFLc1KdptRO9irdLpHRX5EnVwVfa0GgSgO0ibFmYqN4pW00LMXBNMPxIOO_a-RR5ZqZggaxIY1lyw-BQ==/API_KEY' }
