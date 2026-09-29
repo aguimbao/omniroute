@@ -44,7 +44,7 @@ jobs:
               - 'entrypoint.nu'
               - '.miserc.toml'
               - '.mise/**'
-              - 'fnox.toml'
+              - 'fnox*.toml'
               - 'pitchfork.toml'
               - '.github/workflows/ci.yml'
 
