@@ -8,5 +8,3 @@
 !.mise/config.app.toml
 !.mise/mise*.lock
 !entrypoint.nu
-!patch-muse-spark.mjs
-!patch-orcarouter.mjs
