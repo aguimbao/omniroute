@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.0.0](https://github.com/aguimbao/omniroute/compare/v1.7.2...v2.0.0) (2026-10-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* **dev-env:** use podman secrets for Proton Pass PAT and derive provider denylist at runtime ([#161](https://github.com/aguimbao/omniroute/issues/161))
+
+### Bug Fixes
+
+* **dev-env:** gate Proton Pass CLI setup on the credentials feature flag ([#163](https://github.com/aguimbao/omniroute/issues/163)) ([cd967cd](https://github.com/aguimbao/omniroute/commit/cd967cdfef44bb12b301baddee7e3e75d58fbfd7))
+* **mise:** error when pitchfork supervisor is not running ([#185](https://github.com/aguimbao/omniroute/issues/185)) ([21910c5](https://github.com/aguimbao/omniroute/commit/21910c56c94b8416d660fc35f0a512a5f0bf9d74))
+* **mise:** use trim_start template filter in proton-pass config ([#180](https://github.com/aguimbao/omniroute/issues/180)) ([f5f58f7](https://github.com/aguimbao/omniroute/commit/f5f58f7ac3f7b54e97b8a79cd2896a24c217fd70))
+
+
+### Miscellaneous Chores
+
+* **dev-env:** use podman secrets for Proton Pass PAT and derive provider denylist at runtime ([#161](https://github.com/aguimbao/omniroute/issues/161)) ([4af4712](https://github.com/aguimbao/omniroute/commit/4af4712de1759d5a3cec549e7345eb58fb48f4ba))
+
 ## [1.7.2](https://github.com/aguimbao/omniroute/compare/v1.7.1...v1.7.2) (2026-09-11)
 
 
