@@ -1,5 +1,5 @@
 [tools]
-'aqua:jdx/pitchfork' = '2.30.1'
+'aqua:jdx/pitchfork' = '2.31.0'
 
 [tasks.up]
 description = 'Create stack resources and start daemons via pitchfork. Supports pull/build and test isolation'
