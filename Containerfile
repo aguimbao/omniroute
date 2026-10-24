@@ -5,8 +5,8 @@ USER 0:0
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 RUN apk add --no-cache \
-    curl=8.23.0-r0 \
-    ca-certificates-bundle=20260909-r2 \
+    curl=8.23.0-r2 \
+    ca-certificates-bundle=20260909-r3 \
     shadow=4.20.3-r0
 
 RUN mkdir -p /usr/local/bin /home/node \
