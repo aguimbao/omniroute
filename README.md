@@ -52,3 +52,7 @@ mise run up
 # down
 mise run down
 ```
+
+### Provider allowlist
+
+`provision` only keeps the providers listed in `MAPPING` (`.mise/config.app.toml`): connections of any other provider are deactivated and every other provider, free ones included, is added to OmniRoute's `blockedProviders`. Set `BLOCK_FREE_PROVIDERS = { default = 'false' }` in `fnox.omniroute.toml` and run `mise run up --force-restart` to turn this off: nothing is deactivated or blocked any more and `blockedProviders` is cleared, so every free provider becomes available. Set it back to `'true'` to enforce the allowlist again.
