@@ -14,7 +14,7 @@ RUN mkdir -p /usr/local/bin /home/node \
     && useradd -u 1000 -g 1000 -d /home/node node \
     && chown -R 1000:1000 /home/node
 
-ENV MISE_VERSION=2026.10.7
+ENV MISE_VERSION=2026.11.12
 
 RUN curl -fsSL https://mise.run | MISE_VERSION="v${MISE_VERSION}" MISE_INSTALL_PATH=/usr/local/bin/mise sh \
     && test -x /usr/local/bin/mise
@@ -24,7 +24,7 @@ COPY --chown=1000:1000 .mise/config.toml .mise/config.proton-pass.toml .mise/con
 
 ENV HOME=/home/node
 ENV MISE_TRUSTED_CONFIG_PATHS=/app
-ENV MISE_SCOPE=app
+ENV MISE_ENV=app
 ENV PATH=/home/node/.local/share/mise/shims:${PATH}
 
 USER 1000:1000
@@ -49,7 +49,7 @@ COPY --chown=1000:1000 .mise/config.toml .mise/config.proton-pass.toml .mise/con
 COPY --chmod=755 entrypoint.nu /app/entrypoint.nu
 
 ENV MISE_TRUSTED_CONFIG_PATHS=/app
-ENV MISE_SCOPE=app
+ENV MISE_ENV=app
 ENV PATH=/home/node/.local/share/mise/shims:${PATH}
 
 USER 1000:1000
