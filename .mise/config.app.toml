@@ -8,6 +8,7 @@ run = '''
 const MAPPING = [
     {provider: "agy"}
     {provider: "codex"}
+    {env: "ANTHROPIC_API_KEY", provider: "anthropic"}
     {env: "OPENROUTER_API_KEY", provider: "openrouter"}
     {env: "OPENCODE_ZEN_API_KEY", provider: "opencode-zen"}
     {env: "NVIDIA_NIM_API_KEY", provider: "nvidia"}
