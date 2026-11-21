@@ -137,8 +137,12 @@ def do-provision [] {
     }
 
     let allow = ($MAPPING | each {|m| $m.provider} | uniq)
+    let enforce = (($env.BLOCK_FREE_PROVIDERS? | default "true" | str trim | str lowercase) not-in ["false" "0" "off" "no"])
+    if not $enforce {
+        print "[provision] BLOCK_FREE_PROVIDERS is off — providers outside MAPPING are not deactivated or blocked"
+    }
 
-    for conn in ($all | default []) {
+    for conn in (if $enforce { $all | default [] } else { [] }) {
         let pname = ($conn | get -o provider | default "")
         let cid = ($conn | get -o id)
         let is_on = (($conn | get -o isActive | default false) == true)
@@ -224,12 +228,12 @@ def do-provision [] {
     for blk_try in 1..5 {
         try {
             let current = (http get --headers $headers $"($base)/api/settings" | get -o blockedProviders | default [])
-            let merged = ($current | append $blocked | uniq | where {|p| $p not-in $denylist})
+            let merged = (if $enforce { $current | append $blocked | uniq | where {|p| $p not-in $denylist} } else { [] })
             if ($merged | sort) == ($current | sort) {
                 print $"[provision] blocking unchanged — ($merged | length) provider entries"
             } else {
                 http patch --content-type application/json --headers $headers $"($base)/api/settings" {blockedProviders: $merged}
-                print $"[provision] blocked ($merged | length) provider entries outside MAPPING"
+                print $"[provision] blockedProviders set to ($merged | length) entries"
             }
             $done = true
             break

@@ -13,6 +13,7 @@ STORAGE_ENCRYPTION_KEY_VERSION = { default = 'v1' }
 API_KEY_SECRET = { provider = 'protonpass', value = 'xSvORW-5btPky1qozvD21E-snLAoS3sOAPoePCW0gxqK6mMZZmCmTpdoIE0YCJal_wbwq7G70Fl0RNVi2bKm5Q==/dXOnKyLBNc4xh1wAobXToBu5RwUuJSgx7fkySyLafcobDE-CYbkRT3FhcZ8_I6ebZ86k8XCCQNHF3km3o8q2fw==/API_KEY_SECRET' }
 INITIAL_PASSWORD = { provider = 'protonpass', value = 'xSvORW-5btPky1qozvD21E-snLAoS3sOAPoePCW0gxqK6mMZZmCmTpdoIE0YCJal_wbwq7G70Fl0RNVi2bKm5Q==/dXOnKyLBNc4xh1wAobXToBu5RwUuJSgx7fkySyLafcobDE-CYbkRT3FhcZ8_I6ebZ86k8XCCQNHF3km3o8q2fw==/INITIAL_PASSWORD' }
 REQUIRE_API_KEY = { default = 'true' }
+BLOCK_FREE_PROVIDERS = { default = 'true' }
 OMNIROUTE_API_KEY = { provider = 'protonpass', value = 'xSvORW-5btPky1qozvD21E-snLAoS3sOAPoePCW0gxqK6mMZZmCmTpdoIE0YCJal_wbwq7G70Fl0RNVi2bKm5Q==/dXOnKyLBNc4xh1wAobXToBu5RwUuJSgx7fkySyLafcobDE-CYbkRT3FhcZ8_I6ebZ86k8XCCQNHF3km3o8q2fw==/API_KEY' }
 OMNIROUTE_CONNECTIONS = { provider = 'protonpass', value = 'xSvORW-5btPky1qozvD21E-snLAoS3sOAPoePCW0gxqK6mMZZmCmTpdoIE0YCJal_wbwq7G70Fl0RNVi2bKm5Q==/dXOnKyLBNc4xh1wAobXToBu5RwUuJSgx7fkySyLafcobDE-CYbkRT3FhcZ8_I6ebZ86k8XCCQNHF3km3o8q2fw==/CONNECTIONS' }
 OPENROUTER_API_KEY = { provider = 'protonpass', value = '3O8QBV6ilxkE92umzDOotir6nPbbesTKHkYUBdoTO9qXR-qji3eaTBK3P-S7-LUFMxtlgx9LREN1lPQcwx7Bsg==/SkDqphDUQMBjI1bj41qlM-hn3qKtpN2B_phd49ITcLjIMRXRnWfW111uJFQLqgYgjIL9HfCy1NwJ0-txTfy8iQ==/API_KEY' }
