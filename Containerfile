@@ -1,13 +1,13 @@
-FROM cgr.dev/chainguard/wolfi-base:latest@sha256:81211e15a86ea1d5357f284482af45730c51de45eaf10ad9ce205d6bfc2df323 AS tools
+FROM cgr.dev/chainguard/wolfi-base:latest@sha256:be019c1c74fe69204a42c4e10bc4d886a49bf5403ffa74374ef7baa408fc9a26 AS tools
 
 USER 0:0
 
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 RUN apk add --no-cache \
-    curl=8.23.0-r0 \
-    ca-certificates-bundle=20260909-r2 \
-    shadow=4.20.3-r0
+    curl=8.23.0-r4 \
+    ca-certificates-bundle=20261020-r0 \
+    shadow=4.20.3-r4
 
 RUN mkdir -p /usr/local/bin /home/node \
     && groupadd -g 1000 node \
@@ -34,7 +34,7 @@ RUN --mount=type=secret,id=GITHUB_TOKEN,uid=1000,gid=1000,mode=0444 \
     if [ -f /run/secrets/GITHUB_TOKEN ]; then GITHUB_TOKEN="$(cat /run/secrets/GITHUB_TOKEN)" && export GITHUB_TOKEN; fi \
     && mise install && mise reshim
 
-FROM docker.io/diegosouzapw/omniroute:3.8.52@sha256:b08a12e876baa8a5ccadd1ebbe346fe7267dba3b1c9f4fd6bb02070fae41ab6c
+FROM docker.io/cheaperinference/omniroute:3.8.54@sha256:2c4c755a54f8ce5341bc1856580b71f47a0f16a9afab4a55f84d540810631f68
 
 LABEL org.opencontainers.image.title="omniroute" \
     org.opencontainers.image.description="Omniroute service" \
