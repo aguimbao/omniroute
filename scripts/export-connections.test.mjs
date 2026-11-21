@@ -27,7 +27,7 @@ test("exports decrypted oauth connections grouped by provider", () => {
     id_token TEXT, expires_at TEXT, priority INTEGER)`);
   const insert = db.prepare("INSERT INTO provider_connections VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
   insert.run("codex", "oauth", "a@b.c", enc("at"), enc("rt"), enc("it"), "2030-01-01", 1);
-  insert.run("agy", "oauth", "d@e.f", "plain-at", "plain-rt", null, null, 1);
+  insert.run("antigravity", "oauth", "d@e.f", "plain-at", "plain-rt", null, null, 1);
   insert.run("openrouter", "apikey", null, null, null, null, null, 1);
   db.close();
 
@@ -35,7 +35,7 @@ test("exports decrypted oauth connections grouped by provider", () => {
     env: { ...process.env, DATA_DIR: dir, STORAGE_ENCRYPTION_KEY: secret },
   });
   assert.deepEqual(JSON.parse(out), {
-    agy: [
+    antigravity: [
       {
         email: "d@e.f",
         accessToken: "plain-at",

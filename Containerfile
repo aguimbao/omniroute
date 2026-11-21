@@ -55,5 +55,14 @@ ENV PATH=/home/node/.local/share/mise/shims:${PATH}
 USER 1000:1000
 WORKDIR /app
 
+# OmniRoute (>= 3.8.53) excludes gemini-4* from every Antigravity account without Argon and re-adds
+# it on each quota refresh, which also hides gemini-4-hydrogen-sonar although it works for them.
+# Only exclude Argon and the *-disabled placeholders. Fails the build if upstream changes the list.
+# hadolint ignore=SC2086
+RUN files="$(grep -rlF '["gemini-4*","*argon*"]' /app/.build/next/server)" \
+    && test -n "$files" \
+    && sed -i 's/\["gemini-4\*","\*argon\*"\]/["*argon*","*-disabled"]/g' $files \
+    && ! grep -rqF '["gemini-4*","*argon*"]' /app/.build/next/server
+
 ENTRYPOINT ["/app/entrypoint.nu"]
 CMD ["node", "dev/run-standalone.mjs"]
