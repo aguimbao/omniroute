@@ -210,15 +210,15 @@ def do-provision [] {
         print $"[provision] catalog list FAILED — falling back to connection providers ($err.msg | str substring 0..800)"
     }
     let conn_providers = ($all | default [] | each {|c| $c | get -o provider | default ""} | where {|p| ($p | is-not-empty)} | uniq)
-    mut reg_ids = []
+    mut free_ids = []
     try {
-        $reg_ids = (ls /app/open-sse/config/providers/registry | get name | path basename)
-        print $"[provision] registry listed — ($reg_ids | length) provider ids"
+        $free_ids = (http get --headers $headers $"($base)/api/free-provider-rankings?limit=100" | get -o rankings | default [] | each {|r| $r | get -o id | default ""})
+        print $"[provision] free providers listed — ($free_ids | length) provider ids"
     } catch {|err|
-        print $"[provision] registry list FAILED — ($err.msg | str substring 0..200)"
+        print $"[provision] free providers list FAILED — ($err.msg | str substring 0..200)"
     }
     let denylist = ($allow | append ["auto", "unknown"] | uniq)
-    let blocked = ($catalog_ids | append $conn_providers | append $reg_ids | uniq | where {|p| $p not-in $denylist})
+    let blocked = ($catalog_ids | append $conn_providers | append $free_ids | where {|p| ($p | is-not-empty)} | uniq | where {|p| $p not-in $denylist})
 
     mut done = false
     for blk_try in 1..5 {
