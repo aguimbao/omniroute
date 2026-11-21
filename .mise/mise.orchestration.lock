@@ -3,26 +3,30 @@
 lockfile_version = 3
 
 [[tools."aqua:jdx/pitchfork"]]
-version = "2.32.0"
+version = "2.36.0"
 backend = "aqua:jdx/pitchfork"
-specifiers = ["2.32.0"]
+specifiers = ["2.36.0"]
 
 [tools."aqua:jdx/pitchfork"."platforms.linux-arm64"]
-checksum = "sha256:78a5c0fc15714d8f8df59a6da8fda11c9132bb36d5d58d260644882409e84a37"
-url = "https://github.com/jdx/pitchfork/releases/download/v2.32.0/pitchfork-aarch64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/jdx/pitchfork/releases/assets/653195354"
+checksum = "sha256:02cabdcf64dfd91d638364d961fa92cfe1005f12038c11ef56352d63781748c5"
+checksum_source = "mise-versions"
+url = "https://github.com/jdx/pitchfork/releases/download/v2.36.0/pitchfork-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/jdx/pitchfork/releases/assets/774056757"
 
 [tools."aqua:jdx/pitchfork"."platforms.linux-x64"]
-checksum = "sha256:683b18efcbd67a66ff8189f35fdbc4824af4ee3e7ace827c8f8a5be21dc816c1"
-url = "https://github.com/jdx/pitchfork/releases/download/v2.32.0/pitchfork-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/jdx/pitchfork/releases/assets/653194802"
+checksum = "sha256:55e12b9467d86d9aeda468e586d603a2107962de0305dc92c9fe84b7a3b35a17"
+checksum_source = "mise-versions"
+url = "https://github.com/jdx/pitchfork/releases/download/v2.36.0/pitchfork-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/jdx/pitchfork/releases/assets/774054238"
 
 [tools."aqua:jdx/pitchfork"."platforms.macos-arm64"]
-checksum = "sha256:4c8426576c5ef4b7c8bcf19f2316ffd8e7a4c514a49007e213d7298109671166"
-url = "https://github.com/jdx/pitchfork/releases/download/v2.32.0/pitchfork-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/jdx/pitchfork/releases/assets/653200865"
+checksum = "sha256:f85a855e814dd5918ea955d934594b2d3703fd066c087bf6bb5add97d59daee4"
+checksum_source = "mise-versions"
+url = "https://github.com/jdx/pitchfork/releases/download/v2.36.0/pitchfork-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/jdx/pitchfork/releases/assets/774065297"
 
 [tools."aqua:jdx/pitchfork"."platforms.windows-x64"]
-checksum = "sha256:5ba2f21573685845ce95a84859a8a6640640ba634c34f4fe466ad88b1ac9f9ba"
-url = "https://github.com/jdx/pitchfork/releases/download/v2.32.0/pitchfork-x86_64-pc-windows-msvc.zip"
-url_api = "https://api.github.com/repos/jdx/pitchfork/releases/assets/653202928"
+checksum = "sha256:b3524ea7de1bfc1b97964c24201207679e31ad74fc1c518c4575ee47c1e5e5e2"
+checksum_source = "mise-versions"
+url = "https://github.com/jdx/pitchfork/releases/download/v2.36.0/pitchfork-x86_64-pc-windows-msvc.zip"
+url_api = "https://api.github.com/repos/jdx/pitchfork/releases/assets/774068975"
