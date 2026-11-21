@@ -135,6 +135,43 @@ def secret-exists [name: string] {
   (podman secret exists $name | complete | get exit_code) == 0
 }
 
+def backup-connections [] {
+  if not ((volume-exists omniroute-app-data) and (image-exists localhost/omniroute:latest)) {
+    print "[down] no data volume or image — skipping OAuth connections backup"
+    return
+  }
+
+  mise run setup-pass-cli
+  podman stop --time 40 omniroute-app | complete | ignore
+
+  let exported = (
+    fnox -c fnox.omniroute.toml exec -P omniroute -- podman run --rm --user 1000:1000 -e STORAGE_ENCRYPTION_KEY -e DATA_DIR=/app/data -v omniroute-app-data:/app/data -v $"($env.PWD)/scripts/export-connections.mjs:/export-connections.mjs:ro,Z" --entrypoint node localhost/omniroute:latest --no-warnings /export-connections.mjs
+    | complete
+  )
+  if $exported.exit_code != 0 {
+    error make { msg: $"OAuth connections export failed: ($exported.stderr | str trim)" }
+  }
+
+  let fresh = ($exported.stdout | from json)
+  if ($fresh | is-empty) {
+    print "[down] no OAuth connections to back up"
+    return
+  }
+
+  let ref = (open fnox.omniroute.toml | get profiles.omniroute.secrets.OMNIROUTE_CONNECTIONS.value | split row '/')
+  let uri = $"pass://($ref | get 0)/($ref | get 1)/($ref | get 2)"
+  let stored = (pass-cli item view $uri | str trim)
+  let saved = (if ($stored | is-empty) { {} } else { $stored | from json })
+  let merged = ($saved | merge $fresh)
+  if ($merged | to json --raw) == ($saved | to json --raw) {
+    print "[down] OAuth connections backup already up to date"
+    return
+  }
+
+  pass-cli item update --share-id ($ref | get 0) --item-id ($ref | get 1) --field $"($ref | get 2)=($merged | to json --raw)"
+  print $"[down] OAuth connections backed up to Proton Pass \(($fresh | columns | str join ', ')\)"
+}
+
 let prune_requested = (($env.usage_prune? | default "false") == "true")
 let volumes_requested = (($env.usage_volumes? | default "false") == "true")
 let is_test = (($env.usage_test? | default "false") == "true")
@@ -197,6 +234,7 @@ if $is_test {
   }
 } else {
   pitchfork stop omniroute-app omniroute-redis
+  backup-connections
 
   if $prune_requested {
     for name in [omniroute-app omniroute-redis] {
