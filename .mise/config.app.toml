@@ -18,6 +18,46 @@ const MAPPING = [
 
 const MODEL_COMBOS = []
 
+# Visible catalog (modelVisibilityAllowlist) plus per-model overrides of what /v1/models reports.
+# Only fields that differ from OmniRoute's own metadata are set.
+const VISIBLE_MODELS = {
+    antigravity: {
+        "gemini-3.8-flash-tiered": {efforts: [low medium high]}
+        "gemini-4-hydrogen-sonar": {context: 1048576, output: 262144}
+    }
+    nvidia: {
+        "moonshotai/kimi-k3.1-pro": {output: 65536, efforts: [low medium high max]}
+        "minimaxai/minimax-m3.1-flash": {context: 262144, output: 262144}
+        "z-ai/glm-5.3-flash": {context: 1000000, output: 131072, efforts: [low high max]}
+    }
+    "opencode-zen": {
+        "tidepool-alpha-free": {context: 1048576, output: 131072, efforts: [low medium high xhigh max]}
+        "beam-free": {context: 1048576, output: 131072, efforts: [low medium high xhigh max]}
+        "deepseek-v4.1-flash-free": {context: 200000, output: 32000, efforts: [low high max]}
+        "mimo-v2.6-flash-free": {context: 200000, output: 32000}
+    }
+    orcarouter: {
+        "tencent/hy4-preview-free": {context: 1000000, output: 65536, efforts: [low high]}
+        "deepseek/deepseek-v4.1-flash-free": {context: 1000000, output: 384000, efforts: [low high max]}
+        "tencent/hy3-free": {context: 256000, output: 128000}
+        "z-ai/glm-5.3-flash-free": {context: 1000000, output: 128000, efforts: [low high max]}
+    }
+    codex: {
+        "gpt-6.2-sol": {output: 128000, efforts: [low medium high xhigh max ultra]}
+        "gpt-6.2-astra": {output: 128000, efforts: [low medium high xhigh max ultra]}
+        "gpt-6.1-terra": {output: 128000, efforts: [low medium high xhigh max ultra]}
+        "gpt-6-luna": {}
+    }
+    anthropic: {
+        "claude-fable-5-2": {efforts: [low medium high xhigh max]}
+        "claude-opus-5-5": {}
+        "claude-sonnet-5-5": {}
+        "claude-haiku-5-5": {}
+    }
+}
+
+const OVERRIDE_KEYS = [[field key]; [context context_length] [output max_output_tokens] [efforts reasoning_efforts]]
+
 def usable [raw: string] {
     let v = $raw | str trim
     if ($v | is-empty) { return false }
@@ -30,6 +70,10 @@ def extra-psd [m: record] {
     $m | get -o psd | default {} | items {|field, env_name|
         {field: $field, value: ($env | get -o $env_name | default "" | str trim)}
     } | where {|r| usable $r.value } | reduce --fold {} {|r, acc| $acc | merge {($r.field): $r.value}}
+}
+
+def find-auto [conns: list, provider: string] {
+    $conns | where {|c| ($c | get -o provider) == $provider and ($c | get -o name) == "auto" and (($c | get -o authType | default "") in ["apikey" ""])} | get -o 0
 }
 
 def restore-oauth [base: string, headers: record] {
@@ -86,6 +130,24 @@ def do-provision [] {
         Content-Type: "application/json"
     }
 
+    mut all = []
+    mut listed = false
+    for list_try in 1..5 {
+        try {
+            $all = (http get --headers $headers $"($base)/api/providers" | get -o connections | default [])
+            $listed = true
+            break
+        } catch {|err|
+            print $"[provision] initial list connections attempt ($list_try)/5 FAILED — ($err.msg | str substring 0..400)"
+            if $list_try < 5 { sleep 2sec }
+        }
+    }
+
+    if not $listed {
+        print "[provision] could not list connections upfront — skipping key upserts to prevent duplicates"
+        return
+    }
+
     for m in $MAPPING {
         let env_name = ($m | get -o env | default "")
         if ($env_name | is-empty) {
@@ -97,26 +159,76 @@ def do-provision [] {
             print $"[provision] ($m.provider): no usable ($env_name) — skipped"
             continue
         }
-        let body = {
-            provider: $m.provider
-            providerSpecificData: ({autoSync: true, autoFetchModels: true} | merge (extra-psd $m))
-            entries: [{name: "auto", apiKey: ($value | str trim)}]
-        }
-        mut success = false
-        for bulk_try in 1..5 {
-            try {
-                http post --content-type application/json --headers $headers $"($base)/api/providers/bulk" $body
-                print $"[provision] ($m.provider): connection upserted"
-                $success = true
-                break
-            } catch {|err|
-                print $"[provision] ($m.provider): attempt ($bulk_try)/5 FAILED — ($err.msg | str substring 0..800)"
-                print $"[provision] ($m.provider): debug ($err.debug | str substring 0..1200)"
-                if $bulk_try < 5 { sleep 2sec }
+        let psd = ({autoSync: true, autoFetchModels: true} | merge (extra-psd $m))
+        let existing_auto = (find-auto $all $m.provider)
+
+        if ($existing_auto | is-not-empty) {
+            let cid = ($existing_auto | get -o id)
+            let update_body = {
+                apiKey: ($value | str trim)
+                providerSpecificData: (($existing_auto | get -o providerSpecificData | default {}) | merge $psd)
             }
-        }
-        if not $success {
-            print $"[provision] ($m.provider): provisioning FAILED after 5 attempts"
+            mut success = false
+            for upd_try in 1..5 {
+                try {
+                    http put --content-type application/json --headers $headers $"($base)/api/providers/($cid)" $update_body
+                    print $"[provision] ($m.provider): connection ($cid) updated"
+                    $success = true
+                    break
+                } catch {|err|
+                    print $"[provision] ($m.provider): update attempt ($upd_try)/5 FAILED — ($err.msg | str substring 0..400)"
+                    if $upd_try < 5 { sleep 2sec }
+                }
+            }
+            if not $success {
+                print $"[provision] ($m.provider): updating connection FAILED after 5 attempts"
+            }
+        } else {
+            let body = {
+                provider: $m.provider
+                providerSpecificData: $psd
+                entries: [{name: "auto", apiKey: ($value | str trim)}]
+            }
+            mut success = false
+            for bulk_try in 1..5 {
+                if $bulk_try > 1 {
+                    let relisted = (try {
+                        http get --headers $headers $"($base)/api/providers" | get -o connections | default []
+                    } catch {|err|
+                        print $"[provision] ($m.provider): re-list before retry FAILED — ($err.msg | str substring 0..400)"
+                        null
+                    })
+                    if $relisted == null {
+                        print $"[provision] ($m.provider): cannot confirm the previous create did not land — not retrying to avoid a duplicate connection"
+                        break
+                    }
+                    $all = $relisted
+                    if (find-auto $all $m.provider | is-not-empty) {
+                        print $"[provision] ($m.provider): verified connection already created"
+                        $success = true
+                        break
+                    }
+                }
+                try {
+                    let res = (http post --content-type application/json --headers $headers $"($base)/api/providers/bulk" $body)
+                    let errs = ($res | get -o errors | default [])
+                    if ($errs | is-not-empty) {
+                        let err_msg = ($errs | get 0 | get -o message | default "bulk entry error")
+                        print $"[provision] ($m.provider): bulk create returned error — ($err_msg)"
+                        if $bulk_try < 5 { sleep 2sec }
+                    } else {
+                        print $"[provision] ($m.provider): connection created"
+                        $success = true
+                        break
+                    }
+                } catch {|err|
+                    print $"[provision] ($m.provider): attempt ($bulk_try)/5 FAILED — ($err.msg | str substring 0..400)"
+                    if $bulk_try < 5 { sleep 2sec }
+                }
+            }
+            if not $success {
+                print $"[provision] ($m.provider): provisioning FAILED after 5 attempts"
+            }
         }
     }
 
@@ -124,20 +236,19 @@ def do-provision [] {
         print $"[provision] OAuth restore FAILED — ($err.msg | str substring 0..800)"
     }
 
-    mut all = []
-    mut listed = false
+    mut refreshed = false
     for list_try in 1..5 {
         try {
             $all = (http get --headers $headers $"($base)/api/providers" | get -o connections | default [])
-            $listed = true
+            $refreshed = true
             break
         } catch {|err|
-            print $"[provision] list connections attempt ($list_try)/5 FAILED — ($err.msg | str substring 0..800)"
+            print $"[provision] refresh connections attempt ($list_try)/5 FAILED — ($err.msg | str substring 0..800)"
             if $list_try < 5 { sleep 2sec }
         }
     }
 
-    if not $listed {
+    if not $refreshed {
         print "[provision] could not list connections — skipping sync & blocking"
         return
     }
@@ -176,9 +287,11 @@ def do-provision [] {
         let psd = ($conn | get -o providerSpecificData | default {})
         let needs_auto_sync = (($psd | get -o autoSync | default false) != true)
         let needs_auto_fetch = (($psd | get -o autoFetchModels | default false) != true)
-        let extra = (extra-psd ($MAPPING | where {|x| $x.provider == ($conn | get -o provider)} | first))
+        let match_m = ($MAPPING | where {|x| $x.provider == ($conn | get -o provider)} | get -o 0)
+        let extra = (if ($match_m | is-not-empty) { extra-psd $match_m } else { {} })
+        let needs_extra = ($extra | items {|k, v| ($psd | get -o $k) != $v} | any {|x| $x})
 
-        if $needs_auto_sync or $needs_auto_fetch or ($extra | is-not-empty) {
+        if $needs_auto_sync or $needs_auto_fetch or $needs_extra {
             mut updated = false
             for upd_try in 1..5 {
                 try {
@@ -251,6 +364,62 @@ def do-provision [] {
     }
     if not $done {
         error make { msg: "blocking providers failed after 5 attempts" }
+    }
+
+    let visible = ($VISIBLE_MODELS | items {|p, ms| $ms | columns | each {|id| $"($p)/($id)"}} | flatten)
+    mut vis_done = false
+    for vis_try in 1..5 {
+        try {
+            let current = (http get --headers $headers $"($base)/api/settings" | get -o modelVisibilityAllowlist | default [])
+            if ($visible | sort) == ($current | sort) {
+                print $"[provision] model allowlist unchanged — ($visible | length) models"
+            } else {
+                http patch --content-type application/json --headers $headers $"($base)/api/settings" {modelVisibilityAllowlist: $visible}
+                print $"[provision] modelVisibilityAllowlist set to ($visible | length) models"
+            }
+            $vis_done = true
+            break
+        } catch {|err|
+            print $"[provision] model allowlist attempt ($vis_try)/5 FAILED — ($err.msg | str substring 0..800)"
+            if $vis_try < 5 { sleep 2sec }
+        }
+    }
+    if not $vis_done {
+        error make { msg: "setting the model allowlist failed after 5 attempts" }
+    }
+
+    let wanted = ($VISIBLE_MODELS | items {|p, ms|
+        $ms | items {|id, meta|
+            $OVERRIDE_KEYS | where {|k| ($meta | get -o $k.field) != null} | each {|k|
+                {target: $"($p)/($id)", key: $k.key, value: ($meta | get $k.field)}
+            }
+        } | flatten
+    } | flatten)
+    mut ovr_done = false
+    for ovr_try in 1..5 {
+        try {
+            let current = (http get --headers $headers $"($base)/api/model-capability-overrides" | get -o overrides | default [])
+            let pending = ($wanted | where {|w| ($current | where {|c| $c.target == $w.target and $c.key == $w.key and $c.value == $w.value} | is-empty)})
+            for w in $pending {
+                let value = (if $w.key == "reasoning_efforts" { $w.value | str join "," } else { $w.value })
+                http patch --content-type application/json --headers $headers $"($base)/api/model-capability-overrides" {target: $w.target, key: $w.key, value: $value}
+                print $"[provision] override ($w.target) ($w.key) set to ($w.value | to nuon)"
+            }
+            let stale = ($current | where {|c| ($wanted | where {|w| $w.target == $c.target and $w.key == $c.key} | is-empty)})
+            for c in $stale {
+                http delete --headers $headers $"($base)/api/model-capability-overrides?({target: $c.target, key: $c.key} | url build-query)"
+                print $"[provision] override ($c.target) ($c.key) removed — not in VISIBLE_MODELS"
+            }
+            print $"[provision] model overrides in sync — ($wanted | length) entries, ($pending | length) changed, ($stale | length) removed"
+            $ovr_done = true
+            break
+        } catch {|err|
+            print $"[provision] model overrides attempt ($ovr_try)/5 FAILED — ($err.msg | str substring 0..800)"
+            if $ovr_try < 5 { sleep 2sec }
+        }
+    }
+    if not $ovr_done {
+        error make { msg: "applying model overrides failed after 5 attempts" }
     }
 
     mut existing_combos = []
