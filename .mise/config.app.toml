@@ -6,7 +6,7 @@ description = 'Waits for server healthcheck, then runs automatic provider provis
 shell = 'nu -c'
 run = '''
 const MAPPING = [
-    {provider: "antigravity", oauth: "antigravity"}
+    {provider: "agy", oauth: "agy"}
     {provider: "codex", oauth: "codex"}
     {env: "ANTHROPIC_API_KEY", provider: "anthropic"}
     {env: "OPENROUTER_API_KEY", provider: "openrouter"}
@@ -21,9 +21,31 @@ const MODEL_COMBOS = []
 # Visible catalog (modelVisibilityAllowlist) plus per-model overrides of what /v1/models reports.
 # Only fields that differ from OmniRoute's own metadata are set.
 const VISIBLE_MODELS = {
-    antigravity: {
+    agy: {
         "gemini-3.8-flash-tiered": {efforts: [low medium high]}
-        "gemini-4-hydrogen-sonar": {context: 1048576, output: 262144}
+        "gemini-4-hydrogen-sonar": {}
+        "gemini-4-hydrogen-low": {}
+        "gemini-4-hydrogen-medium": {}
+        "gemini-4-hydrogen-high": {}
+        "gemini-4-hydrogen-xhigh": {}
+        "gemini-4-hydrogen-tiered-high": {}
+        "gemini-4-hydrogen-tiered-xhigh": {}
+        "gemini-4-argon-low": {}
+        "gemini-4-argon-medium": {}
+        "gemini-4-argon-high": {}
+        "gemini-4-carbon-low": {}
+        "gemini-4-carbon-medium": {}
+        "gemini-4-carbon-high": {}
+        "gemini-4-neon-low": {}
+        "gemini-4-neon-medium": {}
+        "gemini-4-neon-high": {}
+        "gemini-4-neon-xhigh": {}
+        "claude-opus-5-5-low": {}
+        "claude-opus-5-5-medium": {}
+        "claude-opus-5-5-high": {}
+        "claude-sonnet-5-5-low": {}
+        "claude-sonnet-5-5-medium": {}
+        "claude-sonnet-5-5-high": {}
     }
     nvidia: {
         "moonshotai/kimi-k3.1-pro": {output: 65536, efforts: [low medium high max]}
@@ -98,8 +120,8 @@ def restore-oauth [base: string, headers: record] {
                     "codex" => {
                         http post --content-type application/json --headers $headers $"($base)/api/oauth/codex/import" {accounts: [$e]}
                     }
-                    "antigravity" => {
-                        http post --content-type application/json --headers $headers $"($base)/api/oauth/antigravity/import-token" {token: $e.refreshToken}
+                    "agy" => {
+                        http post --content-type application/json --headers $headers $"($base)/api/oauth/agy/import-token" {token: $e.refreshToken}
                     }
                 })
                 let summary = ($res | to json --raw | str substring 0..400)
