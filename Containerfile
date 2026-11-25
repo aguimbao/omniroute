@@ -36,6 +36,10 @@ RUN --mount=type=secret,id=GITHUB_TOKEN,uid=1000,gid=1000,mode=0444 \
 
 FROM docker.io/cheaperinference/omniroute:3.8.54@sha256:2c4c755a54f8ce5341bc1856580b71f47a0f16a9afab4a55f84d540810631f68
 
+# Remove with the OmniRoute upgrade that includes #21144 and the Gemini part of #20857.
+RUN --network=none --mount=type=bind,source=scripts/backport-antigravity.mjs,target=/tmp/backport-antigravity.mjs \
+    node /tmp/backport-antigravity.mjs
+
 LABEL org.opencontainers.image.title="omniroute" \
     org.opencontainers.image.description="Omniroute service" \
     org.opencontainers.image.source=https://github.com/aguimbao/omniroute \
