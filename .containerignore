@@ -8,3 +8,5 @@
 !.mise/config.app.toml
 !.mise/mise*.lock
 !entrypoint.nu
+!scripts/
+!scripts/backport-antigravity.mjs
