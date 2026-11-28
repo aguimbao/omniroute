@@ -1,5 +1,38 @@
 # Changelog
 
+## [2.0.0](https://github.com/aguimbao/omniroute/compare/v1.7.2...v2.0.0) (2026-11-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* **dev-env:** use podman secrets for Proton Pass PAT and derive provider denylist at runtime ([#161](https://github.com/aguimbao/omniroute/issues/161))
+
+### Features
+
+* **mise:** add anthropic provider ([#206](https://github.com/aguimbao/omniroute/issues/206)) ([601b47b](https://github.com/aguimbao/omniroute/commit/601b47bea8a49f06745a462972249499858af9e6))
+* **mise:** add BLOCK_FREE_PROVIDERS toggle for the provider allowlist ([#210](https://github.com/aguimbao/omniroute/issues/210)) ([13f4fe2](https://github.com/aguimbao/omniroute/commit/13f4fe20b4656cc6a728cd176cff0aa7e75fca7e))
+* **mise:** add codex provider ([#191](https://github.com/aguimbao/omniroute/issues/191)) ([5ac6c43](https://github.com/aguimbao/omniroute/commit/5ac6c43456acf1ddbfe96661aeab7a6915a65c80))
+* **mise:** back up and restore oauth connections through Proton Pass ([#207](https://github.com/aguimbao/omniroute/issues/207)) ([164d013](https://github.com/aguimbao/omniroute/commit/164d013e4f442e73027b6c1705d416750ea6e387))
+* **mise:** provision the curated model catalog through agy ([#218](https://github.com/aguimbao/omniroute/issues/218)) ([e300795](https://github.com/aguimbao/omniroute/commit/e300795b7eb84281764ea51ac41a7629faf12f92))
+* **mise:** provision the tokenrouter management key ([#212](https://github.com/aguimbao/omniroute/issues/212)) ([dcd75b8](https://github.com/aguimbao/omniroute/commit/dcd75b8b3e2559909fb1ea5a3186e0bb54bff095))
+* **mise:** use the antigravity provider and keep gemini-4 models routable ([#213](https://github.com/aguimbao/omniroute/issues/213)) ([d26f854](https://github.com/aguimbao/omniroute/commit/d26f8549098e204a124e5c93d093783f1c36cc82))
+
+
+### Bug Fixes
+
+* **dev-env:** gate Proton Pass CLI setup on the credentials feature flag ([#163](https://github.com/aguimbao/omniroute/issues/163)) ([cd967cd](https://github.com/aguimbao/omniroute/commit/cd967cdfef44bb12b301baddee7e3e75d58fbfd7))
+* **mise:** block free providers from the rankings list ([#209](https://github.com/aguimbao/omniroute/issues/209)) ([b885aa7](https://github.com/aguimbao/omniroute/commit/b885aa7afd5ed967154158d43551f26e95215978))
+* **mise:** error when pitchfork supervisor is not running ([#185](https://github.com/aguimbao/omniroute/issues/185)) ([21910c5](https://github.com/aguimbao/omniroute/commit/21910c56c94b8416d660fc35f0a512a5f0bf9d74))
+* **mise:** resolve scope templates directly ([#203](https://github.com/aguimbao/omniroute/issues/203)) ([dd4605a](https://github.com/aguimbao/omniroute/commit/dd4605ae121fffaf8ba405197adc529c5c11daae))
+* **mise:** select scopes with MISE_ENV and env_sets ([#204](https://github.com/aguimbao/omniroute/issues/204)) ([0148bf2](https://github.com/aguimbao/omniroute/commit/0148bf2aeedfef00d7023a0be768372c2f0bf400))
+* **mise:** use trim_start template filter in proton-pass config ([#180](https://github.com/aguimbao/omniroute/issues/180)) ([f5f58f7](https://github.com/aguimbao/omniroute/commit/f5f58f7ac3f7b54e97b8a79cd2896a24c217fd70))
+* **omniroute:** backport Gemini 4 routing and quota fixes ([#220](https://github.com/aguimbao/omniroute/issues/220)) ([815a4a0](https://github.com/aguimbao/omniroute/commit/815a4a094042048f09bf4d1542542d8c2f8af241))
+
+
+### Miscellaneous Chores
+
+* **dev-env:** use podman secrets for Proton Pass PAT and derive provider denylist at runtime ([#161](https://github.com/aguimbao/omniroute/issues/161)) ([4af4712](https://github.com/aguimbao/omniroute/commit/4af4712de1759d5a3cec549e7345eb58fb48f4ba))
+
 ## [1.7.2](https://github.com/aguimbao/omniroute/compare/v1.7.1...v1.7.2) (2026-09-11)
 
 
