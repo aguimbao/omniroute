@@ -6,8 +6,8 @@ SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 RUN apk add --no-cache \
     curl=8.23.0-r4 \
-    ca-certificates-bundle=20261020-r0 \
-    shadow=4.20.3-r4
+    ca-certificates-bundle=20261020-r1 \
+    shadow=4.20.4-r0
 
 RUN mkdir -p /usr/local/bin /home/node \
     && groupadd -g 1000 node \
